@@ -1,6 +1,6 @@
 /* 파일: PlayerController.java
  * 역할: 고정 틱 이동·점프·착지. 책임: 공중 가속, 코요테, 입력 버퍼, 착지 충전 이벤트.
- * 협력: PhysicsConfig, CollisionWorld, InputFrame. 관련 사양: docs/03_FEATURE_SPEC.md.
+ * 협력: PhysicsConfig, CollisionWorld, InputFrame, CityDeviceRuntime. 관련 사양: docs/03_FEATURE_SPEC.md, docs/assets/city_chapter/DEVICES_AND_MOTION.md.
  */
 package io.github.hookrecoil.player;
 
@@ -29,8 +29,11 @@ public class PlayerController {
         p.aimX = in.aimX; p.aimY = in.aimY;
     }
     public void integrate(PlayerState p, CollisionWorld world, float dt) {
+        integrate(p,world,dt,0,0);
+    }
+    public void integrate(PlayerState p, CollisionWorld world, float dt,float externalAx,float externalAy) {
         boolean wasGrounded = p.grounded;
-        p.vy -= c.gravity*dt;
+        p.vx += externalAx*dt;p.vy += (externalAy-c.gravity)*dt;
         float speed = (float)Math.sqrt(p.vx*p.vx+p.vy*p.vy);
         if (speed > c.maxSpeed) { p.vx *= c.maxSpeed/speed; p.vy *= c.maxSpeed/speed; }
         world.move(p, p.vx*dt, p.vy*dt);

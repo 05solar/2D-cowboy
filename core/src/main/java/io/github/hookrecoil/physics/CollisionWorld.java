@@ -1,6 +1,7 @@
 /* 파일: CollisionWorld.java
- * 역할: 정적 사각형 지형 충돌과 시야 검사. 책임: 축별 스윕·바닥 판정·선분 차단.
- * 협력: StageDefinition, PlayerController, GrappleSystem. 관련 사양: docs/10_PROLOGUE.md.
+ * 역할: 정적·동적 사각형 지형 충돌과 시야 검사. 책임: 축별 스윕·바닥 판정·선분 차단.
+ * 협력: StageDefinition, CityDeviceRuntime, PlayerController, GrappleSystem.
+ * 관련 사양: docs/10_PROLOGUE.md, docs/assets/city_chapter/DEVICES_AND_MOTION.md.
  */
 package io.github.hookrecoil.physics;
 
@@ -16,6 +17,9 @@ public class CollisionWorld {
         c = config;
         for (StageDefinition.Block b : stage.platforms) blocks.add(b);
         for (StageDefinition.Block b : stage.ceilings) blocks.add(b);
+        for(StageDefinition.CityBarrier barrier:stage.cityBarriers)if(barrier.collider!=null)blocks.add(barrier.collider);
+        for(StageDefinition.CityStructure structure:stage.cityStructures)
+            if(structure.collisionParts!=null)for(StageDefinition.Block part:structure.collisionParts)blocks.add(part);
     }
     public void move(PlayerState p, float dx, float dy) {
         float nextX = p.x + dx;

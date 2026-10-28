@@ -1,5 +1,5 @@
 /* 파일: PlayerRenderer.java
- * 역할: 발판 접점 기준 캐릭터 애니메이션. 책임: 속도 기반 air, 뒤쪽 발사 반전, 독립 회전 총.
+ * 역할: 발판 접점 기준 캐릭터 애니메이션. 책임: 속도 기반 air, 사망 대기 포즈, 뒤쪽 발사 반전, 독립 회전 총.
  * 협력: GameAssets, StageRuntime. 관련 사양: docs/10_PROLOGUE.md. 원본 PNG는 변경하지 않는다.
  */
 package io.github.hookrecoil.rendering;
@@ -16,7 +16,10 @@ public class PlayerRenderer {
     public void draw(SpriteBatch batch,StageRuntime stage,float alpha) {
         PlayerState p=stage.player;String group="player_movement",name;
         boolean flip=!p.facingRight;
-        if(stage.deathTimer>0) {group="player_actions";name="death_0"+Math.min(3,(int)((0.35f-stage.deathTimer)*12));}
+        if(stage.deathTimer>0||stage.deathWaiting) {
+            group="player_actions";
+            name="death_0"+(stage.deathWaiting?3:Math.min(3,(int)((0.35f-stage.deathTimer)*12)));
+        }
         else if(p.shotPose>0) {
             group="player_actions";name="recoil_0"+Math.min(3,(int)((0.32f-p.shotPose)*12));
             // 원본은 오른쪽 발사. 오른쪽 진행을 위한 뒤쪽 발사는 반드시 좌우반전한다.
@@ -33,7 +36,7 @@ public class PlayerRenderer {
         float scale=stage.config.playerVisualScale;
         batch.draw(region,Math.round(x-region.getRegionWidth()*scale/2f),y-4*scale,region.getRegionWidth()*scale,region.getRegionHeight()*scale);
         // 시트에 포함된 총 자세는 유지하고, 별도 부품을 손 근처에서 실제 조준 방향으로 회전한다.
-        if(stage.deathTimer<=0 && stage.grapple.attached<0) {
+        if(stage.deathTimer<=0 && !stage.deathWaiting && stage.grapple.attached<0) {
             float ax=p.shotPose>0?p.firedX:p.aimX,ay=p.shotPose>0?p.firedY:p.aimY;
             TextureRegion gun=assets.frame("objects","revolver");
             float angle=MathUtils.atan2(ay,ax)*MathUtils.radiansToDegrees;

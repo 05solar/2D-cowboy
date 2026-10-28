@@ -1,7 +1,7 @@
 /* 파일: GameplayScreen.java
  * 역할: 게임 플레이 화면 조립. 책임: ID별 스테이지·모달 입력·120Hz 루프·가로/세로 카메라.
- * 협력: StageRuntime, GameAssets, CaveAssets, ProgressStore, StageSelectView. 화면 종료 때 자원 해제.
- * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md.
+ * 협력: StageRuntime, GameAssets, CaveAssets, CityRenderer, ProgressStore, StageSelectView. 화면 종료 때 자원 해제.
+ * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/assets/city_chapter/STAGES_11_15.md.
  */
 package io.github.hookrecoil.screens;
 
@@ -21,6 +21,7 @@ import io.github.hookrecoil.save.ProgressStore;
 import io.github.hookrecoil.assets.CaveAssets;
 import io.github.hookrecoil.rendering.CaveRenderer;
 import io.github.hookrecoil.rendering.MineRenderer;
+import io.github.hookrecoil.rendering.CityRenderer;
 import io.github.hookrecoil.ui.StageSelectView;
 import java.nio.file.Paths;
 
@@ -39,6 +40,7 @@ public class GameplayScreen extends ScreenAdapter {
     private final CaveAssets caveAssets=new CaveAssets();
     private final CaveRenderer caveRenderer=new CaveRenderer(caveAssets);
     private final MineRenderer mineRenderer=new MineRenderer(caveAssets);
+    private final CityRenderer cityRenderer=new CityRenderer(caveAssets);
     private final ProgressStore progress;
     private StageSelectView menu;
     private float cameraY=800;
@@ -55,7 +57,7 @@ public class GameplayScreen extends ScreenAdapter {
         progress=new ProgressStore(isolated!=null?Paths.get(isolated):preview?Paths.get("build/preview-save"):Paths.get(base,"HookRecoil"));
         ProgressStore.Pending recovered=null;String error=null;
         try{recovered=progress.load();}catch(Exception e){error="진행 저장을 읽지 못했습니다. 원본은 보존됩니다.";}
-        renderer.cave=caveRenderer;renderer.mine=mineRenderer;loadStage("prologue",false);
+        renderer.cave=caveRenderer;renderer.mine=mineRenderer;renderer.city=cityRenderer;loadStage("prologue",false);
         if(recovered!=null&&("prologue".equals(recovered.stageId)||(catalog.find(recovered.stageId)!=null&&catalog.find(recovered.stageId).available))){
             loadStage(recovered.stageId,recovered.noCheckpoint);stage.player.reset(recovered.x,recovered.y);
             stage.elapsed=recovered.seconds;stage.deaths=recovered.deaths;stage.shots=recovered.shots;
@@ -79,7 +81,8 @@ public class GameplayScreen extends ScreenAdapter {
     }
     private void loadStage(String id,boolean challenge){
         StageCatalog.Entry e=catalog.find(id);
-        if(!"prologue".equals(id)&&(e==null||!e.available))throw new IllegalArgumentException("Unavailable stage: "+id);
+        boolean preview=System.getProperty("hookrecoil.screenshot")!=null;
+        if(!"prologue".equals(id)&&(e==null||(!e.available&&!preview)))throw new IllegalArgumentException("Unavailable stage: "+id);
         stage=new StageRuntime(new Json().fromJson(StageDefinition.class,Gdx.files.internal("stages/"+id+".json")),config);
         stage.noCheckpoint=challenge;stage.completionSink=progress::begin;stage.resultSink=s->progress.finish();
         cameraX=1280;cameraY=800;accumulator=0;
@@ -150,7 +153,7 @@ public class GameplayScreen extends ScreenAdapter {
         float bgWidth=bg.getWidth()*cover,bgHeight=bg.getHeight()*cover;
         float progressX=MathUtils.clamp((cameraX-1280)/Math.max(1,stage.definition.width*config.pixelsPerH-2560),0,1);
         float progressY=MathUtils.clamp((cameraY-720)/Math.max(1,stage.definition.height*config.pixelsPerH-1440),0,1);
-        if(stage.definition.id.startsWith("mine_"))batch.setColor(.78f,.70f,.54f,1);else batch.setColor(.52f,.60f,.66f,1);
+        if(stage.definition.id.startsWith("mine_"))batch.setColor(.78f,.70f,.54f,1);else if(stage.definition.id.startsWith("city_"))batch.setColor(.64f,.70f,.76f,1);else batch.setColor(.52f,.60f,.66f,1);
         batch.draw(bg,-(bgWidth-2560)*progressX,-(bgHeight-1440)*progressY,bgWidth,bgHeight);
         batch.setColor(Color.WHITE);batch.end();
         batch.setProjectionMatrix(camera.combined);batch.begin();renderer.draw(batch,stage,paused?1:(float)(accumulator*120));batch.end();

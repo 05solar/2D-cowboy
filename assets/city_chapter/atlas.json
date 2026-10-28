@@ -1,0 +1,324 @@
+{
+  "origin": "top-left",
+  "rect_format": "x,y,width,height",
+  "sheets": {
+    "city_structure_blocks": {
+      "image": "assets/sheets/city_structure_blocks.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "platform_long": {
+          "rect": [
+            60,
+            182,
+            470,
+            135
+          ]
+        },
+        "platform_medium": {
+          "rect": [
+            591,
+            188,
+            282,
+            125
+          ]
+        },
+        "platform_small": {
+          "rect": [
+            958,
+            204,
+            162,
+            103
+          ]
+        },
+        "pillar": {
+          "rect": [
+            1228,
+            68,
+            122,
+            292
+          ]
+        },
+        "l_right": {
+          "rect": [
+            60,
+            427,
+            270,
+            249
+          ]
+        },
+        "l_left": {
+          "rect": [
+            402,
+            427,
+            272,
+            249
+          ]
+        },
+        "t_block": {
+          "rect": [
+            738,
+            429,
+            328,
+            252
+          ]
+        },
+        "u_block": {
+          "rect": [
+            1115,
+            470,
+            296,
+            203
+          ]
+        },
+        "stairs_right": {
+          "rect": [
+            63,
+            782,
+            281,
+            216
+          ]
+        },
+        "stairs_left": {
+          "rect": [
+            396,
+            782,
+            279,
+            216
+          ]
+        },
+        "arch": {
+          "rect": [
+            743,
+            772,
+            315,
+            230
+          ]
+        },
+        "window": {
+          "rect": [
+            1111,
+            777,
+            301,
+            216
+          ]
+        }
+      }
+    },
+    "city_mechanisms": {
+      "image": "assets/sheets/city_mechanisms.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "moving_horizontal": {
+          "rect": [
+            32,
+            120,
+            367,
+            124
+          ]
+        },
+        "moving_vertical": {
+          "rect": [
+            483,
+            32,
+            227,
+            216
+          ]
+        },
+        "moving_anchor": {
+          "rect": [
+            834,
+            31,
+            289,
+            217
+          ]
+        },
+        "guide_rail": {
+          "rect": [
+            1331,
+            26,
+            92,
+            235
+          ]
+        },
+        "fan_off": {
+          "rect": [
+            102,
+            284,
+            230,
+            224
+          ]
+        },
+        "fan_on_00": {
+          "rect": [
+            486,
+            282,
+            232,
+            228
+          ]
+        },
+        "fan_on_01": {
+          "rect": [
+            863,
+            282,
+            233,
+            228
+          ]
+        },
+        "wind_arrow": {
+          "rect": [
+            1244,
+            367,
+            249,
+            69
+          ]
+        },
+        "electric_emitter_up": {
+          "rect": [
+            131,
+            524,
+            172,
+            222
+          ]
+        },
+        "electric_emitter_down": {
+          "rect": [
+            518,
+            536,
+            174,
+            208
+          ]
+        },
+        "warning_lamp": {
+          "rect": [
+            896,
+            579,
+            165,
+            159
+          ]
+        },
+        "electric_arc": {
+          "rect": [
+            1337,
+            521,
+            56,
+            238
+          ]
+        },
+        "recharge_active": {
+          "rect": [
+            109,
+            767,
+            203,
+            213
+          ]
+        },
+        "recharge_spent": {
+          "rect": [
+            495,
+            765,
+            212,
+            215
+          ]
+        },
+        "endpoint_stop": {
+          "rect": [
+            908,
+            807,
+            149,
+            148
+          ]
+        },
+        "route_arrow": {
+          "rect": [
+            1257,
+            815,
+            203,
+            127
+          ]
+        }
+      }
+    },
+    "city_hazards": {
+      "image": "assets/sheets/city_hazards.png",
+      "size": [
+        1774,
+        887
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "spikes_floor": {
+          "rect": [
+            91,
+            237,
+            307,
+            194
+          ]
+        },
+        "spikes_ceiling": {
+          "rect": [
+            518,
+            137,
+            305,
+            202
+          ]
+        },
+        "spikes_left": {
+          "rect": [
+            972,
+            119,
+            197,
+            312
+          ]
+        },
+        "spikes_right": {
+          "rect": [
+            1485,
+            119,
+            197,
+            312
+          ]
+        },
+        "breakable_intact": {
+          "rect": [
+            72,
+            656,
+            342,
+            125
+          ]
+        },
+        "breakable_warning": {
+          "rect": [
+            495,
+            656,
+            350,
+            125
+          ]
+        },
+        "breakable_collapse": {
+          "rect": [
+            912,
+            655,
+            388,
+            142
+          ]
+        },
+        "breakable_gone": {
+          "rect": [
+            1346,
+            680,
+            379,
+            117
+          ]
+        }
+      }
+    }
+  }
+}

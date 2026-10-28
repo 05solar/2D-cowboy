@@ -1,5 +1,5 @@
 /* 파일: HudView.java
- * 역할: 플레이 HUD·탄약·시간·진행·일시정지·완주 표시. 책임: 제목/소개는 프롤로그에만 표시한다.
+ * 역할: 플레이 HUD·탄약·시간·진행·사망 대기·일시정지·완주 표시. 책임: 제목/소개는 프롤로그에만 표시한다.
  * 협력: StageRuntime, GameplayScreen. 수명: 픽셀 글꼴·흰 픽셀 자원을 소유/해제.
  * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md.
  */
@@ -80,11 +80,11 @@ public class HudView implements Disposable {
             if(s.complete)text(b,"N 다음 스테이지     M 스테이지 선택",748,568,1.6f,muted);
         }
         if(s.clear.frozen()&&!s.complete&&!paused)text(b,"클리어 보석 획득",1040,1070,2.5f,gold);
-        if(s.deathTimer>0&&!paused) {
-            box(b,650,620,1260,220,0.025f,0.035f,0.045f,0.9f);
-            box(b,650,836,1260,4,0.86f,0.34f,0.28f,1);
-            text(b,"YOU DIED",748,770,3.6f,cream);
-            text(b,"R 재시작    M 스테이지 선택    ESC 일시정지",748,690,1.8f,muted);
+        if((s.deathTimer>0||s.deathWaiting)&&!paused) {
+            box(b,500,535,1560,370,0.025f,0.035f,0.045f,0.95f);
+            box(b,500,901,1560,4,0.86f,0.34f,0.28f,1);
+            text(b,"YOU DIED",660,790,4.6f,cream);
+            text(b,"R 재시작    M 스테이지 선택    ESC 일시정지",660,675,2.7f,muted);
         }
         if(s.saveError!=null)text(b,s.saveError,64,280,1.7f,gold);
     }

@@ -1,7 +1,7 @@
 /* 파일: WorldRenderer.java
  * 역할: 플레이 장면 지형·장치·플레이어·보석 표시. 책임: 월드 레이어 순서와 충돌면 정렬.
- * 협력: GameAssets, CaveRenderer, StageRuntime, PlayerRenderer. 공유 에셋은 소유하지 않는다.
- * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md.
+ * 협력: GameAssets, CaveRenderer, MineRenderer, CityRenderer, StageRuntime. 공유 에셋은 소유하지 않는다.
+ * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/assets/city_chapter/STAGES_11_15.md.
  */
 package io.github.hookrecoil.rendering;
 
@@ -17,10 +17,12 @@ public class WorldRenderer {
     private final GemRenderer gems;
     public CaveRenderer cave;
     public MineRenderer mine;
+    public CityRenderer city;
     public WorldRenderer(GameAssets a) {this.a=a;player=new PlayerRenderer(a);gems=new GemRenderer(a.gems);}
     public void draw(SpriteBatch batch,StageRuntime s,float alpha) {
         float u=s.config.pixelsPerH;
-        if(s.definition.id.startsWith("mine_")&&mine!=null)mine.draw(batch,s);
+        if(s.definition.id.startsWith("city_")&&city!=null)city.draw(batch,s);
+        else if(s.definition.id.startsWith("mine_")&&mine!=null)mine.draw(batch,s);
         else if(cave!=null&&!"prologue".equals(s.definition.id))cave.draw(batch,s);else {
         for(StageDefinition.Block b:s.definition.platforms) {
             // 상단 타일의 내부 유효 면을 기준으로 충돌선과 맞춘다. 끝 조각은 너비만 잘라서 채운다.

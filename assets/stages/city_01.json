@@ -1,0 +1,279 @@
+{
+  "id": "city_01",
+  "name": "폐역 진입",
+  "width": 12.5,
+  "height": 29.0,
+  "deathPlaneY": 0.75,
+  "spawnX": 3.4,
+  "spawnY": 2.0,
+  "exitX": 3.4,
+  "platforms": [
+    {
+      "x": 0.9,
+      "y": 1.45,
+      "width": 5.0,
+      "height": 0.55,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.975,
+      "y": 3.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.275,
+      "y": 5.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 4.975,
+      "y": 7.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.275,
+      "y": 9.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 4.975,
+      "y": 11.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.275,
+      "y": 13.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 4.975,
+      "y": 15.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.275,
+      "y": 17.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 4.975,
+      "y": 19.45,
+      "width": 2.25,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 0.4,
+      "y": 21.45,
+      "width": 6.0,
+      "height": 0.55,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 4.35,
+      "y": 6.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 8.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 10.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 12.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 14.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 16.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 18.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 20.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 22.18,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 5.1,
+      "y": 5.9
+    },
+    {
+      "x": 4.4,
+      "y": 7.9
+    },
+    {
+      "x": 5.1,
+      "y": 9.9
+    },
+    {
+      "x": 4.4,
+      "y": 11.9
+    },
+    {
+      "x": 5.1,
+      "y": 13.9
+    },
+    {
+      "x": 4.4,
+      "y": 15.9
+    },
+    {
+      "x": 5.1,
+      "y": 17.9
+    },
+    {
+      "x": 4.4,
+      "y": 19.9
+    },
+    {
+      "x": 5.1,
+      "y": 21.9
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 6.1,
+      "y": 8.0
+    },
+    {
+      "x": 6.1,
+      "y": 16.0
+    }
+  ],
+  "optionalGems": [],
+  "clearGem": {
+    "id": "city_01.clear_gem",
+    "type": "clear_gem",
+    "x": 3.4,
+    "y": 22.48,
+    "halfWidth": 0.12,
+    "halfHeight": 0.19
+  },
+  "hazards": [],
+  "mineMovers": [
+    {
+      "id": "city_01.mover.01",
+      "kind": "city_platform",
+      "platform": 5,
+      "fromX": 4.975,
+      "fromY": 11.45,
+      "toX": 6.525,
+      "toY": 11.45,
+      "period": 4.6,
+      "phase": 0.12
+    }
+  ],
+  "mineCrushers": [],
+  "mineSaws": [],
+  "rechargeRings": [],
+  "cityWindZones": [],
+  "cityBarriers": [],
+  "cityStructures": [
+    {
+      "id": "u_block_9.2",
+      "sprite": "u_block",
+      "x": 9.2,
+      "y": 7.5,
+      "width": 2.2,
+      "height": 2.1,
+      "colliders": [
+        [
+          0,
+          0,
+          0.28,
+          0.7
+        ],
+        [
+          0.72,
+          0,
+          0.28,
+          0.7
+        ],
+        [
+          0,
+          0.7,
+          1,
+          0.3
+        ]
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "x": 0,
+      "title": "폐역 진입",
+      "hint": "",
+      "detail": ""
+    }
+  ]
+}

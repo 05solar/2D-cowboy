@@ -1,0 +1,396 @@
+{
+  "id": "city_05",
+  "name": "중앙 환기탑",
+  "width": 12.5,
+  "height": 35.64,
+  "deathPlaneY": 0.75,
+  "spawnX": 3.4,
+  "spawnY": 2.0,
+  "exitX": 3.4,
+  "platforms": [
+    {
+      "x": 0.9,
+      "y": 1.45,
+      "width": 5.0,
+      "height": 0.55,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 5.135,
+      "y": 3.67,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.435,
+      "y": 5.89,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.135,
+      "y": 8.11,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": true
+    },
+    {
+      "x": 2.435,
+      "y": 10.33,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.135,
+      "y": 12.55,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.435,
+      "y": 14.77,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.135,
+      "y": 16.99,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.435,
+      "y": 19.21,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.135,
+      "y": 21.43,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.435,
+      "y": 23.65,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.135,
+      "y": 25.87,
+      "width": 1.93,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 0.4,
+      "y": 28.09,
+      "width": 6.0,
+      "height": 0.55,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 4.35,
+      "y": 6.4,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 8.62,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 10.84,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 13.06,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 15.28,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 17.5,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 19.72,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 21.94,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 24.16,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 26.38,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 28.6,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 5.1,
+      "y": 6.12
+    },
+    {
+      "x": 4.4,
+      "y": 8.34
+    },
+    {
+      "x": 5.1,
+      "y": 10.56
+    },
+    {
+      "x": 4.4,
+      "y": 12.78
+    },
+    {
+      "x": 5.1,
+      "y": 15.0
+    },
+    {
+      "x": 4.4,
+      "y": 17.22
+    },
+    {
+      "x": 5.1,
+      "y": 19.44
+    },
+    {
+      "x": 4.4,
+      "y": 21.66
+    },
+    {
+      "x": 5.1,
+      "y": 23.88
+    },
+    {
+      "x": 4.4,
+      "y": 26.1
+    },
+    {
+      "x": 5.1,
+      "y": 28.32
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 3.4,
+      "y": 15.32
+    }
+  ],
+  "optionalGems": [],
+  "clearGem": {
+    "id": "city_05.clear_gem",
+    "type": "clear_gem",
+    "x": 3.4,
+    "y": 29.12,
+    "halfWidth": 0.12,
+    "halfHeight": 0.19
+  },
+  "hazards": [],
+  "mineMovers": [
+    {
+      "id": "city_05.mover.01",
+      "kind": "city_platform",
+      "platform": 4,
+      "fromX": 2.435,
+      "fromY": 10.33,
+      "toX": 2.435,
+      "toY": 12.93,
+      "period": 5.4,
+      "phase": 0.18
+    },
+    {
+      "id": "city_05.mover.02",
+      "kind": "city_platform",
+      "platform": 8,
+      "fromX": 2.435,
+      "fromY": 19.21,
+      "toX": 4.135,
+      "toY": 19.21,
+      "period": 5.0,
+      "phase": 0.53
+    }
+  ],
+  "mineCrushers": [],
+  "mineSaws": [],
+  "rechargeRings": [
+    {
+      "id": "city_05.recharge.01",
+      "x": 4.2,
+      "y": 20.96,
+      "halfWidth": 0.35,
+      "halfHeight": 0.4
+    }
+  ],
+  "cityWindZones": [
+    {
+      "id": "city_05.wind.updraft",
+      "x": 2.7,
+      "y": 6.0,
+      "width": 4.5,
+      "height": 7.2,
+      "ax": 0,
+      "ay": 8
+    },
+    {
+      "id": "city_05.wind.cross",
+      "x": 2.4,
+      "y": 18.0,
+      "width": 5.4,
+      "height": 2.3,
+      "ax": 3,
+      "ay": 0
+    }
+  ],
+  "cityBarriers": [
+    {
+      "id": "city_05.barrier.01",
+      "x": 5.25,
+      "y": 10.0,
+      "width": 0.16,
+      "height": 3.8,
+      "offSeconds": 1.8,
+      "warningSeconds": 0.5,
+      "onSeconds": 1.5,
+      "phase": 0.22
+    },
+    {
+      "id": "city_05.barrier.02",
+      "x": 5.15,
+      "y": 20.1,
+      "width": 0.16,
+      "height": 3.8,
+      "offSeconds": 1.8,
+      "warningSeconds": 0.5,
+      "onSeconds": 1.5,
+      "phase": 0.88
+    }
+  ],
+  "cityStructures": [
+    {
+      "id": "stairs_right_0.2",
+      "sprite": "stairs_right",
+      "x": 0.2,
+      "y": 12.0,
+      "width": 2.8,
+      "height": 2.3,
+      "colliders": [
+        [
+          0,
+          0.66,
+          0.33,
+          0.34
+        ],
+        [
+          0.33,
+          0.33,
+          0.34,
+          0.67
+        ],
+        [
+          0.67,
+          0,
+          0.33,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "l_left_8.7",
+      "sprite": "l_left",
+      "x": 8.7,
+      "y": 19.5,
+      "width": 2.8,
+      "height": 2.5,
+      "colliders": [
+        [
+          0.65,
+          0,
+          0.35,
+          1
+        ],
+        [
+          0,
+          0.65,
+          0.65,
+          0.35
+        ]
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "x": 0,
+      "title": "중앙 환기탑",
+      "hint": "",
+      "detail": ""
+    }
+  ]
+}

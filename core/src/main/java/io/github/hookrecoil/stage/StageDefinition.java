@@ -1,7 +1,7 @@
 /* 파일: StageDefinition.java
- * 역할: 정적 스테이지 배치 데이터. 책임: 발판·천장·고정점·체크포인트·가시·수집품 정의.
- * 협력: StageRuntime, CollisionWorld, CaveRenderer. 장치 상태는 스테이지별 DeviceRuntime이 소유.
- * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md.
+ * 역할: 정적 스테이지 배치 데이터. 책임: 발판·천장·고정점·체크포인트·가시·수집품·챕터 장치 정의.
+ * 협력: StageRuntime, CollisionWorld, CaveRenderer, MineRenderer, CityRenderer. 장치 진행 상태는 런타임이 소유.
+ * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/assets/city_chapter/DEVICES_AND_MOTION.md.
  */
 package io.github.hookrecoil.stage;
 
@@ -20,6 +20,9 @@ public class StageDefinition {
     public MineCrusher[] mineCrushers=new MineCrusher[0];
     public MineSaw[] mineSaws=new MineSaw[0];
     public RechargeRing[] rechargeRings=new RechargeRing[0];
+    public CityWindZone[] cityWindZones=new CityWindZone[0];
+    public CityBarrier[] cityBarriers=new CityBarrier[0];
+    public CityStructure[] cityStructures=new CityStructure[0];
     public Gem clearGem;
     public static class Gem { public String id,type; public float x,y,halfWidth,halfHeight; }
 
@@ -38,8 +41,9 @@ public class StageDefinition {
     }
     public static class Hazard { public float x,y,width,height; public String direction="floor"; }
     public static class MineMover {
-        public String id,kind; public int platform=-1,anchor=-1;
+        public String id,kind; public int platform=-1,anchor=-1,structure=-1;
         public float fromX,fromY,toX,toY,period=4,phase;
+        public float[][] waypoints; public float travelSeconds=2,holdSeconds=.35f;
         public transient float x,y,vx,vy;
     }
     public static class MineCrusher {
@@ -51,6 +55,16 @@ public class StageDefinition {
         public transient float x,y,angle;
     }
     public static class RechargeRing { public String id; public float x,y,halfWidth=.35f,halfHeight=.4f; }
+    public static class CityWindZone { public String id; public float x,y,width,height,ax,ay; }
+    public static class CityStructure {
+        public String id,sprite; public float x,y,width,height; public float[][] colliders;
+        public transient Block[] collisionParts;
+    }
+    public static class CityBarrier {
+        public String id; public float x,y,width=.18f,height=4,offSeconds=1.8f,warningSeconds=.5f,onSeconds=1.5f,phase;
+        public transient String state="off";
+        public transient Block collider;
+    }
     public static class Point { public float x, y; }
     public static class Zone { public float x; public String title, hint, detail; }
 

@@ -199,7 +199,20 @@
       "available": false,
       "goal": "clear_gem",
       "checkpoints": 2,
-      "objective": "이전 스테이지 클리어 후 해금"
+      "objective": "낮은 천장과 수평 발판 사이 정밀 스윙",
+      "difficultyRank": 11,
+      "narrowLandingWidthH": 1.5,
+      "targetChainActions": [
+        7,
+        8
+      ],
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_01.png",
+      "backgroundRepeat": false,
+      "motionPresets": [
+        "horizontal"
+      ],
+      "artAvailable": true
     },
     {
       "id": "city_02",
@@ -210,7 +223,21 @@
       "available": false,
       "goal": "clear_gem",
       "checkpoints": 2,
-      "objective": "이전 스테이지 클리어 후 해금"
+      "objective": "기류 속 수평·수직 발판 전환",
+      "difficultyRank": 12,
+      "narrowLandingWidthH": 1.4,
+      "targetChainActions": [
+        8,
+        8
+      ],
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_02.png",
+      "backgroundRepeat": false,
+      "motionPresets": [
+        "horizontal",
+        "vertical"
+      ],
+      "artAvailable": true
     },
     {
       "id": "city_03",
@@ -221,7 +248,21 @@
       "available": false,
       "goal": "clear_gem",
       "checkpoints": 2,
-      "objective": "이전 스테이지 클리어 후 해금"
+      "objective": "장벽 개방과 이동 발판 위상 조합",
+      "difficultyRank": 13,
+      "narrowLandingWidthH": 1.3,
+      "targetChainActions": [
+        8,
+        9
+      ],
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_03.png",
+      "backgroundRepeat": false,
+      "motionPresets": [
+        "horizontal",
+        "vertical"
+      ],
+      "artAvailable": true
     },
     {
       "id": "city_04",
@@ -232,7 +273,22 @@
       "available": false,
       "goal": "clear_gem",
       "checkpoints": 2,
-      "objective": "이전 스테이지 클리어 후 해금"
+      "objective": "복합 블록 사이 하강 재연결·재상승",
+      "difficultyRank": 14,
+      "narrowLandingWidthH": 1.2,
+      "targetChainActions": [
+        9,
+        9
+      ],
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_04.png",
+      "backgroundRepeat": false,
+      "motionPresets": [
+        "horizontal",
+        "vertical",
+        "right_angle"
+      ],
+      "artAvailable": true
     },
     {
       "id": "city_05",
@@ -243,7 +299,23 @@
       "available": false,
       "goal": "clear_gem",
       "checkpoints": 1,
-      "objective": "이전 스테이지 클리어 후 해금"
+      "objective": "기류·전기·이동 블록 종합 연계",
+      "difficultyRank": 15,
+      "narrowLandingWidthH": 1.1,
+      "targetChainActions": [
+        9,
+        10
+      ],
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_05.png",
+      "backgroundRepeat": false,
+      "motionPresets": [
+        "horizontal",
+        "vertical",
+        "right_angle",
+        "rectangle_loop"
+      ],
+      "artAvailable": true
     },
     {
       "id": "surface_01",

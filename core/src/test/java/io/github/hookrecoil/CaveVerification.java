@@ -56,18 +56,22 @@ public class CaveVerification {
         boolean heardWarning=false;for(int i=0;i<119;i++){s.devices.tick(1f/120);heardWarning|=s.devices.warning;}
         check(heardWarning,"Crumble warning fires before collapse");check(s.definition.platforms[1].active,"Before collapse retains collision");
         for(int i=0;i<2;i++)s.devices.tick(1f/120);check(!s.definition.platforms[1].active,"Collapse removes collision");s.respawn();check(s.definition.platforms[1].active,"Respawn resets devices");
-        s.resolveGoal(true);for(int i=0;i<43;i++)s.tick(new InputFrame(),1f/120);check(s.deathTimer==0,"Failure resets in 0.36 sec");
+        s.resolveGoal(true);float deathX=s.player.x;for(int i=0;i<43;i++)s.tick(new InputFrame(),1f/120);
+        check(s.deathTimer==0&&s.deathWaiting&&s.player.x==deathX,"Death pose waits without automatic respawn");
+        InputFrame retry=new InputFrame();retry.restart=true;s.tick(retry,1f/120);check(!s.deathWaiting&&s.player.x==s.definition.spawnX,"Restart input respawns after death");
         s=game("cave_02");s.player.reset(10,2);
         for(int i=0;i<84;i++)s.tick(new InputFrame(),1f/120);
         check(s.deaths==1,"Open pit triggers a fall death");
-        check(s.player.x==s.definition.spawnX&&s.deathTimer==0,"Open pit respawns within 0.7 sec");
+        check(s.deathWaiting&&s.player.x!=s.definition.spawnX,"Open pit holds the death screen until input");
+        InputFrame retryPit=new InputFrame();retryPit.restart=true;s.tick(retryPit,1f/120);check(s.player.x==s.definition.spawnX,"Open pit restarts on R");
         s=game("cave_01");s.player.reset(10,2);
         for(int i=0;i<100;i++)s.tick(new InputFrame(),1f/120);
         check(s.deaths==0&&s.player.grounded&&Math.abs(s.player.y+1)<0.001f,"Cave 1 recovery pad remains safe");
         s=game("cave_04");s.player.reset(4,2);
         for(int i=0;i<210;i++)s.tick(new InputFrame(),1f/120);
         check(s.deaths==1,"Cave 4 crumble platform fall is lethal");
-        check(s.player.x==s.definition.spawnX&&s.deathTimer==0,"Cave 4 fall returns to checkpoint");
+        check(s.deathWaiting&&s.player.x!=s.definition.spawnX,"Cave 4 fall holds at death position");
+        InputFrame retryCrumble=new InputFrame();retryCrumble.restart=true;s.tick(retryCrumble,1f/120);check(s.player.x==s.definition.spawnX,"Cave 4 restarts on R");
         s=game("cave_03");s.player.previousX=8;s.player.x=16;s.player.previousY=s.player.y=-.2f;check(s.devices.lethal(s.player,s.config),"Fast swept hazard cannot tunnel");
         System.out.println("Cave verification PASS: "+assertions+" assertions; isolated save "+dir);
     }

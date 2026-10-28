@@ -1,7 +1,7 @@
 
 /* 파일: build.gradle
- * 역할: 데스크톱 빌드와 네이티브 통합 검증. 협력: core, NativeCaveVerification.
- * 관련 사양: docs/12_CAVE_CHAPTER.md.
+ * 역할: 데스크톱 빌드와 네이티브 통합 검증. 협력: core, NativeCaveVerification, NativeCityVerification.
+ * 관련 사양: docs/12_CAVE_CHAPTER.md, docs/CITY_CHAPTER_STATUS.md.
  */
 buildscript {
   repositories {
@@ -65,6 +65,13 @@ tasks.register('verifyMinesNative', JavaExec) {
   dependsOn testClasses, ':core:testClasses'
   classpath = sourceSets.test.runtimeClasspath
   mainClass = 'io.github.hookrecoil.NativeMineVerification'
+  workingDir = rootProject.projectDir
+  jvmArgs '--enable-native-access=ALL-UNNAMED'
+}
+tasks.register('verifyCityNative', JavaExec) {
+  dependsOn testClasses, ':core:testClasses'
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.NativeCityVerification'
   workingDir = rootProject.projectDir
   jvmArgs '--enable-native-access=ALL-UNNAMED'
 }

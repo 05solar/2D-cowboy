@@ -106,3 +106,11 @@
 광산 terrain atlas의 세 플랫폼 모듈에 16구간 `surface_profile_px`를 명시했다. 스테이지 생성기가 픽셀 프로파일을 월드 폭으로 환산하고, `CollisionWorld`, 승강기 탑승, 체크포인트, 스폰 및 clear_gem 배치가 `Block.surfaceY(x)`를 공유한다. 투명 atlas 테두리는 충돌 표면에서 제외하고, 설정된 작은 단차 이내는 걷는 중 연결한다.
 
 검증: `:core:verifyMineSurfaces` 19 assertions 통과, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions 통과, `:lwjgl3:verifyMinesNative` 19 checks 통과. `:core:verifyMines` 전체 경로는 mine_01 자동 경로가 보석에 닿지 않아 실패하므로 완주 검증은 미완료다. 세부 기준은 `docs/assets/mine_chapter/SURFACE_COLLISION.md`.
+
+## 2026-10-28 지하도시 초기 통합과 사망 대기 화면
+
+지하도시 11~15 원본 PNG·atlas·장치/이동/레벨 설계를 `assets/city_chapter/`, `docs/assets/city_chapter/`에 보존했다. 실측 atlas 로더·16:9 카메라의 clamp 배경·전용 렌더러·복합 collider union·고정 기류·전기 장벽·waypoint 이동 런타임을 연결했다. `tools/BuildCityStages.py`는 단계별 정적 초기 프로토타입 데이터를 생성한다. artAvailable은 true, available은 false로 유지해 미검증 맵이 저장 해금과 별개로 실행되지 않게 했다. 도시 적용 상태는 [CITY_CHAPTER_STATUS.md](CITY_CHAPTER_STATUS.md).
+
+사망 애니메이션 0.35초 뒤에는 시뮬레이션과 시계를 멈추고 마지막 포즈 및 YOU DIED 패널에서 대기한다. R은 체크포인트 재시작, M은 스테이지 선택, ESC는 일시정지로 유지한다. 패널과 제목·키 안내 글자를 확대했다.
+
+검증: `:core:verifyCity` 34 assertions, `:core:verifyCaves` 79 assertions, `:core:verifyPrologue` 134 assertions, `:lwjgl3:verifyCityNative` 11 checks, `:lwjgl3:verifyCavesNative` 33 checks 통과. 네이티브 캡처 `build/native-city-check/city_01-preview.png`~`city_05-preview.png`, `build/native-cave-check/death-waiting.png`를 확인했다. `:core:verifyMines`의 기존 mine_01 입력 경로 실패는 남아 있다. 지하도시 전체 체크포인트 경로·클리어 궤도 및 난도 검증은 아직 안 했다.

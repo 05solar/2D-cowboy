@@ -1,0 +1,306 @@
+{
+  "id": "city_02",
+  "name": "환기 구역",
+  "width": 12.5,
+  "height": 29.55,
+  "deathPlaneY": 0.75,
+  "spawnX": 3.4,
+  "spawnY": 2.0,
+  "exitX": 3.4,
+  "platforms": [
+    {
+      "x": 0.9,
+      "y": 1.45,
+      "width": 5.0,
+      "height": 0.55,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 5.015,
+      "y": 3.505,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.315,
+      "y": 5.56,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.015,
+      "y": 7.615,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.315,
+      "y": 9.67,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.015,
+      "y": 11.725,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.315,
+      "y": 13.78,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.015,
+      "y": 15.835,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 2.315,
+      "y": 17.89,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 5.015,
+      "y": 19.945,
+      "width": 2.17,
+      "height": 0.55,
+      "sprite": "platform_small",
+      "crumble": false
+    },
+    {
+      "x": 0.4,
+      "y": 22.0,
+      "width": 6.0,
+      "height": 0.55,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 4.35,
+      "y": 6.235,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 8.29,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 10.345,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 12.4,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 14.455,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 16.51,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 18.565,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 3.65,
+      "y": 20.62,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    },
+    {
+      "x": 4.35,
+      "y": 22.675,
+      "width": 1.5,
+      "height": 0.35,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 5.1,
+      "y": 5.955
+    },
+    {
+      "x": 4.4,
+      "y": 8.01
+    },
+    {
+      "x": 5.1,
+      "y": 10.065
+    },
+    {
+      "x": 4.4,
+      "y": 12.12
+    },
+    {
+      "x": 5.1,
+      "y": 14.175
+    },
+    {
+      "x": 4.4,
+      "y": 16.23
+    },
+    {
+      "x": 5.1,
+      "y": 18.285
+    },
+    {
+      "x": 4.4,
+      "y": 20.34
+    },
+    {
+      "x": 5.1,
+      "y": 22.395
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 6.1,
+      "y": 8.165
+    },
+    {
+      "x": 6.1,
+      "y": 16.385
+    }
+  ],
+  "optionalGems": [],
+  "clearGem": {
+    "id": "city_02.clear_gem",
+    "type": "clear_gem",
+    "x": 3.4,
+    "y": 23.03,
+    "halfWidth": 0.12,
+    "halfHeight": 0.19
+  },
+  "hazards": [],
+  "mineMovers": [
+    {
+      "id": "city_02.mover.01",
+      "kind": "city_platform",
+      "platform": 5,
+      "fromX": 5.015,
+      "fromY": 11.725,
+      "toX": 5.015,
+      "toY": 14.525,
+      "period": 5.2,
+      "phase": 0.18
+    },
+    {
+      "id": "city_02.mover.02",
+      "kind": "city_platform",
+      "platform": 8,
+      "fromX": 2.315,
+      "fromY": 17.89,
+      "toX": 1.115,
+      "toY": 17.89,
+      "period": 4.9,
+      "phase": 0.43
+    }
+  ],
+  "mineCrushers": [],
+  "mineSaws": [],
+  "rechargeRings": [],
+  "cityWindZones": [
+    {
+      "id": "city_02.wind.updraft",
+      "x": 2.7,
+      "y": 6.1,
+      "width": 4.5,
+      "height": 7.2,
+      "ax": 0,
+      "ay": 8
+    }
+  ],
+  "cityBarriers": [],
+  "cityStructures": [
+    {
+      "id": "window_8.8",
+      "sprite": "window",
+      "x": 8.8,
+      "y": 11.0,
+      "width": 2.5,
+      "height": 2.0,
+      "colliders": [
+        [
+          0,
+          0,
+          1,
+          0.25
+        ],
+        [
+          0,
+          0.75,
+          1,
+          0.25
+        ],
+        [
+          0,
+          0.25,
+          0.25,
+          0.5
+        ],
+        [
+          0.75,
+          0.25,
+          0.25,
+          0.5
+        ]
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "x": 0,
+      "title": "환기 구역",
+      "hint": "",
+      "detail": ""
+    }
+  ]
+}

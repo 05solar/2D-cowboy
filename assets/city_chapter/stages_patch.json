@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "mergeBy": "id",
+  "doNotReplaceOtherStages": true,
+  "stages": [
+    {
+      "id": "city_01",
+      "number": 11,
+      "chapter": "city",
+      "name": "폐역 진입",
+      "requires": "mine_05",
+      "artAvailable": true,
+      "available": false,
+      "difficultyRank": 11,
+      "narrowLandingWidthH": 1.5,
+      "targetChainActions": [
+        7,
+        8
+      ],
+      "checkpoints": 2,
+      "goal": "clear_gem",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_01.png",
+      "backgroundRepeat": false,
+      "objective": "낮은 천장과 수평 발판 사이 정밀 스윙",
+      "motionPresets": [
+        "horizontal"
+      ]
+    },
+    {
+      "id": "city_02",
+      "number": 12,
+      "chapter": "city",
+      "name": "환기 구역",
+      "requires": "city_01",
+      "artAvailable": true,
+      "available": false,
+      "difficultyRank": 12,
+      "narrowLandingWidthH": 1.4,
+      "targetChainActions": [
+        8,
+        8
+      ],
+      "checkpoints": 2,
+      "goal": "clear_gem",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_02.png",
+      "backgroundRepeat": false,
+      "objective": "기류 속 수평·수직 발판 전환",
+      "motionPresets": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "id": "city_03",
+      "number": 13,
+      "chapter": "city",
+      "name": "단전 거리",
+      "requires": "city_02",
+      "artAvailable": true,
+      "available": false,
+      "difficultyRank": 13,
+      "narrowLandingWidthH": 1.3,
+      "targetChainActions": [
+        8,
+        9
+      ],
+      "checkpoints": 2,
+      "goal": "clear_gem",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_03.png",
+      "backgroundRepeat": false,
+      "objective": "장벽 개방과 이동 발판 위상 조합",
+      "motionPresets": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "id": "city_04",
+      "number": 14,
+      "chapter": "city",
+      "name": "무너진 거주구",
+      "requires": "city_03",
+      "artAvailable": true,
+      "available": false,
+      "difficultyRank": 14,
+      "narrowLandingWidthH": 1.2,
+      "targetChainActions": [
+        9,
+        9
+      ],
+      "checkpoints": 2,
+      "goal": "clear_gem",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_04.png",
+      "backgroundRepeat": false,
+      "objective": "복합 블록 사이 하강 재연결·재상승",
+      "motionPresets": [
+        "horizontal",
+        "vertical",
+        "right_angle"
+      ]
+    },
+    {
+      "id": "city_05",
+      "number": 15,
+      "chapter": "city",
+      "name": "중앙 환기탑",
+      "requires": "city_04",
+      "artAvailable": true,
+      "available": false,
+      "difficultyRank": 15,
+      "narrowLandingWidthH": 1.1,
+      "targetChainActions": [
+        9,
+        10
+      ],
+      "checkpoints": 1,
+      "goal": "clear_gem",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/city_05.png",
+      "backgroundRepeat": false,
+      "objective": "기류·전기·이동 블록 종합 연계",
+      "motionPresets": [
+        "horizontal",
+        "vertical",
+        "right_angle",
+        "rectangle_loop"
+      ]
+    }
+  ]
+}

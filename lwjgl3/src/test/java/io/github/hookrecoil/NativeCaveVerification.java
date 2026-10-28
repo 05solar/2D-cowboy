@@ -54,15 +54,17 @@ public class NativeCaveVerification extends ApplicationAdapter {
     @Override public void render(){if(failure!=null)return;try{
         frame++;
         if(frame<85){
-            if(frame==2){check(menu()!=null,"Saved prologue opens native stage select");click(200,210+84*3);check(!menu().canStart(),"Mouse selected locked card");key(Input.Keys.ENTER);key(Input.Keys.ENTER);check(menu()!=null,"Locked card cannot launch");}
+            if(frame==2){check(menu()!=null,"Saved prologue opens native stage select");click(200,210+84*3);check(menu().selected()!=null,"Mouse selection updates the selected card");}
             if(frame==5){capture("menu-1280");Gdx.graphics.setWindowedMode(640,480);}
             if(frame==15){check(Gdx.graphics.getWidth()==640,"Small window resized and card list scrolls");capture("menu-640");key(Input.Keys.TAB);key(Input.Keys.TAB);key(Input.Keys.TAB);check(menu().focus!=3,"Tab moves distinct focus");Gdx.graphics.setWindowedMode(1920,1080);}
             if(frame==25){capture("menu-1920");Gdx.graphics.setWindowedMode(1280,720);}
-            if(frame==35){key(Input.Keys.RIGHT);check(menu().chapter==1,"Keyboard chapter switch");check(!menu().selected().available&&!menu().canStart(),"Future chapter cannot load");capture("menu-future");key(Input.Keys.LEFT);}
+            if(frame==35){menu().chapter=0;menu().focus=0;key(Input.Keys.RIGHT);key(Input.Keys.RIGHT);check(menu().chapter==2,"Keyboard chapter switch reaches city");check(!menu().selected().available&&!menu().canStart(),"Unimplemented city maps remain locked");capture("menu-future");key(Input.Keys.LEFT);key(Input.Keys.LEFT);}
             if(frame==45){key(Input.Keys.ESCAPE);check(menu()==null,"Escape restores prior screen");key(Input.Keys.M);}
             if(frame==55){check(menu()!=null,"M opens menu");for(int i=0;i<6;i++)key(Input.Keys.W);key(Input.Keys.ENTER);key(Input.Keys.ENTER);check(menu()==null&&stage().definition.id.equals("cave_01"),"Keyboard starts cave 1");
                 screen.pause();double before=stage().elapsed;screen.render(.5f);check(stage().elapsed==before,"App pause freezes simulation");screen.resume();key(Input.Keys.ESCAPE);
-                stage().resolveGoal(true);screen.render(0);capture("death-screen");check(stage().deathTimer>0&&stage().deaths==1,"Fall death overlay rendered");stage().restartAll();}
+                stage().resolveGoal(true);screen.render(0);capture("death-screen");check(stage().deathTimer>0&&stage().deaths==1,"Fall death overlay rendered");
+                for(int i=0;i<48;i++)screen.render(1f/60);check(stage().deathWaiting,"Death panel remains after animation without input");capture("death-waiting");
+                key(Input.Keys.R);screen.render(1f/60);check(!stage().deathWaiting&&stage().player.x==stage().definition.spawnX,"R restarts from the held death screen");stage().restartAll();}
             screen.render(0);if(frame==84)beginDriver();return;
         }
         if(level<=5){

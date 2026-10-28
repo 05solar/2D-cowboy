@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "motions": {
+    "horizontal": {
+      "waypoints": [
+        {
+          "positionH": [
+            0,
+            0
+          ],
+          "holdSeconds": 0.35
+        },
+        {
+          "positionH": [
+            3,
+            0
+          ],
+          "holdSeconds": 0.35
+        }
+      ],
+      "travelSeconds": 1.8,
+      "interpolation": "smoothstep",
+      "cycle": "closed",
+      "space": "offsetH; positive Y up; add map originH"
+    },
+    "vertical": {
+      "waypoints": [
+        {
+          "positionH": [
+            0,
+            0
+          ],
+          "holdSeconds": 0.35
+        },
+        {
+          "positionH": [
+            0,
+            4
+          ],
+          "holdSeconds": 0.35
+        }
+      ],
+      "travelSeconds": 2.4,
+      "interpolation": "smoothstep",
+      "cycle": "closed",
+      "space": "offsetH; positive Y up; add map originH"
+    },
+    "right_angle": {
+      "waypoints": [
+        {
+          "positionH": [
+            0,
+            0
+          ],
+          "holdSeconds": 0.4
+        },
+        {
+          "positionH": [
+            3,
+            0
+          ],
+          "holdSeconds": 0.4
+        },
+        {
+          "positionH": [
+            3,
+            3
+          ],
+          "holdSeconds": 0.4
+        },
+        {
+          "positionH": [
+            3,
+            0
+          ],
+          "holdSeconds": 0.4
+        }
+      ],
+      "travelSeconds": 2.0,
+      "interpolation": "smoothstep",
+      "cycle": "closed",
+      "space": "offsetH; positive Y up; add map originH"
+    },
+    "rectangle_loop": {
+      "waypoints": [
+        {
+          "positionH": [
+            0,
+            0
+          ],
+          "holdSeconds": 0.4
+        },
+        {
+          "positionH": [
+            3,
+            0
+          ],
+          "holdSeconds": 0.4
+        },
+        {
+          "positionH": [
+            3,
+            3
+          ],
+          "holdSeconds": 0.4
+        },
+        {
+          "positionH": [
+            0,
+            3
+          ],
+          "holdSeconds": 0.4
+        }
+      ],
+      "travelSeconds": 2.1,
+      "interpolation": "smoothstep",
+      "cycle": "closed",
+      "space": "offsetH; positive Y up; add map originH"
+    }
+  },
+  "barriers": {
+    "standard": {
+      "offSeconds": 1.8,
+      "warningSeconds": 0.5,
+      "onSeconds": 1.5
+    }
+  },
+  "windZones": {
+    "updraft": {
+      "accelerationHPerSecond2": [
+        0,
+        8
+      ],
+      "random": false
+    },
+    "crosswind": {
+      "accelerationHPerSecond2": [
+        3,
+        0
+      ],
+      "random": false
+    }
+  },
+  "note": "Examples only; no map placement, collision or clearability validated"
+}

@@ -1,6 +1,7 @@
 /* 파일: build.gradle
- * 역할: 공통 게임 모듈 빌드. 책임: 의존성과 프롤로그 회귀 검증 연결.
- * 협력: PrologueVerification. 관련 사양: docs/10_PROLOGUE.md.
+ * 역할: 공통 게임 모듈 빌드. 책임: 의존성과 프롤로그·동굴·광산·지하도시 회귀 검증 연결.
+ * 협력: PrologueVerification, CaveVerification, MineVerification, CityVerification.
+ * 관련 사양: docs/07_TEST_PLAN.md, docs/CITY_CHAPTER_STATUS.md.
  */
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 eclipse.project.name = appName + '-core'
@@ -42,6 +43,12 @@ tasks.register('verifyMineSurfaces', JavaExec) {
   classpath = sourceSets.test.runtimeClasspath
   mainClass = 'io.github.hookrecoil.MineVerification'
   args '--surfaces-only'
+  workingDir = rootProject.projectDir
+}
+tasks.register('verifyCity', JavaExec) {
+  dependsOn testClasses
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.CityVerification'
   workingDir = rootProject.projectDir
 }
 
