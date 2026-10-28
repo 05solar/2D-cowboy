@@ -105,4 +105,4 @@
 
 광산 terrain atlas의 세 플랫폼 모듈에 16구간 `surface_profile_px`를 명시했다. 스테이지 생성기가 픽셀 프로파일을 월드 폭으로 환산하고, `CollisionWorld`, 승강기 탑승, 체크포인트, 스폰 및 clear_gem 배치가 `Block.surfaceY(x)`를 공유한다. 투명 atlas 테두리는 충돌 표면에서 제외하고, 설정된 작은 단차 이내는 걷는 중 연결한다.
 
-검증: `:core:verifyMineSurfaces` 16 assertions 통과, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions 통과, `:lwjgl3:verifyMinesNative` 19 checks 통과. `:core:verifyMines` 전체 경로는 mine_01 자동 경로가 보석에 닿지 않아 실패하므로 완주 검증은 미완료다. 세부 기준은 `docs/assets/mine_chapter/SURFACE_COLLISION.md`.
+검증: `:core:verifyMineSurfaces` 19 assertions 통과, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions 통과, `:lwjgl3:verifyMinesNative` 19 checks 통과. `:core:verifyMines` 전체 경로는 mine_01 자동 경로가 보석에 닿지 않아 실패하므로 완주 검증은 미완료다. 세부 기준은 `docs/assets/mine_chapter/SURFACE_COLLISION.md`.

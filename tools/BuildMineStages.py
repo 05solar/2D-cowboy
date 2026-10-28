@@ -12,6 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 patch=json.loads((ROOT/'assets/mine_chapter/stages_patch.json').read_text(encoding='utf-8'))
 catalog=json.loads((ROOT/'assets/cave_chapter/stages.json').read_text(encoding='utf-8'))
 terrain=json.loads((ROOT/'assets/mine_chapter/atlas.json').read_text(encoding='utf-8'))['sheets']['mine_terrain']['sprites']
+device_sprites=json.loads((ROOT/'assets/mine_chapter/atlas.json').read_text(encoding='utf-8'))['sheets']['mine_devices']['sprites']
 
 def platform(center,top,width,sprite=None):
     if sprite is None:sprite='platform_long' if width>=3.1 else 'platform_medium' if width>=2.4 else 'platform_small'
@@ -36,7 +37,15 @@ def build(number,tops,centers,widths,kind,height,checkpoints,movers=None,crusher
     for m in movers or []:
         if m.get('platform',-1)>=0:
             b=blocks[m['platform']]
+            terrain_surface_offset=center_surface_offset(b)
+            device=device_sprites['lift' if m['kind']=='lift' else 'minecart']
+            sprite_width=device['rect'][2]
+            device_profile=[-b['width']*px/sprite_width for px in device['surface_profile_px']]
+            device_surface_offset=center_surface_offset({'surfaceProfile':device_profile})
+            baseline_shift=terrain_surface_offset-device_surface_offset
+            m['fromY']=round(m['fromY']+baseline_shift,3);m['toY']=round(m['toY']+baseline_shift,3)
             b['x']=m['fromX'];b['y']=m['fromY']
+            b['surfaceProfile']=[round(v,5) for v in device_profile]
     cpoints=[point(centers[i],tops[i]+center_surface_offset(blocks[i])) for i in checkpoints]
     goal_x=centers[-1]
     stage_width=max(18,max(x+w*.5 for x,w in zip(centers,widths))+1)

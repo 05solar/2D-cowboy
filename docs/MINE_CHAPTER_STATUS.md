@@ -36,4 +36,10 @@
 
 플랫폼 PNG의 투명 사각형 꼭대기를 충돌면으로 사용하던 처리를 수정했다. terrain atlas에 플랫폼별 16구간 표면 프로파일을 기록하고, 착지와 승강기 탑승·스폰·체크포인트 높이를 실제 그림의 윗면으로 옮겼다. 걸을 때 프로파일이 조금씩 오르내리는 부분은 `surfaceStepHeight` 범위 내에서 연결한다. 상세 기준은 [`SURFACE_COLLISION.md`](assets/mine_chapter/SURFACE_COLLISION.md).
 
-`:core:verifyMineSurfaces` 16 assertions, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions, `:lwjgl3:verifyMinesNative` 19 checks 통과. 전체 `:core:verifyMines`는 광산 1 자동 경로가 목표 보석에 도달하지 못해 실패하며, 발판 표면 단위 테스트 통과와 구분한다.
+`:core:verifyMineSurfaces` 19 assertions, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions, `:lwjgl3:verifyMinesNative` 19 checks 통과. 전체 `:core:verifyMines`는 광산 1 자동 경로가 목표 보석에 도달하지 못해 실패하며, 발판 표면 단위 테스트 통과와 구분한다.
+
+## 이동 승강기 상판 보정 (2026-10-28)
+
+초기 수정에서 terrain 플랫폼 표면을 lift/cart 충돌에 그대로 사용해 승강기 윈치/상판 높이와 맞지 않는 문제가 남았다. atlas에 lift deck `surface_profile_px=75`, minecart deck `surface_profile_px=5`를 추가했다. 맵 생성기는 이동체의 `fromY/toY` 기준도 상판 프로파일만큼 보정해 에셋 그림·충돌면·원래 의도한 스테이지 높이를 일치시킨다. native 캡처에서 승강기 상판이 시작 발판 높이로 올라온 것을 확인했다.
+
+최신 검증: `:core:verifyMineSurfaces` 19 assertions, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions, `:lwjgl3:verifyMinesNative` 19 checks 통과. `:core:verifyMines`는 lift를 통과한 뒤 mine_01 다음 상승 구간에서 실패한다. 이 경로 실패는 상판 정렬 단위 검증과 별개로 남아 있다.

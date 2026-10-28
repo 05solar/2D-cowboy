@@ -40,6 +40,8 @@ public final class MineVerification {
     public static void main(String[] args) {
         StageRuntime s=game("mine_01");
         check(s.definition.mineMovers.length==2,"Mine 6 contains lift and moving ring");
+        StageDefinition.Block liftBlock=s.definition.platforms[1];
+        check(liftBlock.surfaceY(5.8f)<liftBlock.y+liftBlock.height-.8f,"Lift collision uses its recessed deck surface, not the sprite rectangle edge");
         StageDefinition.Block startBlock=s.definition.platforms[0];
         check(startBlock.surfaceProfile!=null&&startBlock.surfaceY()<startBlock.y+startBlock.height,"Platform records the visible outer surface profile below the atlas rectangle edge");
         check(Math.abs(startBlock.surfaceY(startBlock.x+startBlock.width*.12f)-startBlock.surfaceY(startBlock.x+startBlock.width*.88f))>.001f,"Collision surface follows visible silhouette changes across the platform");
@@ -53,7 +55,11 @@ public final class MineVerification {
         check(s.player.y>liftSurface,"Riding lift carries player from its visible surface");
         s.player.grounded=false;s.mineDevices.transferLaunchVelocity(s.player);
         check(s.player.vy>0,"Leaving lift transfers its velocity exactly once");
-        s.respawn();check(Math.abs(s.definition.platforms[1].y-1.2f)<.001f,"Respawn restores lift start position");
+        s.respawn();check(Math.abs(s.definition.platforms[1].y-s.definition.mineMovers[0].fromY)<.001f,"Respawn restores lift start position");
+        check(Math.abs(s.definition.platforms[1].surfaceY(5.8f)-2)<.1f,"Lift deck aligns with its authored platform height");
+        StageDefinition.Block cartBlock=game("mine_02").definition.platforms[1];
+        float cartTopOffset=cartBlock.y+cartBlock.height-cartBlock.surfaceY(cartBlock.x+cartBlock.width*.5f);
+        check(cartTopOffset>.04f&&cartTopOffset<.08f,"Minecart collision follows its top deck");
 
         s=game("mine_04");s.player.reset(7.6f-0.12f,7.65f);s.player.grounded=false;s.player.previousX=7.1f;s.player.previousY=8.2f;s.player.ammo=0;
         check(s.mineDevices.tryRecharge(s.player,s.config)&&s.player.ammo==2,"Airborne recharge ring restores two shots");
