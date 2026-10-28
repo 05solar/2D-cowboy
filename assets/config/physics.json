@@ -1,0 +1,11 @@
+{
+  "gravity": 24, "jumpSpeed": 8, "groundSpeed": 4.5,
+  "airAcceleration": 5, "maxSpeed": 16, "recoil": 5.5,
+  "shotInterval": 0.22, "hookRange": 7, "hookSpeed": 40, "hookHitRadius": 0.28,
+  "hookInterval": 0.15, "coyoteTime": 0.08, "jumpBuffer": 0.10,
+  "landingTime": 0.05, "halfWidth": 0.1725, "height": 0.75,
+  "playerVisualScale": 0.75, "gunOpacity": 0.45,
+  "swingAcceleration": 20, "swingSpeed": 12,
+  "ropeRetractSpeed": 2.4, "swingRopeLength": 3.7,
+  "pixelsPerH": 180
+}

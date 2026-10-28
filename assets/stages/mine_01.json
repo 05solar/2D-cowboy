@@ -1,0 +1,152 @@
+{
+  "id": "mine_01",
+  "name": "채굴 승강로",
+  "width": 18,
+  "height": 22,
+  "deathPlaneY": 1,
+  "spawnX": 3,
+  "spawnY": 2,
+  "exitX": 9,
+  "platforms": [
+    {
+      "x": 0.4,
+      "y": 1.2,
+      "width": 5.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.8,
+      "y": 1.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 2.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 4.5,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 6.3,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 8.1,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 9.9,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 6.9,
+      "y": 11.7,
+      "width": 4.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 9.8,
+      "y": 11.9,
+      "width": 3.2,
+      "height": 0.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 10.5,
+      "y": 11.5
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 9,
+      "y": 5.3
+    },
+    {
+      "x": 9,
+      "y": 10.7
+    }
+  ],
+  "clearGem": {
+    "id": "mine_01.clear_gem",
+    "type": "clear_gem",
+    "x": 9,
+    "y": 12.98,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [],
+  "hazards": [
+    {
+      "x": 11.8,
+      "y": 15.6,
+      "width": 1.1,
+      "height": 0.65,
+      "direction": "ceiling"
+    }
+  ],
+  "mineMovers": [
+    {
+      "id": "lift_01",
+      "kind": "lift",
+      "platform": 1,
+      "fromX": 4.8,
+      "fromY": 1.2,
+      "toX": 4.8,
+      "toY": 3.7,
+      "period": 7.2
+    },
+    {
+      "id": "lift_ring",
+      "kind": "anchor",
+      "anchor": 0,
+      "fromX": 10.5,
+      "fromY": 11.5,
+      "toX": 13.5,
+      "toY": 13.1,
+      "period": 5.4
+    }
+  ],
+  "mineCrushers": [],
+  "mineSaws": [],
+  "rechargeRings": [],
+  "zones": [
+    {
+      "x": 0,
+      "title": "06  채굴 승강로",
+      "hint": "승강기와 이동 링으로 상승·하강·재상승",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

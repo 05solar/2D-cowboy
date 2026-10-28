@@ -1,0 +1,210 @@
+{
+  "id": "mine_05",
+  "name": "폐광 탈출",
+  "width": 18,
+  "height": 27,
+  "deathPlaneY": 1,
+  "spawnX": 3,
+  "spawnY": 2,
+  "exitX": 3,
+  "platforms": [
+    {
+      "x": 0.4,
+      "y": 1.2,
+      "width": 5.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 3.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.9,
+      "y": 6.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 8.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 1.4,
+      "y": 11.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 5,
+      "y": 13.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 16.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 18.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 1.0,
+      "y": 21.2,
+      "width": 4.0,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 10.4,
+      "y": 16.4,
+      "width": 3.2,
+      "height": 0.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 12,
+      "y": 16.0
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 3,
+      "y": 12
+    }
+  ],
+  "clearGem": {
+    "id": "mine_05.clear_gem",
+    "type": "clear_gem",
+    "x": 3,
+    "y": 22.48,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [],
+  "hazards": [
+    {
+      "x": 11.7,
+      "y": 18.6,
+      "width": 0.9,
+      "height": 0.6,
+      "direction": "ceiling"
+    },
+    {
+      "x": 1.5,
+      "y": 7.5,
+      "width": 1,
+      "height": 0.55,
+      "direction": "floor"
+    },
+    {
+      "x": 10.4,
+      "y": 11.0,
+      "width": 0.8,
+      "height": 0.6,
+      "direction": "floor"
+    }
+  ],
+  "mineMovers": [
+    {
+      "id": "escape_lift",
+      "kind": "lift",
+      "platform": 2,
+      "fromX": 7.9,
+      "fromY": 6.2,
+      "toX": 7.9,
+      "toY": 8.0,
+      "period": 6.2
+    },
+    {
+      "id": "escape_cart",
+      "kind": "cart",
+      "platform": 5,
+      "fromX": 5,
+      "fromY": 13.7,
+      "toX": 7,
+      "toY": 13.7,
+      "period": 4.6
+    },
+    {
+      "id": "escape_ring",
+      "kind": "anchor",
+      "anchor": 0,
+      "fromX": 12,
+      "fromY": 16,
+      "toX": 15,
+      "toY": 17.4,
+      "period": 5.2
+    }
+  ],
+  "mineCrushers": [
+    {
+      "id": "escape_press",
+      "direction": "down",
+      "x": 7.4,
+      "topY": 17.2,
+      "width": 1.25,
+      "stroke": 1.8,
+      "period": 3.6,
+      "phase": 0.18
+    }
+  ],
+  "mineSaws": [
+    {
+      "id": "escape_saw",
+      "fromX": 10.4,
+      "fromY": 20.2,
+      "toX": 13.2,
+      "toY": 20.2,
+      "radius": 0.55,
+      "period": 3.8,
+      "phase": 0.15
+    }
+  ],
+  "rechargeRings": [
+    {
+      "id": "mine_05.recharge.01",
+      "x": 7.5,
+      "y": 15.1,
+      "halfWidth": 0.35,
+      "halfHeight": 0.4
+    }
+  ],
+  "zones": [
+    {
+      "x": 0,
+      "title": "10  폐광 탈출",
+      "hint": "승강기·광차·가시·압착기·톱 종합 시험",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

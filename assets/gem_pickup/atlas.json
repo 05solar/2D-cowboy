@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "origin": "top-left",
+  "rect_format": "x,y,width,height",
+  "images": {
+    "gem": {
+      "file": "assets/gem.png",
+      "width": 1024,
+      "height": 1536,
+      "alpha": "straight",
+      "recommended_filter": "nearest",
+      "visible_bbox_alpha_gt_32": [
+        344,
+        416,
+        338,
+        708
+      ]
+    },
+    "aura": {
+      "file": "assets/aura.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha": "straight",
+      "recommended_filter": "linear",
+      "visible_bbox_alpha_gt_32": [
+        548,
+        300,
+        440,
+        425
+      ]
+    },
+    "pulse_ring": {
+      "file": "assets/pulse_ring.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha": "straight",
+      "recommended_filter": "linear",
+      "visible_bbox_alpha_gt_32": [
+        551,
+        288,
+        434,
+        435
+      ]
+    },
+    "sparkle": {
+      "file": "assets/sparkle.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": "straight",
+      "recommended_filter": "linear",
+      "visible_bbox_alpha_gt_32": [
+        734,
+        285,
+        307,
+        307
+      ]
+    },
+    "player_collect": {
+      "file": "assets/player_collect.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": "straight",
+      "recommended_filter": "nearest",
+      "visible_bbox_alpha_gt_32": [
+        61,
+        140,
+        1638,
+        692
+      ],
+      "frames": [
+        {
+          "id": "collect_00",
+          "rect": [
+            50,
+            132,
+            328,
+            270
+          ],
+          "pivot_px": [
+            172,
+            258
+          ],
+          "gem_socket_px": null,
+          "duration_ms": 100
+        },
+        {
+          "id": "collect_01",
+          "rect": [
+            495,
+            130,
+            330,
+            272
+          ],
+          "pivot_px": [
+            173,
+            260
+          ],
+          "gem_socket_px": [
+            260,
+            159
+          ],
+          "duration_ms": 100
+        },
+        {
+          "id": "collect_02",
+          "rect": [
+            935,
+            128,
+            334,
+            274
+          ],
+          "pivot_px": [
+            175,
+            262
+          ],
+          "gem_socket_px": [
+            267,
+            161
+          ],
+          "duration_ms": 100
+        },
+        {
+          "id": "collect_03",
+          "rect": [
+            1388,
+            129,
+            323,
+            273
+          ],
+          "pivot_px": [
+            168,
+            261
+          ],
+          "gem_socket_px": [
+            205,
+            175
+          ],
+          "duration_ms": 120
+        },
+        {
+          "id": "collect_04",
+          "rect": [
+            49,
+            570,
+            333,
+            274
+          ],
+          "pivot_px": [
+            173,
+            262
+          ],
+          "gem_socket_px": [
+            149,
+            77
+          ],
+          "duration_ms": 120
+        },
+        {
+          "id": "collect_05",
+          "rect": [
+            495,
+            567,
+            332,
+            277
+          ],
+          "pivot_px": [
+            173,
+            265
+          ],
+          "gem_socket_px": [
+            161,
+            64
+          ],
+          "duration_ms": 180
+        },
+        {
+          "id": "collect_06",
+          "rect": [
+            934,
+            568,
+            334,
+            276
+          ],
+          "pivot_px": [
+            176,
+            264
+          ],
+          "gem_socket_px": [
+            252,
+            150
+          ],
+          "duration_ms": 120
+        },
+        {
+          "id": "collect_07",
+          "rect": [
+            1381,
+            568,
+            330,
+            276
+          ],
+          "pivot_px": [
+            175,
+            264
+          ],
+          "gem_socket_px": null,
+          "duration_ms": 160
+        }
+      ],
+      "loop": false,
+      "total_duration_ms": 1000,
+      "coordinate_note": "pivot and gem_socket are relative to each cropped rect; apply one shared render scale"
+    }
+  }
+}

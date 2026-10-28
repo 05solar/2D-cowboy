@@ -1,0 +1,45 @@
+/* 파일: build.gradle
+ * 역할: 공통 게임 모듈 빌드. 책임: 의존성과 프롤로그 회귀 검증 연결.
+ * 협력: PrologueVerification. 관련 사양: docs/10_PROLOGUE.md.
+ */
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+}
+
+jar {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.register('verifyPrologue', JavaExec) {
+  dependsOn testClasses
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.PrologueVerification'
+  workingDir = rootProject.projectDir
+}
+check.dependsOn 'verifyPrologue'
+tasks.register('verifyCaves', JavaExec) {
+  dependsOn testClasses
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.CaveVerification'
+  workingDir = rootProject.projectDir
+}
+check.dependsOn 'verifyCaves'
+tasks.register('verifyMines', JavaExec) {
+  dependsOn testClasses
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.MineVerification'
+  workingDir = rootProject.projectDir
+}
+
+// 테스트는 JUnit 검색 대신 실제 시스템을 구동하는 verifyPrologue가 담당한다.
+test {
+  dependsOn 'verifyPrologue'
+  failOnNoDiscoveredTests = false
+}

@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "prologueSeparate": true,
+  "chapters": [
+    {
+      "id": "cave",
+      "name": "동굴"
+    },
+    {
+      "id": "mine",
+      "name": "광산"
+    },
+    {
+      "id": "city",
+      "name": "지하도시"
+    },
+    {
+      "id": "surface",
+      "name": "지상"
+    }
+  ],
+  "stages": [
+    {
+      "id": "cave_01",
+      "number": 1,
+      "chapter": "cave",
+      "name": "깨어난 굴",
+      "requires": "prologue",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "background": "assets/backgrounds/cave_01.png",
+      "backgroundRepeat": false,
+      "objective": "연결·해제·반동으로 첫 보석에 도달",
+      "orientation": "horizontal"
+    },
+    {
+      "id": "cave_02",
+      "number": 2,
+      "chapter": "cave",
+      "name": "메아리 협곡",
+      "requires": "cave_01",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "background": "assets/backgrounds/cave_02.png",
+      "backgroundRepeat": false,
+      "objective": "높이가 다른 링 전환과 해제 타이밍",
+      "orientation": "horizontal"
+    },
+    {
+      "id": "cave_03",
+      "number": 3,
+      "chapter": "cave",
+      "name": "가시 틈새",
+      "requires": "cave_02",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "background": "assets/backgrounds/cave_03.png",
+      "backgroundRepeat": false,
+      "objective": "가시 사이 궤도 조절과 공중 제동",
+      "orientation": "horizontal"
+    },
+    {
+      "id": "cave_04",
+      "number": 4,
+      "chapter": "cave",
+      "name": "부서지는 발판",
+      "requires": "cave_03",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "background": "assets/backgrounds/cave_04.png",
+      "backgroundRepeat": false,
+      "objective": "붕괴 발판에서 재충전 후 재출발",
+      "orientation": "horizontal"
+    },
+    {
+      "id": "cave_05",
+      "number": 5,
+      "chapter": "cave",
+      "name": "수직 균열",
+      "requires": "cave_04",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 1,
+      "background": "assets/backgrounds/cave_05.png",
+      "backgroundRepeat": false,
+      "objective": "배운 기술을 연결하는 동굴 종합 시험",
+      "orientation": "vertical"
+    },
+    {
+      "id": "mine_01",
+      "number": 6,
+      "chapter": "mine",
+      "name": "채굴 승강로",
+      "requires": "cave_05",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "승강기와 이동 링으로 상승·하강·재상승",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_01.png",
+      "backgroundRepeat": false,
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_02",
+      "number": 7,
+      "chapter": "mine",
+      "name": "광차 교차로",
+      "requires": "mine_01",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "광차 착지 충전과 가시 사이 수직 이동",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_02.png",
+      "backgroundRepeat": false,
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_03",
+      "number": 8,
+      "chapter": "mine",
+      "name": "분쇄 설비",
+      "requires": "mine_02",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "압착기 개방 주기와 천장·바닥 가시 제동",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_03.png",
+      "backgroundRepeat": false,
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_04",
+      "number": 9,
+      "chapter": "mine",
+      "name": "과열 운반로",
+      "requires": "mine_03",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "톱 회피와 재충전 링을 이용한 탄약 분배",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_04.png",
+      "backgroundRepeat": false,
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_05",
+      "number": 10,
+      "chapter": "mine",
+      "name": "폐광 탈출",
+      "requires": "mine_04",
+      "available": true,
+      "goal": "clear_gem",
+      "checkpoints": 1,
+      "objective": "승강기·광차·가시·압착기·톱 종합 시험",
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_05.png",
+      "backgroundRepeat": false,
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "city_01",
+      "number": 11,
+      "chapter": "city",
+      "name": "폐역 진입",
+      "requires": "mine_05",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "city_02",
+      "number": 12,
+      "chapter": "city",
+      "name": "환기 구역",
+      "requires": "city_01",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "city_03",
+      "number": 13,
+      "chapter": "city",
+      "name": "단전 거리",
+      "requires": "city_02",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "city_04",
+      "number": 14,
+      "chapter": "city",
+      "name": "무너진 거주구",
+      "requires": "city_03",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "city_05",
+      "number": 15,
+      "chapter": "city",
+      "name": "중앙 환기탑",
+      "requires": "city_04",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 1,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "surface_01",
+      "number": 16,
+      "chapter": "surface",
+      "name": "첫 하늘",
+      "requires": "city_05",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "surface_02",
+      "number": 17,
+      "chapter": "surface",
+      "name": "옥상 사이",
+      "requires": "surface_01",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "surface_03",
+      "number": 18,
+      "chapter": "surface",
+      "name": "송신탑",
+      "requires": "surface_02",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "surface_04",
+      "number": 19,
+      "chapter": "surface",
+      "name": "구름 경계",
+      "requires": "surface_03",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    },
+    {
+      "id": "surface_05",
+      "number": 20,
+      "chapter": "surface",
+      "name": "마지막 상승",
+      "requires": "surface_04",
+      "available": false,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "objective": "이전 스테이지 클리어 후 해금"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "id": "mine_03",
+  "name": "분쇄 설비",
+  "width": 18,
+  "height": 24,
+  "deathPlaneY": 1,
+  "spawnX": 3,
+  "spawnY": 2,
+  "exitX": 6,
+  "platforms": [
+    {
+      "x": 0.4,
+      "y": 1.2,
+      "width": 5.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 3.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 6.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 8.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 1.4,
+      "y": 11.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 13.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 16.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.0,
+      "y": 18.7,
+      "width": 4.0,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 10.2,
+      "y": 14.5,
+      "width": 3.2,
+      "height": 0.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 11.8,
+      "y": 14.1
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 6,
+      "y": 9.5
+    },
+    {
+      "x": 9,
+      "y": 17
+    }
+  ],
+  "clearGem": {
+    "id": "mine_03.clear_gem",
+    "type": "clear_gem",
+    "x": 6,
+    "y": 19.98,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [],
+  "hazards": [
+    {
+      "x": 11.5,
+      "y": 17.3,
+      "width": 1,
+      "height": 0.65,
+      "direction": "ceiling"
+    },
+    {
+      "x": 8.2,
+      "y": 8.2,
+      "width": 1.0,
+      "height": 0.55,
+      "direction": "floor"
+    }
+  ],
+  "mineMovers": [],
+  "mineCrushers": [
+    {
+      "id": "press_upper",
+      "direction": "down",
+      "x": 7.4,
+      "topY": 12.4,
+      "width": 1.25,
+      "stroke": 1.8,
+      "period": 3.6,
+      "phase": 0.15
+    },
+    {
+      "id": "press_lower",
+      "direction": "up",
+      "x": 2.5,
+      "topY": 15.5,
+      "width": 1.25,
+      "stroke": 1.55,
+      "period": 3.6,
+      "phase": 0.62
+    }
+  ],
+  "mineSaws": [],
+  "rechargeRings": [],
+  "zones": [
+    {
+      "x": 0,
+      "title": "08  분쇄 설비",
+      "hint": "압착기 개방 주기와 천장·바닥 가시 제동",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "mergeBy": "id",
+  "doNotReplaceOtherStages": true,
+  "stages": [
+    {
+      "id": "mine_01",
+      "number": 6,
+      "chapter": "mine",
+      "name": "채굴 승강로",
+      "requires": "cave_05",
+      "available": false,
+      "artAvailable": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_01.png",
+      "backgroundRepeat": false,
+      "objective": "승강기와 이동 링으로 상승·하강·재상승",
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_02",
+      "number": 7,
+      "chapter": "mine",
+      "name": "광차 교차로",
+      "requires": "mine_01",
+      "available": false,
+      "artAvailable": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_02.png",
+      "backgroundRepeat": false,
+      "objective": "광차 착지 충전과 가시 사이 수직 이동",
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_03",
+      "number": 8,
+      "chapter": "mine",
+      "name": "분쇄 설비",
+      "requires": "mine_02",
+      "available": false,
+      "artAvailable": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_03.png",
+      "backgroundRepeat": false,
+      "objective": "압착기 개방 주기와 천장·바닥 가시 제동",
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_04",
+      "number": 9,
+      "chapter": "mine",
+      "name": "과열 운반로",
+      "requires": "mine_03",
+      "available": false,
+      "artAvailable": true,
+      "goal": "clear_gem",
+      "checkpoints": 2,
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_04.png",
+      "backgroundRepeat": false,
+      "objective": "톱 회피와 재충전 링을 이용한 탄약 분배",
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    },
+    {
+      "id": "mine_05",
+      "number": 10,
+      "chapter": "mine",
+      "name": "폐광 탈출",
+      "requires": "mine_04",
+      "available": false,
+      "artAvailable": true,
+      "goal": "clear_gem",
+      "checkpoints": 1,
+      "orientation": "vertical",
+      "background": "assets/backgrounds/mine_05.png",
+      "backgroundRepeat": false,
+      "objective": "승강기·광차·가시·압착기·톱 종합 시험",
+      "routePattern": [
+        "ascend",
+        "descend",
+        "reascend"
+      ],
+      "designDocument": "STAGES_06_10.md"
+    }
+  ]
+}

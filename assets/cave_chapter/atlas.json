@@ -1,0 +1,273 @@
+{
+  "origin": "top-left",
+  "rect_format": "x,y,width,height",
+  "sheets": {
+    "terrain": {
+      "image": "assets/sheets/terrain.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sprites": {
+        "platform_long": {
+          "rect": [
+            54,
+            99,
+            632,
+            148
+          ]
+        },
+        "platform_medium": {
+          "rect": [
+            770,
+            105,
+            350,
+            140
+          ]
+        },
+        "platform_small": {
+          "rect": [
+            1250,
+            120,
+            208,
+            116
+          ]
+        },
+        "wall_left": {
+          "rect": [
+            104,
+            306,
+            209,
+            321
+          ]
+        },
+        "wall_right": {
+          "rect": [
+            663,
+            306,
+            180,
+            321
+          ]
+        },
+        "ceiling": {
+          "rect": [
+            960,
+            361,
+            520,
+            167
+          ]
+        },
+        "corner_lower_left": {
+          "rect": [
+            104,
+            669,
+            362,
+            268
+          ]
+        },
+        "corner_lower_right": {
+          "rect": [
+            536,
+            669,
+            358,
+            268
+          ]
+        },
+        "solid_fill": {
+          "rect": [
+            1000,
+            707,
+            460,
+            202
+          ]
+        }
+      }
+    },
+    "devices": {
+      "image": "assets/sheets/devices.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "sprites": {
+        "anchor_idle": {
+          "rect": [
+            101,
+            111,
+            169,
+            201
+          ]
+        },
+        "anchor_connected": {
+          "rect": [
+            461,
+            111,
+            186,
+            270
+          ]
+        },
+        "checkpoint_off": {
+          "rect": [
+            803,
+            78,
+            204,
+            264
+          ]
+        },
+        "checkpoint_on": {
+          "rect": [
+            1162,
+            78,
+            205,
+            264
+          ]
+        },
+        "spikes_floor": {
+          "rect": [
+            59,
+            477,
+            254,
+            199
+          ]
+        },
+        "spikes_ceiling": {
+          "rect": [
+            413,
+            432,
+            264,
+            205
+          ]
+        },
+        "spikes_left": {
+          "rect": [
+            803,
+            432,
+            189,
+            254
+          ]
+        },
+        "spikes_right": {
+          "rect": [
+            1178,
+            432,
+            189,
+            254
+          ]
+        },
+        "breakable_intact": {
+          "rect": [
+            27,
+            806,
+            318,
+            154
+          ]
+        },
+        "breakable_warning": {
+          "rect": [
+            383,
+            806,
+            321,
+            154
+          ]
+        },
+        "breakable_collapse": {
+          "rect": [
+            742,
+            805,
+            327,
+            211
+          ]
+        },
+        "breakable_gone": {
+          "rect": [
+            1109,
+            866,
+            309,
+            140
+          ]
+        }
+      }
+    },
+    "stage_select_ui_kit": {
+      "image": "assets/sheets/stage_select_ui_kit.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sprites": {
+        "card_normal": {
+          "rect": [
+            59,
+            105,
+            435,
+            192
+          ]
+        },
+        "card_selected": {
+          "rect": [
+            553,
+            105,
+            431,
+            192
+          ]
+        },
+        "card_locked": {
+          "rect": [
+            1042,
+            105,
+            435,
+            192
+          ]
+        },
+        "button_normal": {
+          "rect": [
+            110,
+            382,
+            360,
+            95
+          ]
+        },
+        "button_selected": {
+          "rect": [
+            592,
+            381,
+            352,
+            97
+          ]
+        },
+        "button_disabled": {
+          "rect": [
+            1066,
+            382,
+            360,
+            95
+          ]
+        },
+        "window_panel": {
+          "rect": [
+            100,
+            557,
+            571,
+            369
+          ]
+        },
+        "lock": {
+          "rect": [
+            832,
+            648,
+            152,
+            199
+          ]
+        },
+        "check": {
+          "rect": [
+            1179,
+            672,
+            202,
+            164
+          ]
+        }
+      }
+    }
+  }
+}

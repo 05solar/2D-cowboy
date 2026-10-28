@@ -1,0 +1,194 @@
+{
+  "cave_01": [
+    {
+      "kind": "hook",
+      "launch": 7,
+      "target": 1,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "recoil",
+      "launch": 22.5,
+      "target": 2,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "recoil",
+      "launch": 33.5,
+      "target": 3,
+      "direction": 1,
+      "anchor": 0
+    }
+  ],
+  "cave_02": [
+    {
+      "kind": "hook",
+      "launch": 7,
+      "target": 1,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "hook",
+      "launch": 22,
+      "target": 2,
+      "direction": 1,
+      "anchor": 2
+    },
+    {
+      "kind": "recoil",
+      "launch": 37.5,
+      "target": 3,
+      "direction": 1,
+      "anchor": 0
+    }
+  ],
+  "cave_03": [
+    {
+      "kind": "hook",
+      "launch": 7,
+      "target": 1,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "recoil",
+      "launch": 22.5,
+      "target": 2,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "brake",
+      "launch": 33.5,
+      "target": 3,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "basic",
+      "launch": 40.5,
+      "target": 4,
+      "direction": 1,
+      "anchor": 0
+    }
+  ],
+  "cave_04": [
+    {
+      "kind": "basic",
+      "launch": 7.5,
+      "target": 3,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "basic",
+      "launch": 12.5,
+      "target": 4,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "basic",
+      "launch": 17.5,
+      "target": 5,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "hook",
+      "launch": 25,
+      "target": 6,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "basic",
+      "launch": 37.5,
+      "target": 7,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "recoil",
+      "launch": 45.5,
+      "target": 8,
+      "direction": 1,
+      "anchor": 0
+    }
+  ],
+  "cave_05": [
+    {
+      "kind": "up",
+      "launch": 5.5,
+      "target": 1,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 11.5,
+      "target": 2,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 17.5,
+      "target": 3,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "hook",
+      "launch": 25,
+      "target": 4,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 40.5,
+      "target": 5,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 46.5,
+      "target": 6,
+      "direction": 1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 49.5,
+      "target": 7,
+      "direction": -1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 43.5,
+      "target": 8,
+      "direction": -1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 37.5,
+      "target": 9,
+      "direction": -1,
+      "anchor": 0
+    },
+    {
+      "kind": "up",
+      "launch": 31.5,
+      "target": 10,
+      "direction": -1,
+      "anchor": 0
+    }
+  ]
+}

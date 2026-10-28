@@ -1,0 +1,130 @@
+{
+  "mine_01": [
+    {
+      "platform": 1,
+      "waitTop": 4.4
+    },
+    {
+      "platform": 2,
+      "jump": true
+    },
+    {
+      "platform": 3
+    },
+    {
+      "platform": 4
+    },
+    {
+      "platform": 5
+    },
+    {
+      "platform": 6
+    },
+    {
+      "platform": 7
+    }
+  ],
+  "mine_02": [
+    {
+      "platform": 1,
+      "waitX": 7.3
+    },
+    {
+      "platform": 2
+    },
+    {
+      "platform": 3
+    },
+    {
+      "platform": 4
+    },
+    {
+      "platform": 5
+    },
+    {
+      "platform": 6,
+      "jump": true,
+      "waitX": 9.8
+    },
+    {
+      "platform": 7
+    },
+    {
+      "platform": 8
+    }
+  ],
+  "mine_03": [
+    {
+      "platform": 1
+    },
+    {
+      "platform": 2
+    },
+    {
+      "platform": 3
+    },
+    {
+      "platform": 4
+    },
+    {
+      "platform": 5
+    },
+    {
+      "platform": 6
+    },
+    {
+      "platform": 7
+    }
+  ],
+  "mine_04": [
+    {
+      "platform": 1
+    },
+    {
+      "platform": 2
+    },
+    {
+      "platform": 3
+    },
+    {
+      "platform": 4
+    },
+    {
+      "platform": 5
+    },
+    {
+      "platform": 6
+    },
+    {
+      "platform": 7
+    }
+  ],
+  "mine_05": [
+    {
+      "platform": 1
+    },
+    {
+      "platform": 2,
+      "waitTop": 8.5
+    },
+    {
+      "platform": 3
+    },
+    {
+      "platform": 4
+    },
+    {
+      "platform": 5,
+      "waitX": 6.8
+    },
+    {
+      "platform": 6
+    },
+    {
+      "platform": 7
+    },
+    {
+      "platform": 8
+    }
+  ]
+}

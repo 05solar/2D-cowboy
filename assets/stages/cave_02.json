@@ -1,0 +1,125 @@
+{
+  "id": "cave_02",
+  "name": "메아리 협곡",
+  "width": 50,
+  "height": 12,
+  "spawnX": 2,
+  "spawnY": 2,
+  "deathPlaneY": 1.0,
+  "exitX": 47,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 8,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 17,
+      "y": 1.8,
+      "width": 6,
+      "height": 0.7,
+      "crumble": false
+    },
+    {
+      "x": 32,
+      "y": 0,
+      "width": 6,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 43,
+      "y": 0,
+      "width": 7,
+      "height": 2,
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 8,
+      "y": 7,
+      "width": 4,
+      "height": 1.5,
+      "crumble": false
+    },
+    {
+      "x": 12,
+      "y": 7.5,
+      "width": 5,
+      "height": 1.5,
+      "crumble": false
+    },
+    {
+      "x": 23,
+      "y": 7.5,
+      "width": 4,
+      "height": 1.5,
+      "crumble": false
+    },
+    {
+      "x": 27,
+      "y": 7.1,
+      "width": 5,
+      "height": 1.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 10,
+      "y": 6.6
+    },
+    {
+      "x": 14.5,
+      "y": 7.1
+    },
+    {
+      "x": 25,
+      "y": 7.1
+    },
+    {
+      "x": 29.5,
+      "y": 6.699999999999999
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 20,
+      "y": 2.5
+    },
+    {
+      "x": 35,
+      "y": 2
+    }
+  ],
+  "clearGem": {
+    "id": "cave_02.clear_gem",
+    "type": "clear_gem",
+    "x": 47,
+    "y": 2.48,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [
+    {
+      "id": "cave_02.optional.01",
+      "type": "optional",
+      "x": 4.5,
+      "y": 3.05,
+      "halfWidth": 0.09,
+      "halfHeight": 0.12
+    }
+  ],
+  "hazards": [],
+  "zones": [
+    {
+      "x": 0,
+      "title": "02  메아리 협곡",
+      "hint": "높이가 다른 링 전환과 해제 타이밍",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

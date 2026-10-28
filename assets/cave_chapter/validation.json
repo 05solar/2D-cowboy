@@ -1,0 +1,17 @@
+{
+  "transparent_sheets": {
+    "terrain": true,
+    "devices": true,
+    "stage_select_ui_kit": true
+  },
+  "rectangles_nonoverlap": true,
+  "engine_playtest": false,
+  "seamless_autotiles": false,
+  "background_count": 5,
+  "future_chapters_content_available": false,
+  "selection_model_tests": "passed: prerequisite, normal-only unlock, replay, challenge, unavailable content, unknown ID",
+  "asset_references_exist": true,
+  "browser_visual_test": false,
+  "browser_visual_test_reason": "No installed Chromium executable",
+  "preview_script_syntax": "checked separately with node --check"
+}

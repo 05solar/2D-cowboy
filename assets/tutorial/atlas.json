@@ -1,0 +1,701 @@
+{
+  "version": 3,
+  "coordinates": "top-left pixels; x,y,w,h; exclusive right/bottom",
+  "filter": "nearest",
+  "atlases": {
+    "player_movement": {
+      "image": "assets/player_movement.png",
+      "size": [
+        1294,
+        1216
+      ],
+      "frames": {
+        "idle_00": {
+          "rect": [
+            43,
+            66,
+            261,
+            214
+          ]
+        },
+        "idle_01": {
+          "rect": [
+            364,
+            62,
+            258,
+            218
+          ]
+        },
+        "idle_02": {
+          "rect": [
+            684,
+            72,
+            260,
+            208
+          ]
+        },
+        "idle_03": {
+          "rect": [
+            1004,
+            67,
+            262,
+            213
+          ]
+        },
+        "run_00": {
+          "rect": [
+            21,
+            368,
+            303,
+            223
+          ]
+        },
+        "run_01": {
+          "rect": [
+            355,
+            358,
+            291,
+            231
+          ]
+        },
+        "run_02": {
+          "rect": [
+            666,
+            358,
+            297,
+            233
+          ]
+        },
+        "run_03": {
+          "rect": [
+            996,
+            362,
+            286,
+            228
+          ]
+        },
+        "air_00": {
+          "rect": [
+            25,
+            735,
+            286,
+            166
+          ]
+        },
+        "air_01": {
+          "rect": [
+            360,
+            659,
+            278,
+            203
+          ]
+        },
+        "air_02": {
+          "rect": [
+            680,
+            651,
+            265,
+            211
+          ]
+        },
+        "air_03": {
+          "rect": [
+            1005,
+            667,
+            268,
+            228
+          ]
+        },
+        "land_00": {
+          "rect": [
+            36,
+            965,
+            286,
+            198
+          ]
+        },
+        "land_01": {
+          "rect": [
+            374,
+            996,
+            264,
+            166
+          ]
+        },
+        "land_02": {
+          "rect": [
+            682,
+            967,
+            276,
+            196
+          ]
+        },
+        "land_03": {
+          "rect": [
+            1010,
+            954,
+            256,
+            209
+          ]
+        }
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_00",
+            "idle_01",
+            "idle_02",
+            "idle_03"
+          ],
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "frames": [
+            "run_00",
+            "run_01",
+            "run_02",
+            "run_03"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "air": {
+          "frames": [
+            "air_00",
+            "air_01",
+            "air_02",
+            "air_03"
+          ],
+          "fps": 10,
+          "loop": false
+        },
+        "land": {
+          "frames": [
+            "land_00",
+            "land_01",
+            "land_02",
+            "land_03"
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "player_actions": {
+      "image": "assets/player_actions.png",
+      "size": [
+        1293,
+        1216
+      ],
+      "frames": {
+        "grapple_00": {
+          "rect": [
+            29,
+            85,
+            282,
+            211
+          ]
+        },
+        "grapple_01": {
+          "rect": [
+            347,
+            83,
+            317,
+            214
+          ]
+        },
+        "grapple_02": {
+          "rect": [
+            687,
+            69,
+            222,
+            218
+          ]
+        },
+        "grapple_03": {
+          "rect": [
+            975,
+            80,
+            271,
+            216
+          ]
+        },
+        "swing_00": {
+          "rect": [
+            11,
+            364,
+            262,
+            270
+          ]
+        },
+        "swing_01": {
+          "rect": [
+            364,
+            360,
+            258,
+            255
+          ]
+        },
+        "swing_02": {
+          "rect": [
+            668,
+            360,
+            306,
+            260
+          ]
+        },
+        "swing_03": {
+          "rect": [
+            998,
+            366,
+            292,
+            259
+          ]
+        },
+        "recoil_00": {
+          "rect": [
+            15,
+            697,
+            293,
+            215
+          ]
+        },
+        "recoil_01": {
+          "rect": [
+            340,
+            693,
+            295,
+            214
+          ]
+        },
+        "recoil_02": {
+          "rect": [
+            652,
+            697,
+            307,
+            214
+          ]
+        },
+        "recoil_03": {
+          "rect": [
+            984,
+            699,
+            290,
+            215
+          ]
+        },
+        "death_00": {
+          "rect": [
+            20,
+            956,
+            279,
+            214
+          ]
+        },
+        "death_01": {
+          "rect": [
+            372,
+            994,
+            275,
+            170
+          ]
+        },
+        "death_02": {
+          "rect": [
+            684,
+            1021,
+            276,
+            136
+          ]
+        },
+        "death_03": {
+          "rect": [
+            973,
+            1045,
+            298,
+            112
+          ]
+        }
+      },
+      "animations": {
+        "grapple": {
+          "frames": [
+            "grapple_00",
+            "grapple_01",
+            "grapple_02",
+            "grapple_03"
+          ],
+          "fps": 10,
+          "loop": false
+        },
+        "swing": {
+          "frames": [
+            "swing_00",
+            "swing_01",
+            "swing_02",
+            "swing_03"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "recoil": {
+          "frames": [
+            "recoil_00",
+            "recoil_01",
+            "recoil_02",
+            "recoil_03"
+          ],
+          "fps": 10,
+          "loop": false
+        },
+        "death": {
+          "frames": [
+            "death_00",
+            "death_01",
+            "death_02",
+            "death_03"
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "terrain": {
+      "image": "assets/terrain.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "frames": {
+        "platform_00": {
+          "rect": [
+            37,
+            137,
+            358,
+            127
+          ]
+        },
+        "platform_01": {
+          "rect": [
+            472,
+            136,
+            224,
+            115
+          ]
+        },
+        "platform_02": {
+          "rect": [
+            802,
+            152,
+            199,
+            55
+          ]
+        },
+        "platform_03": {
+          "rect": [
+            1094,
+            109,
+            321,
+            165
+          ]
+        },
+        "wall_00": {
+          "rect": [
+            108,
+            379,
+            129,
+            278
+          ]
+        },
+        "wall_01": {
+          "rect": [
+            496,
+            375,
+            123,
+            280
+          ]
+        },
+        "wall_02": {
+          "rect": [
+            759,
+            391,
+            276,
+            251
+          ]
+        },
+        "wall_03": {
+          "rect": [
+            1137,
+            391,
+            278,
+            251
+          ]
+        },
+        "ceiling_00": {
+          "rect": [
+            37,
+            758,
+            304,
+            182
+          ]
+        },
+        "ceiling_01": {
+          "rect": [
+            416,
+            757,
+            253,
+            206
+          ]
+        },
+        "ceiling_02": {
+          "rect": [
+            770,
+            737,
+            281,
+            256
+          ]
+        },
+        "ceiling_03": {
+          "rect": [
+            1121,
+            737,
+            280,
+            256
+          ]
+        }
+      }
+    },
+    "tiles": {
+      "image": "assets/tiles.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "frames": {
+        "top_left": {
+          "rect": [
+            286,
+            86,
+            269,
+            258
+          ]
+        },
+        "top": {
+          "rect": [
+            634,
+            95,
+            268,
+            249
+          ]
+        },
+        "top_right": {
+          "rect": [
+            981,
+            86,
+            270,
+            258
+          ]
+        },
+        "left": {
+          "rect": [
+            287,
+            395,
+            268,
+            256
+          ]
+        },
+        "fill": {
+          "rect": [
+            634,
+            395,
+            268,
+            256
+          ]
+        },
+        "right": {
+          "rect": [
+            981,
+            395,
+            269,
+            256
+          ]
+        },
+        "bottom_left": {
+          "rect": [
+            285,
+            696,
+            270,
+            249
+          ]
+        },
+        "bottom": {
+          "rect": [
+            634,
+            696,
+            268,
+            244
+          ]
+        },
+        "bottom_right": {
+          "rect": [
+            981,
+            696,
+            270,
+            244
+          ]
+        }
+      }
+    },
+    "objects": {
+      "image": "assets/objects.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "frames": {
+        "anchor_inactive": {
+          "rect": [
+            134,
+            94,
+            116,
+            157
+          ]
+        },
+        "anchor_active": {
+          "rect": [
+            526,
+            69,
+            117,
+            182
+          ]
+        },
+        "hook": {
+          "rect": [
+            859,
+            103,
+            213,
+            143
+          ]
+        },
+        "rope": {
+          "rect": [
+            1213,
+            151,
+            271,
+            55
+          ]
+        },
+        "checkpoint_off": {
+          "rect": [
+            124,
+            327,
+            135,
+            179
+          ]
+        },
+        "checkpoint_on": {
+          "rect": [
+            508,
+            327,
+            135,
+            179
+          ]
+        },
+        "exit": {
+          "rect": [
+            854,
+            302,
+            218,
+            210
+          ]
+        },
+        "ammo_two": {
+          "rect": [
+            1285,
+            368,
+            126,
+            105
+          ]
+        },
+        "revolver": {
+          "rect": [
+            94,
+            596,
+            201,
+            123
+          ]
+        },
+        "revolver_arm": {
+          "rect": [
+            444,
+            588,
+            272,
+            142
+          ]
+        },
+        "grapple_launcher": {
+          "rect": [
+            839,
+            512,
+            249,
+            196
+          ]
+        },
+        "grapple_arm": {
+          "rect": [
+            1202,
+            604,
+            294,
+            132
+          ]
+        },
+        "spikes": {
+          "rect": [
+            70,
+            770,
+            243,
+            194
+          ]
+        },
+        "breakable_platform": {
+          "rect": [
+            421,
+            839,
+            312,
+            121
+          ]
+        },
+        "landing_dust": {
+          "rect": [
+            862,
+            859,
+            215,
+            95
+          ]
+        },
+        "muzzle_flash": {
+          "rect": [
+            1253,
+            837,
+            189,
+            102
+          ]
+        }
+      }
+    }
+  },
+  "validation": {
+    "engine_playtest": false,
+    "seamless_tiles_verified": false,
+    "animation_continuity_verified": false
+  },
+  "background": {
+    "image": "assets/background.png",
+    "size": [
+      1672,
+      941
+    ],
+    "repeat": false
+  }
+}

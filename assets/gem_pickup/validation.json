@@ -1,0 +1,16 @@
+{
+  "alpha_present": {
+    "gem": true,
+    "aura": true,
+    "pulse_ring": true,
+    "sparkle": true,
+    "player_collect": true
+  },
+  "character_frame_count": 8,
+  "frame_rectangles_overlap": false,
+  "source_images_modified": false,
+  "engine_tested": false,
+  "socket_coordinates": "initial visual estimates; verify in target engine",
+  "minimum_horizontal_gap_px": 107,
+  "row_gap_px": 165
+}

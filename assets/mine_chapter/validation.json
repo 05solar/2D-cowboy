@@ -1,0 +1,15 @@
+{
+  "background_count": 5,
+  "backgrounds_portrait": true,
+  "transparent_sheets": {
+    "mine_terrain": true,
+    "mine_devices": true
+  },
+  "rectangles_nonoverlap": true,
+  "source_pixels_modified": false,
+  "engine_tested": false,
+  "maps_playable": false,
+  "artAvailable_is_not_runtimeAvailable": true,
+  "references_exist": true,
+  "sprite_count": 25
+}

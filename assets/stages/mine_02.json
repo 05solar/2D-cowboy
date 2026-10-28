@@ -1,0 +1,178 @@
+{
+  "id": "mine_02",
+  "name": "광차 교차로",
+  "width": 18,
+  "height": 22,
+  "deathPlaneY": 1,
+  "spawnX": 3,
+  "spawnY": 2,
+  "exitX": 6,
+  "platforms": [
+    {
+      "x": 0.4,
+      "y": 1.2,
+      "width": 5.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.8,
+      "y": 1.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 3.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 6.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 1.4,
+      "y": 8.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 11.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.8,
+      "y": 11.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 13.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.0,
+      "y": 16.2,
+      "width": 4.0,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 10.4,
+      "y": 12.7,
+      "width": 3.2,
+      "height": 0.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 12,
+      "y": 12.3
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 3,
+      "y": 9.5
+    },
+    {
+      "x": 9,
+      "y": 14.5
+    }
+  ],
+  "clearGem": {
+    "id": "mine_02.clear_gem",
+    "type": "clear_gem",
+    "x": 6,
+    "y": 17.48,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [],
+  "hazards": [
+    {
+      "x": 12,
+      "y": 10.2,
+      "width": 0.8,
+      "height": 0.55,
+      "direction": "ceiling"
+    },
+    {
+      "x": 1.0,
+      "y": 5.8,
+      "width": 0.55,
+      "height": 1.1,
+      "direction": "right"
+    }
+  ],
+  "mineMovers": [
+    {
+      "id": "cart_01",
+      "kind": "cart",
+      "platform": 1,
+      "fromX": 4.8,
+      "fromY": 1.2,
+      "toX": 7.6,
+      "toY": 1.2,
+      "period": 4.8
+    },
+    {
+      "id": "cart_02",
+      "kind": "cart",
+      "platform": 6,
+      "fromX": 7.8,
+      "fromY": 11.2,
+      "toX": 10.2,
+      "toY": 11.2,
+      "period": 4.4,
+      "phase": 0.35
+    },
+    {
+      "id": "cart_ring",
+      "kind": "anchor",
+      "anchor": 0,
+      "fromX": 12,
+      "fromY": 12.3,
+      "toX": 15,
+      "toY": 13.3,
+      "period": 4.8
+    }
+  ],
+  "mineCrushers": [],
+  "mineSaws": [],
+  "rechargeRings": [],
+  "zones": [
+    {
+      "x": 0,
+      "title": "07  광차 교차로",
+      "hint": "광차 착지 충전과 가시 사이 수직 이동",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

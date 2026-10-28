@@ -1,0 +1,148 @@
+{
+  "id": "cave_05",
+  "name": "수직 균열",
+  "width": 55,
+  "height": 28,
+  "spawnX": 2,
+  "spawnY": 2,
+  "deathPlaneY": 1.0,
+  "exitX": 26,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 6,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 8,
+      "y": 3.3,
+      "width": 4,
+      "height": 0.7000000000000002,
+      "crumble": false
+    },
+    {
+      "x": 14,
+      "y": 5.3,
+      "width": 4,
+      "height": 0.7000000000000002,
+      "crumble": true
+    },
+    {
+      "x": 20,
+      "y": 7.3,
+      "width": 6,
+      "height": 0.7000000000000002,
+      "crumble": false
+    },
+    {
+      "x": 35,
+      "y": 7.3,
+      "width": 6,
+      "height": 0.7000000000000002,
+      "crumble": false
+    },
+    {
+      "x": 43,
+      "y": 9.3,
+      "width": 4,
+      "height": 0.6999999999999993,
+      "crumble": false
+    },
+    {
+      "x": 49,
+      "y": 11.3,
+      "width": 4,
+      "height": 0.6999999999999993,
+      "crumble": false
+    },
+    {
+      "x": 43,
+      "y": 13.3,
+      "width": 4,
+      "height": 0.6999999999999993,
+      "crumble": false
+    },
+    {
+      "x": 37,
+      "y": 15.3,
+      "width": 4,
+      "height": 0.6999999999999993,
+      "crumble": false
+    },
+    {
+      "x": 31,
+      "y": 17.3,
+      "width": 4,
+      "height": 0.6999999999999993,
+      "crumble": true
+    },
+    {
+      "x": 23,
+      "y": 19.3,
+      "width": 6,
+      "height": 0.6999999999999993,
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 26,
+      "y": 13,
+      "width": 4,
+      "height": 1.5,
+      "crumble": false
+    },
+    {
+      "x": 30,
+      "y": 13,
+      "width": 5,
+      "height": 1.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 28,
+      "y": 12.6
+    },
+    {
+      "x": 32.5,
+      "y": 12.6
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 23,
+      "y": 8
+    }
+  ],
+  "clearGem": {
+    "id": "cave_05.clear_gem",
+    "type": "clear_gem",
+    "x": 26,
+    "y": 20.48,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [
+    {
+      "id": "cave_05.optional.01",
+      "type": "optional",
+      "x": 4.5,
+      "y": 3.05,
+      "halfWidth": 0.09,
+      "halfHeight": 0.12
+    }
+  ],
+  "hazards": [],
+  "zones": [
+    {
+      "x": 0,
+      "title": "05  수직 균열",
+      "hint": "배운 기술을 연결하는 동굴 종합 시험",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "id": "mine_04",
+  "name": "과열 운반로",
+  "width": 18,
+  "height": 24,
+  "deathPlaneY": 1,
+  "spawnX": 3,
+  "spawnY": 2,
+  "exitX": 6,
+  "platforms": [
+    {
+      "x": 0.4,
+      "y": 1.2,
+      "width": 5.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 3.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 6.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 8.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 1.4,
+      "y": 11.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.4,
+      "y": 13.7,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 7.4,
+      "y": 16.2,
+      "width": 3.2,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    },
+    {
+      "x": 4.0,
+      "y": 18.7,
+      "width": 4.0,
+      "height": 0.8,
+      "sprite": "platform_long",
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 10.2,
+      "y": 13.9,
+      "width": 3.2,
+      "height": 0.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 11.8,
+      "y": 13.5
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 6,
+      "y": 9.5
+    },
+    {
+      "x": 9,
+      "y": 17
+    }
+  ],
+  "clearGem": {
+    "id": "mine_04.clear_gem",
+    "type": "clear_gem",
+    "x": 6,
+    "y": 19.98,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [],
+  "hazards": [
+    {
+      "x": 11.7,
+      "y": 12.3,
+      "width": 0.8,
+      "height": 0.6,
+      "direction": "floor"
+    },
+    {
+      "x": 2.3,
+      "y": 18.0,
+      "width": 0.9,
+      "height": 0.6,
+      "direction": "ceiling"
+    }
+  ],
+  "mineMovers": [
+    {
+      "id": "saw_route_anchor",
+      "kind": "anchor",
+      "anchor": 0,
+      "fromX": 11.8,
+      "fromY": 13.5,
+      "toX": 14.2,
+      "toY": 14.4,
+      "period": 5.1
+    }
+  ],
+  "mineCrushers": [],
+  "mineSaws": [
+    {
+      "id": "saw_01",
+      "fromX": 10.8,
+      "fromY": 10.8,
+      "toX": 13.5,
+      "toY": 10.8,
+      "radius": 0.55,
+      "period": 3.6,
+      "phase": 0.2
+    },
+    {
+      "id": "saw_02",
+      "fromX": 3.2,
+      "fromY": 16.3,
+      "toX": 5.2,
+      "toY": 16.3,
+      "radius": 0.52,
+      "period": 4.2,
+      "phase": 0.55
+    }
+  ],
+  "rechargeRings": [
+    {
+      "id": "mine_04.recharge.01",
+      "x": 7.6,
+      "y": 8.2,
+      "halfWidth": 0.35,
+      "halfHeight": 0.4
+    }
+  ],
+  "zones": [
+    {
+      "x": 0,
+      "title": "09  과열 운반로",
+      "hint": "톱 회피와 재충전 링을 이용한 탄약 분배",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "origin": "top-left",
+  "rect_format": "x,y,width,height",
+  "sheets": {
+    "mine_terrain": {
+      "image": "assets/sheets/mine_terrain.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sprites": {
+        "platform_long": {
+          "rect": [
+            59,
+            93,
+            567,
+            146
+          ]
+        },
+        "platform_medium": {
+          "rect": [
+            715,
+            98,
+            364,
+            137
+          ]
+        },
+        "platform_small": {
+          "rect": [
+            1220,
+            100,
+            205,
+            131
+          ]
+        },
+        "wall_left": {
+          "rect": [
+            159,
+            314,
+            202,
+            311
+          ]
+        },
+        "wall_right": {
+          "rect": [
+            685,
+            314,
+            206,
+            311
+          ]
+        },
+        "overhead_beam": {
+          "rect": [
+            1003,
+            384,
+            490,
+            133
+          ]
+        },
+        "corner_lower_left": {
+          "rect": [
+            112,
+            647,
+            357,
+            296
+          ]
+        },
+        "corner_lower_right": {
+          "rect": [
+            583,
+            647,
+            355,
+            296
+          ]
+        },
+        "solid_fill": {
+          "rect": [
+            1080,
+            717,
+            379,
+            219
+          ]
+        }
+      },
+      "colliders": "define separately in engine",
+      "filter": "nearest"
+    },
+    "mine_devices": {
+      "image": "assets/sheets/mine_devices.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "sprites": {
+        "lift": {
+          "rect": [
+            45,
+            107,
+            271,
+            142
+          ]
+        },
+        "minecart": {
+          "rect": [
+            416,
+            107,
+            252,
+            143
+          ]
+        },
+        "moving_anchor": {
+          "rect": [
+            835,
+            23,
+            198,
+            229
+          ]
+        },
+        "recharge_ring": {
+          "rect": [
+            1208,
+            69,
+            170,
+            174
+          ]
+        },
+        "crusher_upper_retracted": {
+          "rect": [
+            72,
+            314,
+            216,
+            151
+          ]
+        },
+        "crusher_upper_extended": {
+          "rect": [
+            433,
+            313,
+            221,
+            226
+          ]
+        },
+        "crusher_lower_retracted": {
+          "rect": [
+            806,
+            415,
+            234,
+            129
+          ]
+        },
+        "crusher_lower_extended": {
+          "rect": [
+            1177,
+            338,
+            218,
+            208
+          ]
+        },
+        "saw_00": {
+          "rect": [
+            68,
+            582,
+            232,
+            228
+          ]
+        },
+        "saw_01": {
+          "rect": [
+            431,
+            585,
+            229,
+            224
+          ]
+        },
+        "guide_rail": {
+          "rect": [
+            858,
+            597,
+            117,
+            213
+          ]
+        },
+        "spikes_floor": {
+          "rect": [
+            1160,
+            632,
+            235,
+            164
+          ]
+        },
+        "spikes_ceiling": {
+          "rect": [
+            69,
+            860,
+            227,
+            163
+          ]
+        },
+        "spikes_left": {
+          "rect": [
+            450,
+            860,
+            144,
+            185
+          ]
+        },
+        "spikes_right": {
+          "rect": [
+            857,
+            857,
+            139,
+            189
+          ]
+        },
+        "warning_lamp": {
+          "rect": [
+            1211,
+            878,
+            139,
+            159
+          ]
+        }
+      },
+      "colliders": "define separately in engine",
+      "filter": "nearest"
+    }
+  }
+}

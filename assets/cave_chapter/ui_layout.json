@@ -1,0 +1,54 @@
+{
+  "referenceSize": [
+    1280,
+    720
+  ],
+  "safeMargin": 64,
+  "layout": {
+    "header": [
+      64,
+      40,
+      1152,
+      48
+    ],
+    "tabs": [
+      64,
+      104,
+      1152,
+      40
+    ],
+    "list": [
+      64,
+      168,
+      440,
+      424
+    ],
+    "detail": [
+      528,
+      168,
+      688,
+      424
+    ],
+    "footer": [
+      64,
+      616,
+      1152,
+      56
+    ]
+  },
+  "cardHeight": 76,
+  "cardGap": 8,
+  "minTextSize": 16,
+  "scrollList": true,
+  "textBakedIntoImage": false,
+  "chapterSource": "stages.json:chapters",
+  "stageSource": "stages.json:stages",
+  "colors": {
+    "background": "#11191f",
+    "panel": "#19232b",
+    "border": "#42515b",
+    "selected": "#76aaa8",
+    "text": "#e0e4df",
+    "muted": "#a4afb1"
+  }
+}

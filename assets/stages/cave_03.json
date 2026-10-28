@@ -1,0 +1,139 @@
+{
+  "id": "cave_03",
+  "name": "가시 틈새",
+  "width": 50,
+  "height": 12,
+  "spawnX": 2,
+  "spawnY": 2,
+  "deathPlaneY": 1.0,
+  "exitX": 47,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 8,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 17,
+      "y": 0,
+      "width": 6,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 28,
+      "y": 0,
+      "width": 6,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 39,
+      "y": 0,
+      "width": 2,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 43,
+      "y": 0,
+      "width": 7,
+      "height": 2,
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 8,
+      "y": 7,
+      "width": 4,
+      "height": 1.5,
+      "crumble": false
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "width": 5,
+      "height": 1.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 10,
+      "y": 6.6
+    },
+    {
+      "x": 14.5,
+      "y": 6.6
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 20,
+      "y": 2
+    },
+    {
+      "x": 31,
+      "y": 2
+    }
+  ],
+  "clearGem": {
+    "id": "cave_03.clear_gem",
+    "type": "clear_gem",
+    "x": 47,
+    "y": 2.48,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [
+    {
+      "id": "cave_03.optional.01",
+      "type": "optional",
+      "x": 4.5,
+      "y": 3.05,
+      "halfWidth": 0.09,
+      "halfHeight": 0.12
+    }
+  ],
+  "hazards": [
+    {
+      "x": 9,
+      "y": -0.3,
+      "width": 6,
+      "height": 0.24,
+      "direction": "floor"
+    },
+    {
+      "x": 11.7,
+      "y": 5.65,
+      "width": 0.9,
+      "height": 0.2,
+      "direction": "ceiling"
+    },
+    {
+      "x": 24,
+      "y": -0.3,
+      "width": 0.2,
+      "height": 0.7,
+      "direction": "left"
+    },
+    {
+      "x": 35,
+      "y": -0.3,
+      "width": 0.2,
+      "height": 0.7,
+      "direction": "right"
+    }
+  ],
+  "zones": [
+    {
+      "x": 0,
+      "title": "03  가시 틈새",
+      "hint": "가시 사이 궤도 조절과 공중 제동",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "id": "cave_01",
+  "name": "깨어난 굴",
+  "width": 46,
+  "height": 12,
+  "spawnX": 2,
+  "spawnY": 2,
+  "deathPlaneY": -1.25,
+  "exitX": 43,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 0,
+      "width": 8,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 17,
+      "y": 0,
+      "width": 6,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 28,
+      "y": 0,
+      "width": 6,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 39,
+      "y": 0,
+      "width": 7,
+      "height": 2,
+      "crumble": false
+    },
+    {
+      "x": 9,
+      "y": -1.7,
+      "width": 7,
+      "height": 0.7,
+      "crumble": false
+    }
+  ],
+  "ceilings": [
+    {
+      "x": 8,
+      "y": 7,
+      "width": 4,
+      "height": 1.5,
+      "crumble": false
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "width": 5,
+      "height": 1.5,
+      "crumble": false
+    }
+  ],
+  "anchors": [
+    {
+      "x": 10,
+      "y": 6.6
+    },
+    {
+      "x": 14.5,
+      "y": 6.6
+    }
+  ],
+  "checkpoints": [
+    {
+      "x": 20,
+      "y": 2
+    },
+    {
+      "x": 31,
+      "y": 2
+    }
+  ],
+  "clearGem": {
+    "id": "cave_01.clear_gem",
+    "type": "clear_gem",
+    "x": 43,
+    "y": 2.48,
+    "halfWidth": 0.0716,
+    "halfHeight": 0.15
+  },
+  "optionalGems": [
+    {
+      "id": "cave_01.optional.01",
+      "type": "optional",
+      "x": 4.5,
+      "y": 3.05,
+      "halfWidth": 0.09,
+      "halfHeight": 0.12
+    }
+  ],
+  "hazards": [],
+  "zones": [
+    {
+      "x": 0,
+      "title": "01  깨어난 굴",
+      "hint": "연결·해제·반동으로 첫 보석에 도달",
+      "detail": "A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택"
+    }
+  ]
+}

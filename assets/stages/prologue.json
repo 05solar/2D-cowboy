@@ -1,0 +1,24 @@
+{
+  "name": "THE FIRST ASCENT", "width": 48,
+  "spawnX": 2, "spawnY": 2, "deathPlaneY": 1.0,
+  "platforms": [
+    {"x":0,"y":0,"width":8,"height":2},
+    {"x":10,"y":0,"width":6,"height":2},
+    {"x":21,"y":0,"width":6,"height":2},
+    {"x":36,"y":0,"width":5,"height":2},
+    {"x":45,"y":0,"width":3,"height":2}
+  ],
+  "ceilings": [
+    {"x":27,"y":7,"width":9,"height":1.5}
+  ],
+  "anchors": [{"x":29,"y":6.6},{"x":33.5,"y":6.6}],
+  "checkpoints": [{"x":12,"y":2},{"x":23,"y":2},{"x":38,"y":2}],
+  "exitX": 46.5,
+  "clearGem": {"id":"prologue.clear_gem","type":"clear_gem","x":46.8,"y":2.48,"halfWidth":0.0716,"halfHeight":0.15},
+  "zones": [
+    {"x":0,"title":"01 / 첫 발걸음","hint":"A · D  이동     SPACE  점프","detail":"짧은 틈을 넘어보세요. 안전하게 착지하면 탄약 두 발이 채워집니다."},
+    {"x":11,"title":"02 / 반동을 믿어라","hint":"점프 → 왼쪽 아래 조준 → 마우스 왼쪽 클릭","detail":"천장이 없는 5H 구멍입니다. 기본 점프보다 멀리, 총의 반동으로 건너세요."},
+    {"x":22,"title":"03 / 천장에 길을 걸다","hint":"천장 링 조준 + 오른쪽 버튼 유지     D로 스윙 가속","detail":"줄이 당겨지면 앞으로 스윙! 상승할 때 해제 → 다음 링 연결 → 건너편으로 날아가세요."},
+    {"x":37,"title":"04 / 마지막 도약","hint":"마지막 발판에 착지한 뒤 보석을 획득하세요","detail":"공중에서는 획득되지 않습니다. 바닥에 선 상태로 보석에 닿으면 클리어 연출이 시작됩니다."}
+  ]
+}
