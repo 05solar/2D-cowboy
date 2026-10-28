@@ -100,3 +100,9 @@
 광산 배경·장치 PNG, 명시 atlas와 설계 문서를 `assets/mine_chapter/`, `docs/assets/mine_chapter/`에 보존했다. `StageDefinition`, `MineDeviceRuntime`, `MineRenderer`, 에셋 로더와 맵 생성기를 추가해 정적 데이터와 렌더·물리 장치를 연결했다. 광산 맵 JSON은 `tools/BuildMineStages.py`에서 생성한다. 원본 20개 스테이지 카탈로그는 ID 병합으로 보존한다.
 
 테스트 접근을 위해 구현된 cave_01~05와 mine_01~05를 모두 `available=true`로 열고, `ProgressStore`에서 사용 가능한 스테이지는 저장 진행도와 관계없이 시작하도록 변경했다. `:core:verifyPrologue` 134 assertions와 `:core:verifyCaves` 76 assertions 통과. `:lwjgl3:verifyMinesNative`는 격리 저장으로 전체 카드 해금, 5개 맵·배경 로드와 렌더를 통과했다. `:core:verifyMines`는 장치 단위 검사 후 mine_01 입력 경로가 목표 보석에 도달하지 못해 실패한다. 30/60/144 FPS 완료 경로와 체크포인트별 실주행은 미검증이다. 자세한 내용과 실행법은 `docs/MINE_CHAPTER_STATUS.md`에 기록한다.
+
+## 2026-10-28 광산 플랫폼 외곽 표면 충돌
+
+광산 terrain atlas의 세 플랫폼 모듈에 16구간 `surface_profile_px`를 명시했다. 스테이지 생성기가 픽셀 프로파일을 월드 폭으로 환산하고, `CollisionWorld`, 승강기 탑승, 체크포인트, 스폰 및 clear_gem 배치가 `Block.surfaceY(x)`를 공유한다. 투명 atlas 테두리는 충돌 표면에서 제외하고, 설정된 작은 단차 이내는 걷는 중 연결한다.
+
+검증: `:core:verifyMineSurfaces` 16 assertions 통과, `:core:verifyPrologue` 134 assertions, `:core:verifyCaves` 76 assertions 통과, `:lwjgl3:verifyMinesNative` 19 checks 통과. `:core:verifyMines` 전체 경로는 mine_01 자동 경로가 보석에 닿지 않아 실패하므로 완주 검증은 미완료다. 세부 기준은 `docs/assets/mine_chapter/SURFACE_COLLISION.md`.

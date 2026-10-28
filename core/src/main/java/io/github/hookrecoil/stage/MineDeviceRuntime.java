@@ -51,7 +51,7 @@ public final class MineDeviceRuntime {
         int riddenPlatform=-1;
         if(player.grounded) for(StageDefinition.MineMover m:stage.mineMovers) if(m.platform>=0) {
             StageDefinition.Block b=stage.platforms[m.platform];
-            if(Math.abs(player.y-b.y-b.height)<0.025f&&player.x+0.02f>b.x&&player.x-0.02f<b.x+b.width) {riddenPlatform=m.platform;break;}
+            if(Math.abs(player.y-b.surfaceY(player.x))<0.025f&&player.x+0.02f>b.x&&player.x-0.02f<b.x+b.width) {riddenPlatform=m.platform;break;}
         }
         float oldTime=time;time+=dt;
         for(StageDefinition.MineMover m:stage.mineMovers) {

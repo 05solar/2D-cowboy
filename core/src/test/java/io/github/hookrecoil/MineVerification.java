@@ -40,8 +40,17 @@ public final class MineVerification {
     public static void main(String[] args) {
         StageRuntime s=game("mine_01");
         check(s.definition.mineMovers.length==2,"Mine 6 contains lift and moving ring");
-        s.player.reset(5.8f,2);s.player.grounded=true;s.mineDevices.tick(.25f,s.player);
-        check(s.player.y>2,"Riding lift carries player vertically");
+        StageDefinition.Block startBlock=s.definition.platforms[0];
+        check(startBlock.surfaceProfile!=null&&startBlock.surfaceY()<startBlock.y+startBlock.height,"Platform records the visible outer surface profile below the atlas rectangle edge");
+        check(Math.abs(startBlock.surfaceY(startBlock.x+startBlock.width*.12f)-startBlock.surfaceY(startBlock.x+startBlock.width*.88f))>.001f,"Collision surface follows visible silhouette changes across the platform");
+        check(s.collision.supports(startBlock.x+startBlock.width*.5f,startBlock.surfaceY()),"Collision supports the authored visible platform surface");
+        check(!s.collision.supports(startBlock.x+startBlock.width*.5f,startBlock.y+startBlock.height),"Collision ignores the transparent atlas edge");
+        s.player.reset(startBlock.x+.2f,startBlock.surfaceY(startBlock.x+.2f));
+        float walkDx=(startBlock.width*.82f-.2f)/90f;
+        for(int i=0;i<90;i++)s.collision.move(s.player,walkDx,-.001f);
+        check(s.player.grounded&&s.collision.supports(s.player.x,s.player.y),"Walking stays grounded across the authored outer contour");
+        float liftSurface=s.definition.platforms[1].surfaceY(5.8f);s.player.reset(5.8f,liftSurface);s.player.grounded=true;s.mineDevices.tick(.25f,s.player);
+        check(s.player.y>liftSurface,"Riding lift carries player from its visible surface");
         s.player.grounded=false;s.mineDevices.transferLaunchVelocity(s.player);
         check(s.player.vy>0,"Leaving lift transfers its velocity exactly once");
         s.respawn();check(Math.abs(s.definition.platforms[1].y-1.2f)<.001f,"Respawn restores lift start position");
@@ -60,6 +69,10 @@ public final class MineVerification {
         check(s.mineDevices.lethal(s.player,s.config),"Extended crusher contact is lethal");
         float start=s.definition.mineCrushers[0].extension;s.respawn();
         check(s.definition.mineCrushers[0].extension==0&&start>0,"Respawn resets crusher phase");
+
+        if(args.length>0&&"--surfaces-only".equals(args[0])) {
+            System.out.println("Mine surface/device verification PASS: "+assertions+" assertions.");return;
+        }
 
         for(int n=1;n<=5;n++) {
             String id=String.format(java.util.Locale.ROOT,"mine_%02d",n);

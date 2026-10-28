@@ -11,10 +11,18 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 patch=json.loads((ROOT/'assets/mine_chapter/stages_patch.json').read_text(encoding='utf-8'))
 catalog=json.loads((ROOT/'assets/cave_chapter/stages.json').read_text(encoding='utf-8'))
+terrain=json.loads((ROOT/'assets/mine_chapter/atlas.json').read_text(encoding='utf-8'))['sheets']['mine_terrain']['sprites']
 
 def platform(center,top,width,sprite=None):
     if sprite is None:sprite='platform_long' if width>=3.1 else 'platform_medium' if width>=2.4 else 'platform_small'
-    return dict(x=round(center-width/2,3),y=round(top-.8,3),width=width,height=.8,sprite=sprite,crumble=False)
+    rect=terrain[sprite]['rect'];profile_px=terrain[sprite]['surface_profile_px']
+    profile=[-width*px/rect[2] for px in profile_px]
+    return dict(x=round(center-width/2,3),y=round(top-.8,3),width=width,height=.8,
+        surfaceProfile=[round(v,5) for v in profile],sprite=sprite,crumble=False)
+
+def center_surface_offset(block):
+    profile=block['surfaceProfile'];mid=len(profile)//2
+    return (profile[mid-1]+profile[mid])*.5 if len(profile)>1 else profile[0]
 
 def ceiling(x,y,width):return dict(x=x,y=y,width=width,height=.5,crumble=False)
 def point(x,y):return dict(x=x,y=y)
@@ -29,13 +37,13 @@ def build(number,tops,centers,widths,kind,height,checkpoints,movers=None,crusher
         if m.get('platform',-1)>=0:
             b=blocks[m['platform']]
             b['x']=m['fromX'];b['y']=m['fromY']
-    cpoints=[point(centers[i],tops[i]) for i in checkpoints]
+    cpoints=[point(centers[i],tops[i]+center_surface_offset(blocks[i])) for i in checkpoints]
     goal_x=centers[-1]
     stage_width=max(18,max(x+w*.5 for x,w in zip(centers,widths))+1)
     data=dict(id=meta['id'],name=meta['name'],width=stage_width,height=height,deathPlaneY=1,
-        spawnX=centers[0],spawnY=tops[0],exitX=goal_x,platforms=blocks,ceilings=ceilings or [],
+        spawnX=centers[0],spawnY=tops[0]+center_surface_offset(blocks[0]),exitX=goal_x,platforms=blocks,ceilings=ceilings or [],
         anchors=anchors or [],checkpoints=cpoints,clearGem=dict(id=meta['id']+'.clear_gem',type='clear_gem',
-        x=goal_x,y=tops[-1]+.48,halfWidth=.0716,halfHeight=.15),optionalGems=[],hazards=hazards or [],
+        x=goal_x,y=tops[-1]+center_surface_offset(blocks[-1])+.48,halfWidth=.0716,halfHeight=.15),optionalGems=[],hazards=hazards or [],
         mineMovers=movers or [],mineCrushers=crushers or [],mineSaws=saws or [],rechargeRings=rings or [],
         zones=[dict(x=0,title=f"{meta['number']:02d}  {meta['name']}",hint=meta['objective'],
         detail='A/D 이동 · SPACE 점프 · 우클릭 천장 링 · 좌클릭 반동 · M 스테이지 선택')])
@@ -79,7 +87,7 @@ build(10,[2,4.5,7,9.5,12,14.5,17,19.5,22],[3,6,9,6,3,6,9,6,3],[5.2,2.2,2.0,2.0,2
       hazards=[spike(11.7,18.6,.9,.6,'ceiling'),spike(1.5,7.5,1,.55,'floor'),spike(10.4,11.0,.8,.6,'floor')])
 
 routes={
- 'mine_01':[dict(platform=1,waitTop=4.4),dict(platform=2,jump=True),dict(platform=3),dict(platform=4),dict(platform=5),dict(platform=6),dict(platform=7)],
+ 'mine_01':[dict(platform=1,waitTop=4.4),dict(platform=2),dict(platform=3),dict(platform=4),dict(platform=5),dict(platform=6),dict(platform=7)],
  'mine_02':[dict(platform=1,waitX=7.3),dict(platform=2),dict(platform=3),dict(platform=4),dict(platform=5),dict(platform=6,jump=True,waitX=9.8),dict(platform=7),dict(platform=8)],
  'mine_03':[dict(platform=i) for i in range(1,8)],
  'mine_04':[dict(platform=i) for i in range(1,8)],

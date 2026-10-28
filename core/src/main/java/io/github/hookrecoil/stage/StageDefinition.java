@@ -23,7 +23,19 @@ public class StageDefinition {
     public Gem clearGem;
     public static class Gem { public String id,type; public float x,y,halfWidth,halfHeight; }
 
-    public static class Block { public float x, y, width, height; public String sprite; public boolean crumble; public transient boolean active=true; }
+    public static class Block {
+        public float x, y, width, height, surfaceOffset; public float[] surfaceProfile; public String sprite; public boolean crumble; public transient boolean active=true;
+        /** Surface profile samples world X-bin centers; surfaceOffset remains the fallback for older map data. */
+        public float surfaceY(){return surfaceY(x+width*.5f);}
+        public float surfaceY(float worldX){
+            if(surfaceProfile==null||surfaceProfile.length==0)return y+height+surfaceOffset;
+            float u=Math.max(0,Math.min(1,(worldX-x)/Math.max(width,1e-6f)));
+            float pos=u*surfaceProfile.length-.5f;int lo=(int)Math.floor(pos),hi=lo+1;
+            if(lo<0)return y+height+surfaceProfile[0];
+            if(hi>=surfaceProfile.length)return y+height+surfaceProfile[surfaceProfile.length-1];
+            float f=pos-lo;return y+height+surfaceProfile[lo]*(1-f)+surfaceProfile[hi]*f;
+        }
+    }
     public static class Hazard { public float x,y,width,height; public String direction="floor"; }
     public static class MineMover {
         public String id,kind; public int platform=-1,anchor=-1;

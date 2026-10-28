@@ -55,7 +55,7 @@ public final class MineRenderer {
             String sprite=p.sprite==null?"platform_medium":p.sprite;
             TextureRegion r=region(sprite);float width=p.width*u;
             float height=width*r.getRegionHeight()/r.getRegionWidth();
-            // 각 모듈은 맵에서 지정한 개별 조각으로 사용한다. 충돌면은 강철 상단이다.
+            // Atlas surfaceProfile matches collision to the visible metal edge; transparent rect margins stay non-colliding.
             b.draw(r,p.x*u,(p.y+p.height)*u-height,width,height);
         }
         for(StageDefinition.Block c:s.definition.ceilings) {

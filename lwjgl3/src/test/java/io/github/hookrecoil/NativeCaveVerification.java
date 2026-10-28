@@ -95,4 +95,4 @@ public class NativeCaveVerification extends ApplicationAdapter {
     @Override public void resize(int w,int h){if(screen!=null)screen.resize(w,h);}
     @Override public void dispose(){if(screen!=null)screen.dispose();if(failure!=null)throw new RuntimeException(failure);}
     public static void main(String[] args){Lwjgl3ApplicationConfiguration c=new Lwjgl3ApplicationConfiguration();c.setTitle("HOOK & RECOIL native verification");c.setWindowedMode(1280,720);c.setPauseWhenLostFocus(false);c.useVsync(false);c.setForegroundFPS(144);new Lwjgl3Application(new NativeCaveVerification(),c);}
-}\n
+}

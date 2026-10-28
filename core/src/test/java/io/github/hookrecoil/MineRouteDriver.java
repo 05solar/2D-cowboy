@@ -24,8 +24,8 @@ public final class MineRouteDriver {
         }
         JsonValue step=route.get(stepIndex);int index=step.getInt("platform");
         StageDefinition.Block target=stage.definition.platforms[index];
-        float top=target.y+target.height,center=target.x+target.width*.5f;
-        boolean landed=stage.player.grounded&&Math.abs(stage.player.y-top)<.04f
+        float center=target.x+target.width*.5f,top=target.surfaceY(center);
+        boolean landed=stage.player.grounded&&Math.abs(stage.player.y-target.surfaceY(stage.player.x))<.04f
             &&stage.player.x+stage.config.halfWidth>target.x&&stage.player.x-stage.config.halfWidth<target.x+target.width;
         if(landed) {
             boolean waitTop=step.has("waitTop")&&top+0.001f<step.getFloat("waitTop");
@@ -45,7 +45,7 @@ public final class MineRouteDriver {
         if(!launched) {
             boolean jump=step.getBoolean("jump",false)||rise>.15f;
             if(stage.player.grounded)for(StageDefinition.Block source:stage.definition.platforms)
-                if(source!=target&&source.active&&Math.abs(stage.player.y-source.y-source.height)<.04f
+                if(source!=target&&source.active&&Math.abs(stage.player.y-source.surfaceY(stage.player.x))<.04f
                     &&stage.player.x+stage.config.halfWidth>source.x&&stage.player.x-stage.config.halfWidth<source.x+source.width) {
                     float gap=target.x>source.x+source.width?target.x-(source.x+source.width):
                         source.x>target.x+target.width?source.x-(target.x+target.width):0;

@@ -8,5 +8,5 @@ public class PhysicsConfig {
     public float playerVisualScale, gunOpacity, swingAcceleration, swingSpeed, ropeRetractSpeed, swingRopeLength;
     public float gravity, jumpSpeed, groundSpeed, airAcceleration, maxSpeed, recoil;
     public float shotInterval, hookRange, hookSpeed, hookInterval, hookHitRadius;
-    public float coyoteTime, jumpBuffer, landingTime, halfWidth, height, pixelsPerH;
+    public float coyoteTime, jumpBuffer, landingTime, halfWidth, height, pixelsPerH, surfaceStepHeight;
 }

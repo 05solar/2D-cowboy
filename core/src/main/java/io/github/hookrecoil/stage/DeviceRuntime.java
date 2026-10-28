@@ -21,7 +21,7 @@ public class DeviceRuntime {
     }}
     public void landed(PlayerState p,PhysicsConfig c){if(!p.grounded)return;
         for(int i=0;i<clocks.length;i++){StageDefinition.Block b=def.platforms[i];
-            if(b.crumble&&b.active&&clocks[i]<0&&Math.abs(p.y-b.y-b.height)<0.001f
+            if(b.crumble&&b.active&&clocks[i]<0&&Math.abs(p.y-b.surfaceY(p.x))<0.001f
                 &&p.x+c.halfWidth>b.x&&p.x-c.halfWidth<b.x+b.width)clocks[i]=0;
         }
     }

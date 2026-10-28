@@ -7,5 +7,6 @@
   "playerVisualScale": 0.75, "gunOpacity": 0.45,
   "swingAcceleration": 20, "swingSpeed": 12,
   "ropeRetractSpeed": 2.4, "swingRopeLength": 3.7,
-  "pixelsPerH": 180
+  "pixelsPerH": 180,
+  "surfaceStepHeight": 0.12
 }

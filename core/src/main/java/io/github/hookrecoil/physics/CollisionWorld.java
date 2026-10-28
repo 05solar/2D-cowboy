@@ -21,7 +21,9 @@ public class CollisionWorld {
         float nextX = p.x + dx;
         for (StageDefinition.Block b : blocks) {
             if(!b.active)continue;
-            if (p.y + c.height <= b.y + 0.0001f || p.y >= b.y + b.height - 0.0001f) continue;
+            float top=b.surfaceY(p.x);
+            if (p.y + c.height <= b.y + 0.0001f || p.y >= top - 0.0001f
+                || (p.grounded && top-p.y<=c.surfaceStepHeight)) continue;
             if (dx > 0 && p.x + c.halfWidth <= b.x + 0.0001f && nextX + c.halfWidth >= b.x) {
                 nextX = Math.min(nextX, b.x - c.halfWidth); p.vx = 0;
             }
@@ -30,12 +32,21 @@ public class CollisionWorld {
             }
         }
         p.x = nextX;
+        if(p.grounded&&dy<=0) {
+            float stepTop=p.y;
+            for(StageDefinition.Block b:blocks)if(b.active&&p.x+c.halfWidth>b.x&&p.x-c.halfWidth<b.x+b.width
+                &&p.y+c.height>b.y+0.0001f) {
+                float top=b.surfaceY(p.x);
+                if(top>p.y&&top-p.y<=c.surfaceStepHeight)stepTop=Math.max(stepTop,top);
+            }
+            if(stepTop>p.y){p.y=stepTop;p.vy=0;}
+        }
         float nextY = p.y + dy;
         p.grounded = false;
         for (StageDefinition.Block b : blocks) {
             if(!b.active)continue;
             if (p.x + c.halfWidth <= b.x || p.x - c.halfWidth >= b.x + b.width) continue;
-            float top = b.y + b.height;
+            float top = b.surfaceY(p.x);
             if (dy <= 0 && p.y >= top - 0.0001f && nextY <= top) {
                 nextY = Math.max(nextY, top); p.vy = 0; p.grounded = true;
             }
@@ -51,7 +62,7 @@ public class CollisionWorld {
     }
     public boolean supports(float x,float feetY) {
         for(StageDefinition.Block b:blocks)
-            if(b.active && Math.abs(feetY-b.y-b.height)<0.0001f && x+c.halfWidth>b.x && x-c.halfWidth<b.x+b.width)return true;
+            if(b.active && Math.abs(feetY-b.surfaceY(x))<0.0001f && x+c.halfWidth>b.x && x-c.halfWidth<b.x+b.width)return true;
         return false;
     }
     private boolean intersects(float x, float y, float endX, float endY, StageDefinition.Block b) {

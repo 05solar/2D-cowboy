@@ -5,8 +5,7 @@
       "waitTop": 4.4
     },
     {
-      "platform": 2,
-      "jump": true
+      "platform": 2
     },
     {
       "platform": 3
