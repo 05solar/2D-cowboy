@@ -12,6 +12,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.backends.lwjgl3.*;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import io.github.hookrecoil.assets.CaveAssets;
 import io.github.hookrecoil.screens.GameplayScreen;
 import io.github.hookrecoil.stage.StageCatalog;
@@ -38,12 +39,32 @@ public final class NativeCityVerification extends ApplicationAdapter {
             String id=String.format(java.util.Locale.ROOT,"city_%02d",i);
             if(i>1)load.invoke(screen,id,false);
             StageRuntime stage=(StageRuntime)field("stage");StageCatalog.Entry entry=catalog.find(id);
-            check(stage.definition.id.equals(id)&&!entry.available&&entry.artAvailable,id+" loads only through native preview and remains locked");
+            check(stage.definition.id.equals(id)&&entry.available&&entry.artAvailable,id+" is available and loads in the native runtime");
             check(assets.background(entry.background)!=null,id+" clamped vertical background loads");
             for(int frame=0;frame<2;frame++)screen.render(1f/60);
             capture(id+"-preview");
         }
-        System.out.println("City native preview PASS: "+checks+" checks. No full-route playtest performed.");Gdx.app.exit();
+        System.clearProperty("hookrecoil.screenshot");
+        load.invoke(screen,"city_01",false);
+        StageRuntime introStage=(StageRuntime)field("stage");
+        OrthographicCamera camera=(OrthographicCamera)field("camera");
+        float maxX=Math.max(1280,introStage.definition.width*introStage.config.pixelsPerH-1280);
+        float maxY=Math.max(800,introStage.definition.height*introStage.config.pixelsPerH-720);
+        float spawnCameraX=Math.max(1280,Math.min(maxX,introStage.player.x*introStage.config.pixelsPerH+430));
+        float spawnCameraY=Math.max(800,Math.min(maxY,introStage.player.y*introStage.config.pixelsPerH+300));
+        float gemCameraX=Math.max(1280,Math.min(maxX,introStage.definition.clearGem.x*introStage.config.pixelsPerH+430));
+        float gemCameraY=Math.max(800,Math.min(maxY,introStage.definition.clearGem.y*introStage.config.pixelsPerH+300));
+        screen.render(1.8f);
+        check(Math.abs(camera.position.x-Math.round(gemCameraX))<1&&Math.abs(camera.position.y-Math.round(gemCameraY))<1,
+            "Opening camera reaches the clear gem without advancing gameplay");
+        capture("city-intro-gem");
+        screen.render(.4f);screen.render(1.5f);
+        check(Math.abs(camera.position.x-Math.round(spawnCameraX))<1&&Math.abs(camera.position.y-Math.round(spawnCameraY))<1,
+            "Opening camera returns to the player spawn");
+        check(introStage.elapsed==0&&introStage.player.x==introStage.definition.spawnX,
+            "Stage time and player remain frozen during the opening camera pass");
+        capture("city-intro-return");
+        System.out.println("City native preview and intro camera PASS: "+checks+" checks. No full-route playtest performed.");Gdx.app.exit();
     }catch(Throwable e){failure=e;e.printStackTrace();Gdx.app.exit();}}
     @Override public void render(){if(screen!=null)screen.render(1f/60);}
     @Override public void resize(int width,int height){if(screen!=null)screen.resize(width,height);}

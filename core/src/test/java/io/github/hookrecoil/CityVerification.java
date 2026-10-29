@@ -29,14 +29,34 @@ public final class CityVerification {
         return stage.definition.platforms[5].x;
     }
 
+    private static boolean diagnoseRoute(String id) {
+        StageRuntime stage=game(id);CityRouteDriver driver=new CityRouteDriver();int ticks=0;
+        while(ticks<20000&&!stage.clear.frozen()&&stage.deaths==0) {
+            io.github.hookrecoil.input.InputFrame command=driver.next(stage);
+            stage.tick(command,1f/120);ticks++;
+        }
+        System.out.printf(java.util.Locale.ROOT,"CITY ROUTE %s: step=%d/%d deaths=%d x=%.2f y=%.2f grounded=%s ticks=%d targetX=%.2f top=%.2f sourceTop=%.2f%n",
+            id,driver.platform,stage.definition.platforms.length,stage.deaths,stage.player.x,stage.player.y,stage.player.grounded,ticks,
+            stage.definition.platforms[Math.min(driver.platform,stage.definition.platforms.length-1)].x,
+            stage.definition.platforms[Math.min(driver.platform,stage.definition.platforms.length-1)].surfaceY(),
+            stage.definition.platforms[Math.max(0,driver.platform-1)].surfaceY());
+        if(ticks>=20000)System.out.printf("STUCK %s vx=%.2f vy=%.2f deathWait=%s dt=%.2f elapsed=%.2f ammo=%d%n",id,stage.player.vx,stage.player.vy,stage.deathWaiting,stage.deathTimer,stage.elapsed,stage.player.ammo);
+        return stage.clear.frozen();
+    }
+
     public static void main(String[] args) {
         StageCatalog catalog=catalog();
         for(int i=1;i<=5;i++) {
             String id=String.format(java.util.Locale.ROOT,"city_%02d",i);
             StageCatalog.Entry meta=catalog.find(id);StageRuntime stage=game(id);
             check(meta!=null&&meta.number==10+i,"Fixed catalog ID and number: "+id);
-            check(meta.artAvailable&&!meta.available,"Art is ready while unverified maps remain unavailable: "+id);
+            check(meta.artAvailable&&meta.available,"City stage is available for direct playtesting: "+id);
             check(stage.definition.checkpoints.length==(i==5?1:2),"Checkpoint count: "+id);
+            boolean distinctCenters=true;
+            for(int a=0;a<stage.definition.platforms.length;a++)for(int b=a+1;b<stage.definition.platforms.length;b++)
+                if(Math.abs(stage.definition.platforms[a].x+stage.definition.platforms[a].width*.5f
+                    -stage.definition.platforms[b].x-stage.definition.platforms[b].width*.5f)<.01f)distinctCenters=false;
+            check(distinctCenters,"No platforms share the same vertical centerline: "+id);
             check(stage.definition.anchors.length>0&&stage.definition.ceilings.length>=stage.definition.anchors.length,
                 "Grapple points have overhead structures: "+id);
             check(stage.collision.supports(stage.definition.clearGem.x,stage.definition.platforms[stage.definition.platforms.length-1].surfaceY()),
@@ -49,7 +69,7 @@ public final class CityVerification {
             "L block uses separate union colliders");
         check(complex.definition.mineMovers[1].waypoints.length==4,"Right-angle mover uses waypoint path data");
         StageRuntime barrier=game("city_03");StageDefinition.CityBarrier gate=barrier.definition.cityBarriers[0];
-        barrier.cityDevices.tick(1.5f,barrier.player);check("warning".equals(gate.state)&&gate.collider.active,"Barrier warning is visible and collision-active");
+        barrier.cityDevices.tick(.9f,barrier.player);check("warning".equals(gate.state)&&gate.collider.active,"Barrier warning is visible and collision-active");
         barrier.cityDevices.tick(.5f,barrier.player);check("on".equals(gate.state),"Barrier on phase follows the fixed cycle");
         check(barrier.collision.blocked(gate.x-1,gate.y+gate.height*.5f,gate.x+1,gate.y+gate.height*.5f),
             "On barrier blocks rope/projectile line queries");
@@ -58,9 +78,13 @@ public final class CityVerification {
         check(barrier.cityDevices.lethal(barrier.player,barrier.config),"On barrier kills swept body contact");
         float x30=moverX(30),x60=moverX(60),x144=moverX(144);
         check(Math.abs(x30-x60)<.001f&&Math.abs(x60-x144)<.001f,"Mover path is display-rate independent at fixed 120 Hz");
+        for(int i=1;i<=5;i++) {
+            boolean reachedClear=diagnoseRoute(String.format(java.util.Locale.ROOT,"city_%02d",i));
+            if(reachedClear)System.out.println("ROUTE CLEAR city_0"+i+": clear gem reached");
+        }
         StageRuntime held=game("city_01");held.resolveGoal(true);
         for(int i=0;i<60;i++)held.tick(new InputFrame(),1f/120);
         check(held.deathWaiting,"Death state remains input-gated during city runtime");
-        System.out.println("City verification PASS: "+assertions+" assertions; city maps remain unavailable pending route playtests.");
+        System.out.println("City verification: "+assertions+" data/device assertions passed; route outputs are diagnostics and no full route is certified.");
     }
 }

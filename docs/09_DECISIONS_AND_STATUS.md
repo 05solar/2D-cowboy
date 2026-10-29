@@ -114,3 +114,23 @@
 사망 애니메이션 0.35초 뒤에는 시뮬레이션과 시계를 멈추고 마지막 포즈 및 YOU DIED 패널에서 대기한다. R은 체크포인트 재시작, M은 스테이지 선택, ESC는 일시정지로 유지한다. 패널과 제목·키 안내 글자를 확대했다.
 
 검증: `:core:verifyCity` 34 assertions, `:core:verifyCaves` 79 assertions, `:core:verifyPrologue` 134 assertions, `:lwjgl3:verifyCityNative` 11 checks, `:lwjgl3:verifyCavesNative` 33 checks 통과. 네이티브 캡처 `build/native-city-check/city_01-preview.png`~`city_05-preview.png`, `build/native-cave-check/death-waiting.png`를 확인했다. `:core:verifyMines`의 기존 mine_01 입력 경로 실패는 남아 있다. 지하도시 전체 체크포인트 경로·클리어 궤도 및 난도 검증은 아직 안 했다.
+
+
+## 지하도시 11~15 진행 상태 (2026-10-29)
+
+도시 11~15를 테스트 선택 가능하도록 카탈로그에 등록했다. 11·12는 자동 입력 경로가 clear gem 접촉까지 도달했으며, 13은 장벽 구간에서 실패하고 14·15는 자동 주행 완주를 확인하지 못했다. 네이티브 로딩·렌더 검증은 별도 수행한다. 상세 항목과 미검증 범위는 [CITY_CHAPTER_11_15_IMPLEMENTATION.md](CITY_CHAPTER_11_15_IMPLEMENTATION.md)를 참조한다. 자동 주행 미완료 스테이지는 수동 통과 검증 완료로 간주하지 않는다.
+
+
+## 2026-10-29 스테이지 시작 카메라 연출
+
+일반 스테이지 로드 시 스폰 위치에서 clear gem을 보여준 뒤 플레이어 위치로 돌아오는 카메라 투어를 적용했다. 1.8초 이동, 0.4초 보석 위치 유지, 1.5초 복귀다. 연출 중 물리·장치·타이머·조작 입력을 정지하고, 일시정지 시 연출 시계를 멈춘다. 저장 복원과 스크린샷 미리보기는 연출을 생략한다. 구현·검증: [13_STAGE_INTRO_CAMERA.md](13_STAGE_INTRO_CAMERA.md).
+
+
+## 2026-10-29 도시 발판 수직 정렬 수정
+
+도시 11~15의 발판 중심 X를 단계마다 이동시켜 같은 수직선에 반복 배치되지 않도록 했다. 도시15의 stairs_right는 플레이어 사다리 기능이 없고 충돌만 제공하므로 제거했다. 장벽·기류·충전 링 위치는 새 경로에 맞게 조정했다. 자동 주행 보조는 갈고리를 조작하지 않으므로 새 동선의 통과 증명으로 쓰지 않는다. 상세: [도시 챕터 구현 기록](CITY_CHAPTER_11_15_IMPLEMENTATION.md).
+
+
+## 2026-10-29 미사용 도시 에셋 정리
+
+도시 아틀라스에서 미사용 stairs_right/left, pillar, 팬 애니메이션 프레임, endpoint_stop, route_arrow와 이들 충돌 정의를 제거했다. 가시·붕괴 발판 등 장애물 에셋은 보존했다. 현재 도시 아틀라스 28개 스프라이트가 남아 있다. :core:verifyCity 39 assertion과 :lwjgl3:verifyCityNative 14 checks 통과.

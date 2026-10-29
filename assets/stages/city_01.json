@@ -1,19 +1,19 @@
 {
   "id": "city_01",
   "name": "폐역 진입",
-  "width": 12.5,
+  "width": 22.0,
   "height": 29.0,
   "deathPlaneY": 0.75,
   "spawnX": 3.4,
   "spawnY": 2.0,
-  "exitX": 3.4,
+  "exitX": 14.7,
   "platforms": [
     {
-      "x": 0.9,
+      "x": 1.75,
       "y": 1.45,
-      "width": 5.0,
+      "width": 3.3,
       "height": 0.55,
-      "sprite": "platform_long",
+      "sprite": "platform_medium",
       "crumble": false
     },
     {
@@ -25,7 +25,7 @@
       "crumble": false
     },
     {
-      "x": 2.275,
+      "x": 3.875,
       "y": 5.45,
       "width": 2.25,
       "height": 0.55,
@@ -33,7 +33,7 @@
       "crumble": false
     },
     {
-      "x": 4.975,
+      "x": 6.575,
       "y": 7.45,
       "width": 2.25,
       "height": 0.55,
@@ -41,7 +41,7 @@
       "crumble": false
     },
     {
-      "x": 2.275,
+      "x": 5.475,
       "y": 9.45,
       "width": 2.25,
       "height": 0.55,
@@ -49,7 +49,7 @@
       "crumble": false
     },
     {
-      "x": 4.975,
+      "x": 8.175,
       "y": 11.45,
       "width": 2.25,
       "height": 0.55,
@@ -57,7 +57,7 @@
       "crumble": false
     },
     {
-      "x": 2.275,
+      "x": 7.075,
       "y": 13.45,
       "width": 2.25,
       "height": 0.55,
@@ -65,7 +65,7 @@
       "crumble": false
     },
     {
-      "x": 4.975,
+      "x": 9.775,
       "y": 15.45,
       "width": 2.25,
       "height": 0.55,
@@ -73,7 +73,7 @@
       "crumble": false
     },
     {
-      "x": 2.275,
+      "x": 8.675,
       "y": 17.45,
       "width": 2.25,
       "height": 0.55,
@@ -81,7 +81,7 @@
       "crumble": false
     },
     {
-      "x": 4.975,
+      "x": 11.375,
       "y": 19.45,
       "width": 2.25,
       "height": 0.55,
@@ -89,9 +89,9 @@
       "crumble": false
     },
     {
-      "x": 0.4,
+      "x": 12.45,
       "y": 21.45,
-      "width": 6.0,
+      "width": 4.5,
       "height": 0.55,
       "sprite": "platform_long",
       "crumble": false
@@ -99,63 +99,63 @@
   ],
   "ceilings": [
     {
-      "x": 4.35,
+      "x": 7.15,
       "y": 6.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 3.65,
+      "x": 2.45,
       "y": 8.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 4.35,
+      "x": 8.75,
       "y": 10.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 3.65,
+      "x": 4.05,
       "y": 12.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 4.35,
+      "x": 10.35,
       "y": 14.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 3.65,
+      "x": 5.65,
       "y": 16.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 4.35,
+      "x": 11.95,
       "y": 18.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 3.65,
+      "x": 7.25,
       "y": 20.18,
       "width": 1.5,
       "height": 0.35,
       "crumble": false
     },
     {
-      "x": 4.35,
+      "x": 9.95,
       "y": 22.18,
       "width": 1.5,
       "height": 0.35,
@@ -164,49 +164,49 @@
   ],
   "anchors": [
     {
-      "x": 5.1,
+      "x": 7.9,
       "y": 5.9
     },
     {
-      "x": 4.4,
+      "x": 3.2,
       "y": 7.9
     },
     {
-      "x": 5.1,
+      "x": 9.5,
       "y": 9.9
     },
     {
-      "x": 4.4,
+      "x": 4.8,
       "y": 11.9
     },
     {
-      "x": 5.1,
+      "x": 11.1,
       "y": 13.9
     },
     {
-      "x": 4.4,
+      "x": 6.4,
       "y": 15.9
     },
     {
-      "x": 5.1,
+      "x": 12.7,
       "y": 17.9
     },
     {
-      "x": 4.4,
+      "x": 8.0,
       "y": 19.9
     },
     {
-      "x": 5.1,
+      "x": 10.7,
       "y": 21.9
     }
   ],
   "checkpoints": [
     {
-      "x": 6.1,
+      "x": 7.7,
       "y": 8.0
     },
     {
-      "x": 6.1,
+      "x": 10.9,
       "y": 16.0
     }
   ],
@@ -214,7 +214,7 @@
   "clearGem": {
     "id": "city_01.clear_gem",
     "type": "clear_gem",
-    "x": 3.4,
+    "x": 14.7,
     "y": 22.48,
     "halfWidth": 0.12,
     "halfHeight": 0.19
@@ -225,9 +225,9 @@
       "id": "city_01.mover.01",
       "kind": "city_platform",
       "platform": 5,
-      "fromX": 4.975,
+      "fromX": 8.175,
       "fromY": 11.45,
-      "toX": 6.525,
+      "toX": 9.725,
       "toY": 11.45,
       "period": 4.6,
       "phase": 0.12
@@ -240,9 +240,9 @@
   "cityBarriers": [],
   "cityStructures": [
     {
-      "id": "u_block_9.2",
+      "id": "u_block_17.5",
       "sprite": "u_block",
-      "x": 9.2,
+      "x": 17.5,
       "y": 7.5,
       "width": 2.2,
       "height": 2.1,

@@ -10,7 +10,7 @@
   "engine_tested": false,
   "difficulty_monotonicity_playtested": false,
   "compound_colliders_pixel_validated": false,
-  "sprite_count": 36,
+  "sprite_count": 28,
   "data_references_exist": true,
   "configured_difficulty_targets_increase": true,
   "reference_tests": "PASS: cycles, holds, analytic derivatives, axis paths, reset repeat, barrier boundaries, compound openings"
