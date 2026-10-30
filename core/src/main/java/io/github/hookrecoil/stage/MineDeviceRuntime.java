@@ -1,9 +1,9 @@
 /* 파일: MineDeviceRuntime.java
- * 역할: 광산 전용 이동체·압착기·톱·공중 재충전 장치 시뮬레이션.
- * 주요 책임: 고정 주기 갱신, 이동 발판 속도 전달, 스윕 사망 판정, 재시작 위상 복원.
+ * 역할: 광산·도시 공유 압착기·톱·공중 재충전 장치와 광산 이동체를 시뮬레이션한다.
+ * 주요 책임: 고정 주기 갱신, 이동 발판 속도 전달, 상대 이동체 스윕 사망 판정, 재시작 위상 복원.
  * 협력 대상: StageRuntime, StageDefinition, PlayerState, GemSensor.
  * 수명: StageRuntime이 소유하며 체크포인트 복귀·재시작 때 모든 장치 상태를 초기화한다.
- * 관련 사양: docs/assets/mine_chapter/STAGES_06_10.md.
+ * 관련 사양: docs/assets/mine_chapter/STAGES_06_10.md, docs/CITY_CHAPTER_V2.md.
  */
 package io.github.hookrecoil.stage;
 
@@ -43,7 +43,7 @@ public final class MineDeviceRuntime {
         for(int i=0;i<stage.mineCrushers.length;i++) {
             StageDefinition.MineCrusher c=stage.mineCrushers[i];c.extension=0;c.state="open";previousCrusherStates[i]="open";
         }
-        for(StageDefinition.MineSaw s:stage.mineSaws) {s.x=s.fromX;s.y=s.fromY;s.angle=0;}
+        for(StageDefinition.MineSaw s:stage.mineSaws) {s.x=s.previousX=s.fromX;s.y=s.previousY=s.fromY;s.angle=0;}
     }
 
     public void tick(float dt,PlayerState player) {
@@ -73,9 +73,27 @@ public final class MineDeviceRuntime {
             previousCrusherStates[i]=c.state;
         }
         for(StageDefinition.MineSaw s:stage.mineSaws) {
+            s.previousX=s.x;s.previousY=s.y;
             float q=pingPong(time,s.period,s.phase);
             s.x=s.fromX+(s.toX-s.fromX)*q;s.y=s.fromY+(s.toY-s.fromY)*q;
             s.angle=(time*240)%360;
+        }
+    }
+
+    /** Advances only shared crusher/saw hazards when CityDeviceRuntime owns city movers. */
+    public void tickCityHazards(float dt) {
+        warning=false;time+=dt;
+        for(int i=0;i<stage.mineCrushers.length;i++) {
+            StageDefinition.MineCrusher crusher=stage.mineCrushers[i];
+            String old=previousCrusherStates[i];updateCrusher(crusher);
+            if("warning".equals(crusher.state)&&!"warning".equals(old))warning=true;
+            previousCrusherStates[i]=crusher.state;
+        }
+        for(StageDefinition.MineSaw saw:stage.mineSaws) {
+            saw.previousX=saw.x;saw.previousY=saw.y;
+            float q=pingPong(time,saw.period,saw.phase);
+            saw.x=saw.fromX+(saw.toX-saw.fromX)*q;saw.y=saw.fromY+(saw.toY-saw.fromY)*q;
+            saw.angle=(time*240)%360;
         }
     }
 
@@ -109,11 +127,11 @@ public final class MineDeviceRuntime {
                 config.halfWidth,config.height,c.x+c.width*.5f,y+h*.5f,c.width*.5f,h*.5f)>=0)return true;
         }
         for(StageDefinition.MineSaw s:stage.mineSaws) {
-            float ax=player.previousX,ay=player.previousY+config.height*.5f;
-            float bx=player.x,by=player.y+config.height*.5f,dx=bx-ax,dy=by-ay;
+            float ax=player.previousX-s.previousX,ay=player.previousY+config.height*.5f-s.previousY;
+            float bx=player.x-s.x,by=player.y+config.height*.5f-s.y,dx=bx-ax,dy=by-ay;
             float denominator=dx*dx+dy*dy;
-            float t=denominator<1e-8f?0:Math.max(0,Math.min(1,((s.x-ax)*dx+(s.y-ay)*dy)/denominator));
-            float ex=ax+dx*t-s.x,ey=ay+dy*t-s.y;
+            float t=denominator<1e-8f?0:Math.max(0,Math.min(1,-(ax*dx+ay*dy)/denominator));
+            float ex=ax+dx*t,ey=ay+dy*t;
             float radius=s.radius+(float)Math.sqrt(config.halfWidth*config.halfWidth+config.height*config.height*.25f);
             if(ex*ex+ey*ey<=radius*radius)return true;
         }

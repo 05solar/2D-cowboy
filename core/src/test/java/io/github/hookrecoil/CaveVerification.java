@@ -40,7 +40,7 @@ public class CaveVerification {
         Path dir=Files.createTempDirectory("hook-cave-verification-");ProgressStore store=new ProgressStore(dir);store.load();
         check(store.canStart(catalog.find("cave_01")),"Implemented cave stages are available on a fresh save");
         check(store.canStart(catalog.find("mine_05")),"Implemented mine stages are available on a fresh save");
-        check(!store.canStart(catalog.find("city_01")),"Unimplemented stages remain unavailable");
+        check(store.canStart(catalog.find("city_01")),"City stages stay directly startable for the requested test unlock");
         StageRuntime p=game("prologue");p.player.reset(p.definition.clearGem.x,2);p.resolveGoal(false);store.begin(p);
         check(store.canStart(catalog.find("cave_01")),"Implemented stages remain startable during pending collection");
         ProgressStore restored=new ProgressStore(dir);check(restored.load()!=null,"Interrupted collection recovered");check(restored.canStart(catalog.find("cave_01")),"Prologue unlocks cave 1");

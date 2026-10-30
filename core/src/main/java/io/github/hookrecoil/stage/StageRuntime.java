@@ -54,7 +54,7 @@ public class StageRuntime {
         if(deathWaiting)return;
         elapsed+=dt;noticeTimer=Math.max(0,noticeTimer-dt);
         devices.tick(dt);
-        if(definition.id.startsWith("city_")){cityDevices.tick(dt,player);devices.warning|=cityDevices.warning;}
+        if(definition.id.startsWith("city_")){cityDevices.tick(dt,player);mineDevices.tickCityHazards(dt);devices.warning|=cityDevices.warning||mineDevices.warning;}
         else {mineDevices.tick(dt,player);devices.warning|=mineDevices.warning;}
         controller.prepare(player,in,dt);
         if(definition.id.startsWith("city_"))cityDevices.transferLaunchVelocity(player);else mineDevices.transferLaunchVelocity(player);

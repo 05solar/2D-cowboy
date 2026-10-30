@@ -18,7 +18,12 @@ public class StageCatalog {
         public int[] targetChainActions;
         public float narrowLandingWidthH;
         public boolean available,backgroundRepeat,artAvailable;
+        public float routeLengthTargetH;
+        public int targetModules;
+        public boolean routeLengthMeasured;
+        public BackgroundVariants backgroundVariants;
     }
+    public static class BackgroundVariants { public String horizontal,vertical; public boolean repeat; }
     public Entry find(String id) {for(Entry e:stages)if(e.id.equals(id))return e;return null;}
     public String next(String id) {for(Entry e:stages)if(id.equals(e.requires))return e.id;return null;}
 }

@@ -1,0 +1,510 @@
+{
+  "origin": "top-left",
+  "rect_format": "x,y,width,height",
+  "sheets": {
+    "thin_platforms": {
+      "image": "assets/sheets/thin_platforms.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "concrete_long": {
+          "rect": [
+            55,
+            151,
+            602,
+            44
+          ],
+          "occupiedWidthToHeight": 16.5
+        },
+        "concrete_medium": {
+          "rect": [
+            735,
+            151,
+            381,
+            44
+          ],
+          "occupiedWidthToHeight": 10.361
+        },
+        "concrete_short": {
+          "rect": [
+            1224,
+            151,
+            224,
+            44
+          ],
+          "occupiedWidthToHeight": 6.0
+        },
+        "grating_long": {
+          "rect": [
+            55,
+            376,
+            602,
+            48
+          ],
+          "occupiedWidthToHeight": 14.85
+        },
+        "grating_medium": {
+          "rect": [
+            737,
+            377,
+            366,
+            49
+          ],
+          "occupiedWidthToHeight": 8.732
+        },
+        "steel_bridge": {
+          "rect": [
+            1190,
+            376,
+            289,
+            52
+          ],
+          "occupiedWidthToHeight": 6.386
+        },
+        "one_way": {
+          "rect": [
+            55,
+            604,
+            602,
+            40
+          ],
+          "occupiedWidthToHeight": 18.562
+        },
+        "broken_tip_right": {
+          "rect": [
+            737,
+            604,
+            333,
+            45
+          ],
+          "occupiedWidthToHeight": 8.784
+        },
+        "broken_tip_left": {
+          "rect": [
+            1192,
+            604,
+            287,
+            44
+          ],
+          "occupiedWidthToHeight": 7.75
+        },
+        "moving_horizontal": {
+          "rect": [
+            56,
+            831,
+            601,
+            39
+          ],
+          "occupiedWidthToHeight": 19.129
+        },
+        "moving_vertical": {
+          "rect": [
+            741,
+            829,
+            336,
+            43
+          ],
+          "occupiedWidthToHeight": 9.371
+        },
+        "breakable_cracked": {
+          "rect": [
+            1166,
+            829,
+            313,
+            45
+          ],
+          "occupiedWidthToHeight": 8.243
+        }
+      },
+      "colliders": "define separately; no pixel-validated collider provided"
+    },
+    "open_structures": {
+      "image": "assets/sheets/open_structures.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "l_right": {
+          "rect": [
+            70,
+            59,
+            418,
+            167
+          ]
+        },
+        "l_left": {
+          "rect": [
+            556,
+            59,
+            417,
+            167
+          ]
+        },
+        "overhead_arch": {
+          "rect": [
+            1082,
+            59,
+            385,
+            167
+          ]
+        },
+        "t_support": {
+          "rect": [
+            65,
+            303,
+            417,
+            172
+          ]
+        },
+        "u_frame": {
+          "rect": [
+            586,
+            292,
+            370,
+            174
+          ]
+        },
+        "window_frame": {
+          "rect": [
+            1079,
+            301,
+            396,
+            153
+          ]
+        },
+        "stairs_right": {
+          "rect": [
+            135,
+            533,
+            287,
+            160
+          ]
+        },
+        "stairs_left": {
+          "rect": [
+            620,
+            534,
+            275,
+            159
+          ]
+        },
+        "z_step_frame": {
+          "rect": [
+            1080,
+            510,
+            388,
+            179
+          ]
+        },
+        "partition_frame": {
+          "rect": [
+            189,
+            730,
+            95,
+            241
+          ]
+        },
+        "long_truss": {
+          "rect": [
+            503,
+            819,
+            503,
+            105
+          ]
+        },
+        "shaft_side_ledges": {
+          "rect": [
+            1184,
+            730,
+            180,
+            241
+          ]
+        }
+      },
+      "colliders": "define separately; no pixel-validated collider provided"
+    },
+    "utility_devices": {
+      "image": "assets/sheets/utility_devices.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "fixed_anchor": {
+          "rect": [
+            154,
+            104,
+            83,
+            122
+          ]
+        },
+        "moving_anchor": {
+          "rect": [
+            448,
+            108,
+            256,
+            132
+          ]
+        },
+        "rail_horizontal": {
+          "rect": [
+            855,
+            130,
+            210,
+            45
+          ]
+        },
+        "rail_vertical": {
+          "rect": [
+            1323,
+            72,
+            42,
+            161
+          ]
+        },
+        "fan_off": {
+          "rect": [
+            107,
+            310,
+            174,
+            175
+          ]
+        },
+        "fan_on_00": {
+          "rect": [
+            488,
+            310,
+            176,
+            175
+          ]
+        },
+        "fan_on_01": {
+          "rect": [
+            872,
+            310,
+            176,
+            175
+          ]
+        },
+        "wind_arrow": {
+          "rect": [
+            1255,
+            366,
+            174,
+            70
+          ]
+        },
+        "electric_emitter_up": {
+          "rect": [
+            151,
+            556,
+            87,
+            173
+          ]
+        },
+        "electric_emitter_down": {
+          "rect": [
+            533,
+            551,
+            87,
+            177
+          ]
+        },
+        "warning_lamp": {
+          "rect": [
+            917,
+            614,
+            89,
+            86
+          ]
+        },
+        "electric_arc": {
+          "rect": [
+            1323,
+            556,
+            43,
+            170
+          ]
+        },
+        "recharge_active": {
+          "rect": [
+            108,
+            798,
+            170,
+            161
+          ]
+        },
+        "recharge_spent": {
+          "rect": [
+            491,
+            798,
+            171,
+            161
+          ]
+        },
+        "endpoint_stop": {
+          "rect": [
+            917,
+            838,
+            88,
+            94
+          ]
+        },
+        "route_arrow": {
+          "rect": [
+            1264,
+            827,
+            171,
+            108
+          ]
+        }
+      },
+      "colliders": "define separately; no pixel-validated collider provided"
+    },
+    "traps_v2": {
+      "image": "assets/sheets/traps_v2.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "filter": "nearest",
+      "sprites": {
+        "spikes_floor": {
+          "rect": [
+            91,
+            134,
+            240,
+            112
+          ]
+        },
+        "spikes_ceiling": {
+          "rect": [
+            449,
+            66,
+            244,
+            122
+          ]
+        },
+        "spikes_left": {
+          "rect": [
+            861,
+            49,
+            127,
+            197
+          ]
+        },
+        "spikes_right": {
+          "rect": [
+            1309,
+            50,
+            127,
+            196
+          ]
+        },
+        "retract_spikes_off": {
+          "rect": [
+            91,
+            406,
+            239,
+            49
+          ]
+        },
+        "retract_spikes_partial": {
+          "rect": [
+            456,
+            370,
+            237,
+            85
+          ]
+        },
+        "retract_spikes_on": {
+          "rect": [
+            838,
+            329,
+            248,
+            127
+          ]
+        },
+        "breakable_intact": {
+          "rect": [
+            1178,
+            380,
+            319,
+            49
+          ]
+        },
+        "saw_00": {
+          "rect": [
+            100,
+            521,
+            221,
+            221
+          ]
+        },
+        "saw_01": {
+          "rect": [
+            464,
+            521,
+            222,
+            221
+          ]
+        },
+        "crusher_upper_retracted": {
+          "rect": [
+            831,
+            518,
+            259,
+            144
+          ]
+        },
+        "crusher_upper_extended": {
+          "rect": [
+            1217,
+            513,
+            254,
+            220
+          ]
+        },
+        "crusher_lower_retracted": {
+          "rect": [
+            100,
+            862,
+            231,
+            122
+          ]
+        },
+        "crusher_lower_extended": {
+          "rect": [
+            453,
+            784,
+            244,
+            200
+          ]
+        },
+        "breakable_warning": {
+          "rect": [
+            795,
+            866,
+            330,
+            49
+          ]
+        },
+        "breakable_collapse": {
+          "rect": [
+            1175,
+            866,
+            337,
+            101
+          ]
+        }
+      },
+      "colliders": "define separately; no pixel-validated collider provided"
+    }
+  }
+}

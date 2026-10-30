@@ -1,7 +1,7 @@
 /* 파일: StageDefinition.java
  * 역할: 정적 스테이지 배치 데이터. 책임: 발판·천장·고정점·체크포인트·가시·수집품·챕터 장치 정의.
  * 협력: StageRuntime, CollisionWorld, CaveRenderer, MineRenderer, CityRenderer. 장치 진행 상태는 런타임이 소유.
- * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/assets/city_chapter/DEVICES_AND_MOTION.md.
+ * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/CITY_CHAPTER_V2.md.
  */
 package io.github.hookrecoil.stage;
 
@@ -23,11 +23,13 @@ public class StageDefinition {
     public CityWindZone[] cityWindZones=new CityWindZone[0];
     public CityBarrier[] cityBarriers=new CityBarrier[0];
     public CityStructure[] cityStructures=new CityStructure[0];
+    public CityBackgroundRegion[] cityBackgroundRegions=new CityBackgroundRegion[0];
+    public RouteDesign routeDesign;
     public Gem clearGem;
     public static class Gem { public String id,type; public float x,y,halfWidth,halfHeight; }
 
     public static class Block {
-        public float x, y, width, height, surfaceOffset; public float[] surfaceProfile; public String sprite; public boolean crumble; public transient boolean active=true;
+        public float x, y, width, height, surfaceOffset; public float[] surfaceProfile; public String sprite; public boolean crumble,oneWay,ropeStops=true,collision=true; public transient boolean active=true;
         /** Surface profile samples world X-bin centers; surfaceOffset remains the fallback for older map data. */
         public float surfaceY(){return surfaceY(x+width*.5f);}
         public float surfaceY(float worldX){
@@ -52,14 +54,16 @@ public class StageDefinition {
     }
     public static class MineSaw {
         public String id; public float fromX,fromY,toX,toY,radius=.55f,period=3,phase;
-        public transient float x,y,angle;
+        public transient float x,y,previousX,previousY,angle;
     }
     public static class RechargeRing { public String id; public float x,y,halfWidth=.35f,halfHeight=.4f; }
     public static class CityWindZone { public String id; public float x,y,width,height,ax,ay; }
     public static class CityStructure {
-        public String id,sprite; public float x,y,width,height; public float[][] colliders;
+        public String id,sprite,collisionMode="none"; public float x,y,width,height; public float[][] colliders;
         public transient Block[] collisionParts;
     }
+    public static class CityBackgroundRegion { public String id,variant,path; public float minX,minY,maxX,maxY; public int priority; }
+    public static class RouteDesign { public int moduleCount,targetCoreChainActions; public float routeLengthTargetH; public boolean lengthMeasured; }
     public static class CityBarrier {
         public String id; public float x,y,width=.18f,height=4,offSeconds=1.8f,warningSeconds=.5f,onSeconds=1.5f,phase;
         public transient String state="off";

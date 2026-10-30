@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 2,
+  "coordinatesIncluded": false,
+  "targetsOnly": true,
+  "stages": [
+    {
+      "stageId": "city_01",
+      "routeLengthTargetH": 100,
+      "lengthMeasured": false,
+      "simultaneouslyVisibleMovingObjectsLimit": 2,
+      "checkpointAfterModules": [
+        2,
+        5
+      ],
+      "modules": [
+        {
+          "id": "city_01_section_01",
+          "title": "낮은 천장 횡단",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_01_section_02",
+          "title": "L 프레임 아래 하강",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_01_section_03",
+          "title": "세로 정비교 상승",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_01_section_04",
+          "title": "수납 가시 도입",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_01_section_05",
+          "title": "수평 발판 전환",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_01_section_06",
+          "title": "가시 통로 제동",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        }
+      ]
+    },
+    {
+      "stageId": "city_02",
+      "routeLengthTargetH": 125,
+      "lengthMeasured": false,
+      "simultaneouslyVisibleMovingObjectsLimit": 2,
+      "checkpointAfterModules": [
+        3,
+        6
+      ],
+      "modules": [
+        {
+          "id": "city_02_section_01",
+          "title": "긴 횡풍 통로",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_02_section_02",
+          "title": "수평·수직 발판 전환",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_02_section_03",
+          "title": "U 프레임 하강·재상승",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_02_section_04",
+          "title": "계단·수납 가시",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_02_section_05",
+          "title": "창틀 구멍 통과",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_02_section_06",
+          "title": "횡풍·이동판·천장 가시",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_02_section_07",
+          "title": "기류 경계 제동",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        }
+      ]
+    },
+    {
+      "stageId": "city_03",
+      "routeLengthTargetH": 150,
+      "lengthMeasured": false,
+      "simultaneouslyVisibleMovingObjectsLimit": 3,
+      "checkpointAfterModules": [
+        3,
+        6
+      ],
+      "modules": [
+        {
+          "id": "city_03_section_01",
+          "title": "전기 장벽 도입",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_02",
+          "title": "장벽·수평 발판",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_03",
+          "title": "세로 골목 하강 재연결",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_04",
+          "title": "이동 톱 정비 레일",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_05",
+          "title": "장벽·발판 위상",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_06",
+          "title": "재충전·기류·제동",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_07",
+          "title": "Z형 전이교",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_03_section_08",
+          "title": "장벽·수납 가시·발판 종합",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        }
+      ]
+    },
+    {
+      "stageId": "city_04",
+      "routeLengthTargetH": 180,
+      "lengthMeasured": false,
+      "simultaneouslyVisibleMovingObjectsLimit": 3,
+      "checkpointAfterModules": [
+        3,
+        6
+      ],
+      "modules": [
+        {
+          "id": "city_04_section_01",
+          "title": "부서진 끝 슬래브 횡단",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_02",
+          "title": "붕괴판·L 이동 프레임",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_03",
+          "title": "창틀 하강",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_04",
+          "title": "천장 압착 통로",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_05",
+          "title": "수직판 이탈·옆 링",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_06",
+          "title": "샤프트 좌우 턱",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_07",
+          "title": "직각 경로 발판",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_08",
+          "title": "톱·붕괴판·트러스",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_04_section_09",
+          "title": "낮은 스윙·최종 상승",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        }
+      ]
+    },
+    {
+      "stageId": "city_05",
+      "routeLengthTargetH": 210,
+      "lengthMeasured": false,
+      "simultaneouslyVisibleMovingObjectsLimit": 4,
+      "checkpointAfterModules": [
+        5
+      ],
+      "modules": [
+        {
+          "id": "city_05_section_01",
+          "title": "긴 전이교 교대 가시",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_02",
+          "title": "수평·수직판 전환",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_03",
+          "title": "장벽·상승 기류",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_04",
+          "title": "L 프레임 하강",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_05",
+          "title": "톱 레일·중간 CP",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_06",
+          "title": "직각 발판·수납 가시",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_07",
+          "title": "좁은 정비교·압착기",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_08",
+          "title": "공중 링 충전",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_09",
+          "title": "긴 횡풍 링 전환",
+          "backgroundVariant": "vertical",
+          "isPlayableMap": false
+        },
+        {
+          "id": "city_05_section_10",
+          "title": "하강 제동·마지막 상승",
+          "backgroundVariant": "horizontal",
+          "isPlayableMap": false
+        }
+      ]
+    }
+  ]
+}

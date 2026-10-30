@@ -24,7 +24,7 @@ public class CollisionWorld {
     public void move(PlayerState p, float dx, float dy) {
         float nextX = p.x + dx;
         for (StageDefinition.Block b : blocks) {
-            if(!b.active)continue;
+            if(!b.active||!b.collision||b.oneWay)continue;
             float top=b.surfaceY(p.x);
             if (p.y + c.height <= b.y + 0.0001f || p.y >= top - 0.0001f
                 || (p.grounded && top-p.y<=c.surfaceStepHeight)) continue;
@@ -38,7 +38,7 @@ public class CollisionWorld {
         p.x = nextX;
         if(p.grounded&&dy<=0) {
             float stepTop=p.y;
-            for(StageDefinition.Block b:blocks)if(b.active&&p.x+c.halfWidth>b.x&&p.x-c.halfWidth<b.x+b.width
+            for(StageDefinition.Block b:blocks)if(b.active&&b.collision&&p.x+c.halfWidth>b.x&&p.x-c.halfWidth<b.x+b.width
                 &&p.y+c.height>b.y+0.0001f) {
                 float top=b.surfaceY(p.x);
                 if(top>p.y&&top-p.y<=c.surfaceStepHeight)stepTop=Math.max(stepTop,top);
@@ -48,25 +48,25 @@ public class CollisionWorld {
         float nextY = p.y + dy;
         p.grounded = false;
         for (StageDefinition.Block b : blocks) {
-            if(!b.active)continue;
+            if(!b.active||!b.collision)continue;
             if (p.x + c.halfWidth <= b.x || p.x - c.halfWidth >= b.x + b.width) continue;
             float top = b.surfaceY(p.x);
             if (dy <= 0 && p.y >= top - 0.0001f && nextY <= top) {
                 nextY = Math.max(nextY, top); p.vy = 0; p.grounded = true;
             }
-            if (dy > 0 && p.y + c.height <= b.y + 0.0001f && nextY + c.height >= b.y) {
+            if (!b.oneWay && dy > 0 && p.y + c.height <= b.y + 0.0001f && nextY + c.height >= b.y) {
                 nextY = Math.min(nextY, b.y - c.height); p.vy = 0;
             }
         }
         p.y = nextY;
     }
     public boolean blocked(float x1, float y1, float x2, float y2) {
-        for (StageDefinition.Block b : blocks) if (b.active && intersects(x1, y1, x2, y2, b)) return true;
+        for (StageDefinition.Block b : blocks) if (b.active && b.ropeStops && intersects(x1, y1, x2, y2, b)) return true;
         return false;
     }
     public boolean supports(float x,float feetY) {
         for(StageDefinition.Block b:blocks)
-            if(b.active && Math.abs(feetY-b.surfaceY(x))<0.0001f && x+c.halfWidth>b.x && x-c.halfWidth<b.x+b.width)return true;
+            if(b.active && b.collision && Math.abs(feetY-b.surfaceY(x))<0.0001f && x+c.halfWidth>b.x && x-c.halfWidth<b.x+b.width)return true;
         return false;
     }
     private boolean intersects(float x, float y, float endX, float endY, StageDefinition.Block b) {

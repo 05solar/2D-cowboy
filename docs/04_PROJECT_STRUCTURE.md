@@ -26,6 +26,7 @@
 │   ├── stages/                  # catalog.json, stage_01.json ~ stage_20.json
 │   ├── maps/                    # 테마별 타일 맵, 포맷은 P0/P1 결정
 │   ├── textures/                # player, objects, tilesets, backgrounds, effects
+│   │   └── city_chapter/         # V2 atlas sheets and horizontal/vertical background variants
 │   ├── audio/                   # sfx, music, ambience
 │   ├── ui/                      # skin, icons, fonts
 │   └── text/                    # 안내·메뉴·스토리 문자열
@@ -67,11 +68,11 @@
 | save | `SaveService`, `SaveData`, `SaveMigrator`, `SaveStorage` | 저장 조정 / 스키마 / 버전 변환 / 파일 I/O 계약 |
 | settings | `SettingsService`, `SettingsData` | 설정 적용·저장 요청 / 값 |
 | camera | `CameraController`, `AimCoordinateMapper` | 추적·경계 / 화면→월드 변환 |
-| screens | `TitleScreen`, `GameplayScreen`, `StageSelectScreen`, `ResultScreen`, `EndingScreen` | 화면별 생성·표시·전환 |
+| screens | `TitleScreen`, `GameplayScreen`, `CityBackgroundSelector`, `StageSelectScreen`, `ResultScreen`, `EndingScreen` | 화면별 생성·표시·전환, 도시 배경 카메라 구역 선택 |
 | ui | `HudView`, `PauseMenu`, `SettingsView`, `ReticleView` | 표시·사용자 명령 전달, 물리 상태 직접 수정 금지 |
 | rendering | `WorldRenderer`, `PlayerRenderer`, `RopeRenderer`, `EffectRenderer` | 월드 / 플레이어 / 줄 / 효과 그리기 |
 | audio | `AudioService`, `AudioEvents` | 음원 재생·음량 / 사운드 이벤트 매핑 |
-| assets | `GameAssets` | 공유 리소스 로드·소유·해제 |
+| assets | `GameAssets`, `CaveAssets` | 공용·챕터별 실측 atlas/배경 리소스 로드·소유·해제 |
 | debug | `DebugOverlay`, `InputRecorder` | 충돌·속도·위상 표시 / 입력 재생 자료 |
 
 `lwjgl3/.../lwjgl3/`에는 `Lwjgl3Launcher`, 기존 `StartupHelper`, `DesktopSaveStorage`를 둔다. 플랫폼 파일 경로와 실제 교체 저장 처리는 데스크톱 어댑터가 담당한다. `core`는 `lwjgl3`를 import하지 않는다.

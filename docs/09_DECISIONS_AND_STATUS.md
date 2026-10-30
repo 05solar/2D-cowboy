@@ -134,3 +134,16 @@
 ## 2026-10-29 미사용 도시 에셋 정리
 
 도시 아틀라스에서 미사용 stairs_right/left, pillar, 팬 애니메이션 프레임, endpoint_stop, route_arrow와 이들 충돌 정의를 제거했다. 가시·붕괴 발판 등 장애물 에셋은 보존했다. 현재 도시 아틀라스 28개 스프라이트가 남아 있다. :core:verifyCity 39 assertion과 :lwjgl3:verifyCityNative 14 checks 통과.
+
+## 2026-10-30 지하도시 V2 얇은 발판·긴 경로 통합
+
+V2 실측 atlas rect와 5개 새 가로 배경을 추가하고 기존 세로 배경과 월드 카메라 구역에서 0.35초 크로스페이드한다. 런타임은 V2 atlas만 도시 그림으로 로드한다. 도시 11~15는 모듈 수를 6~10으로 늘리고 얇은 0.16H 보행면, one-way/solid 분류, ropeStops, 비충돌 열린 프레임, 이동판·기류·장벽·가시·압착기·톱을 사용한다. 경로 길이 수치는 미측정 설계 목표로 기록한다. 테스트 접근성은 사용자의 기존 요청에 따라 도시 스테이지 `available=true`를 유지한다.
+
+검증: `:core:verifyCity`의 데이터/물리/장치 확인과 자동 입력 경로 드라이버는 city_01~city_04에서 clear gem에 도달했다. city_05는 이동 장치 충돌로 사망해 미완료다. `:lwjgl3:verifyCityNative`에서 10개 배경·V2 atlas·5개 스테이지 로드 및 16:9 시작 카메라를 확인했다. 자동 경로는 수동 플레이테스트를 대신하지 않는다. 길이 실측·난도 상승·아트 seam 승인·수동 입력 30/60/144 FPS 플레이테스트는 미완료다. 범위와 검증 한계: [CITY_CHAPTER_V2.md](CITY_CHAPTER_V2.md).
+## 2026-10-30 지하도시 V2 검증 결과 정정
+
+최종 재실행 기준으로 `:core:verifyCity` 데이터·장치 295 assertion, `:lwjgl3:verifyCityNative` 24개 로드/화면 확인, `:core:verifyPrologue` 134 assertion, `:core:verifyCaves` 79 assertion이 통과했다. 자동 경로는 city_01~city_04를 완료했으나 city_05에서 이동 장치 충돌로 사망했다. 자동 경로는 수동 플레이테스트가 아니며 전체 11~15 실제 플레이, CP 복원, 이음새, 최대속도 충돌 및 난도 상승 검증은 미완료다. 상세 범위와 한계는 [CITY_CHAPTER_V2.md](CITY_CHAPTER_V2.md)를 참조한다.
+
+## 2026-10-30 시작 카메라 경로 보간 수정
+
+시작 안내 카메라는 스폰에서 시작해 전체 맵이 보이도록 축소하고, 보석 위치로 이동하며 일반 배율로 확대한 뒤 스폰으로 돌아온다. 16:9 화면비는 유지하고 줌에 맞게 월드 경계를 계산한다. 스테이지를 다시 불러올 때 연출 상태를 초기화해 배열 범위 초과를 막았다. `:lwjgl3:verifyCityNative` 28개 확인에서 연속 스테이지 로드, 전체 맵 프레이밍, 보석 확대, 스폰 복귀, 카메라 위치·줌 연속성과 시뮬레이션 정지를 확인했다. 상세 동작은 [13_STAGE_INTRO_CAMERA.md](13_STAGE_INTRO_CAMERA.md).

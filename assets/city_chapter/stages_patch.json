@@ -19,13 +19,21 @@
       ],
       "checkpoints": 2,
       "goal": "clear_gem",
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_01.png",
       "backgroundRepeat": false,
       "objective": "낮은 천장과 수평 발판 사이 정밀 스윙",
       "motionPresets": [
         "horizontal"
-      ]
+      ],
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_01_horizontal.png",
+        "vertical": "assets/backgrounds/city_01.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 100,
+      "routeLengthMeasured": false,
+      "targetModules": 6
     },
     {
       "id": "city_02",
@@ -43,14 +51,22 @@
       ],
       "checkpoints": 2,
       "goal": "clear_gem",
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_02.png",
       "backgroundRepeat": false,
       "objective": "기류 속 수평·수직 발판 전환",
       "motionPresets": [
         "horizontal",
         "vertical"
-      ]
+      ],
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_02_horizontal.png",
+        "vertical": "assets/backgrounds/city_02.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 125,
+      "routeLengthMeasured": false,
+      "targetModules": 7
     },
     {
       "id": "city_03",
@@ -68,14 +84,22 @@
       ],
       "checkpoints": 2,
       "goal": "clear_gem",
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_03.png",
       "backgroundRepeat": false,
       "objective": "장벽 개방과 이동 발판 위상 조합",
       "motionPresets": [
         "horizontal",
         "vertical"
-      ]
+      ],
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_03_horizontal.png",
+        "vertical": "assets/backgrounds/city_03.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 150,
+      "routeLengthMeasured": false,
+      "targetModules": 8
     },
     {
       "id": "city_04",
@@ -93,7 +117,7 @@
       ],
       "checkpoints": 2,
       "goal": "clear_gem",
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_04.png",
       "backgroundRepeat": false,
       "objective": "복합 블록 사이 하강 재연결·재상승",
@@ -101,7 +125,15 @@
         "horizontal",
         "vertical",
         "right_angle"
-      ]
+      ],
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_04_horizontal.png",
+        "vertical": "assets/backgrounds/city_04.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 180,
+      "routeLengthMeasured": false,
+      "targetModules": 9
     },
     {
       "id": "city_05",
@@ -119,7 +151,7 @@
       ],
       "checkpoints": 1,
       "goal": "clear_gem",
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_05.png",
       "backgroundRepeat": false,
       "objective": "기류·전기·이동 블록 종합 연계",
@@ -128,7 +160,15 @@
         "vertical",
         "right_angle",
         "rectangle_loop"
-      ]
+      ],
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_05_horizontal.png",
+        "vertical": "assets/backgrounds/city_05.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 210,
+      "routeLengthMeasured": false,
+      "targetModules": 10
     }
   ]
 }

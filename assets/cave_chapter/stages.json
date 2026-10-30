@@ -206,13 +206,21 @@
         7,
         8
       ],
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_01.png",
       "backgroundRepeat": false,
       "motionPresets": [
         "horizontal"
       ],
-      "artAvailable": true
+      "artAvailable": true,
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_01_horizontal.png",
+        "vertical": "assets/backgrounds/city_01.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 100,
+      "targetModules": 6,
+      "routeLengthMeasured": false
     },
     {
       "id": "city_02",
@@ -230,14 +238,22 @@
         8,
         8
       ],
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_02.png",
       "backgroundRepeat": false,
       "motionPresets": [
         "horizontal",
         "vertical"
       ],
-      "artAvailable": true
+      "artAvailable": true,
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_02_horizontal.png",
+        "vertical": "assets/backgrounds/city_02.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 125,
+      "targetModules": 7,
+      "routeLengthMeasured": false
     },
     {
       "id": "city_03",
@@ -255,14 +271,22 @@
         8,
         9
       ],
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_03.png",
       "backgroundRepeat": false,
       "motionPresets": [
         "horizontal",
         "vertical"
       ],
-      "artAvailable": true
+      "artAvailable": true,
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_03_horizontal.png",
+        "vertical": "assets/backgrounds/city_03.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 150,
+      "targetModules": 8,
+      "routeLengthMeasured": false
     },
     {
       "id": "city_04",
@@ -280,7 +304,7 @@
         9,
         9
       ],
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_04.png",
       "backgroundRepeat": false,
       "motionPresets": [
@@ -288,7 +312,15 @@
         "vertical",
         "right_angle"
       ],
-      "artAvailable": true
+      "artAvailable": true,
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_04_horizontal.png",
+        "vertical": "assets/backgrounds/city_04.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 180,
+      "targetModules": 9,
+      "routeLengthMeasured": false
     },
     {
       "id": "city_05",
@@ -306,7 +338,7 @@
         9,
         10
       ],
-      "orientation": "vertical",
+      "orientation": "mixed",
       "background": "assets/backgrounds/city_05.png",
       "backgroundRepeat": false,
       "motionPresets": [
@@ -315,7 +347,15 @@
         "right_angle",
         "rectangle_loop"
       ],
-      "artAvailable": true
+      "artAvailable": true,
+      "backgroundVariants": {
+        "horizontal": "assets/backgrounds/city_05_horizontal.png",
+        "vertical": "assets/backgrounds/city_05.png",
+        "repeat": false
+      },
+      "routeLengthTargetH": 210,
+      "targetModules": 10,
+      "routeLengthMeasured": false
     },
     {
       "id": "surface_01",

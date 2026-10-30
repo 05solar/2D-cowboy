@@ -25,7 +25,7 @@ public final class CityDeviceRuntime {
     public CityDeviceRuntime(StageDefinition stage) {
         this.stage=stage;
         for(StageDefinition.CityStructure structure:stage.cityStructures) {
-            int count=structure.colliders==null?0:structure.colliders.length;
+            int count="union".equals(structure.collisionMode)&&structure.colliders!=null?structure.colliders.length:0;
             structure.collisionParts=new StageDefinition.Block[count];
             for(int i=0;i<count;i++) {
                 float[] rect=structure.colliders[i];StageDefinition.Block part=new StageDefinition.Block();

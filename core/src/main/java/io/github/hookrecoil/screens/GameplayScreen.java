@@ -1,7 +1,7 @@
 /* 파일: GameplayScreen.java
  * 역할: 게임 플레이 화면 조립. 책임: ID별 스테이지·모달 입력·120Hz 루프·가로/세로 카메라.
  * 협력: StageRuntime, GameAssets, CaveAssets, CityRenderer, ProgressStore, StageSelectView. 화면 종료 때 자원 해제.
- * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/assets/city_chapter/STAGES_11_15.md.
+ * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/CITY_CHAPTER_V2.md.
  */
 package io.github.hookrecoil.screens;
 
@@ -44,6 +44,7 @@ public class GameplayScreen extends ScreenAdapter {
     private final ProgressStore progress;
     private StageSelectView menu;
     private final StageIntroCamera introCamera=new StageIntroCamera();
+    private final CityBackgroundSelector cityBackgroundSelector=new CityBackgroundSelector();
     private float cameraY=800;
     private final com.badlogic.gdx.audio.Sound warningSound=Gdx.audio.newSound(Gdx.files.internal("audio/crumble_warning.wav"));
     private final Vector3 mouse=new Vector3();
@@ -86,16 +87,11 @@ public class GameplayScreen extends ScreenAdapter {
         boolean preview=System.getProperty("hookrecoil.screenshot")!=null;
         if(!"prologue".equals(id)&&(e==null||(!e.available&&!preview)))throw new IllegalArgumentException("Unavailable stage: "+id);
         stage=new StageRuntime(new Json().fromJson(StageDefinition.class,Gdx.files.internal("stages/"+id+".json")),config);
+        cityBackgroundSelector.reset();
         stage.noCheckpoint=challenge;stage.completionSink=progress::begin;stage.resultSink=s->progress.finish();
-        cameraX=1280;cameraY=800;accumulator=0;
+        cameraX=1280;cameraY=800;camera.zoom=1;accumulator=0;
         if(System.getProperty("hookrecoil.screenshot")==null) {
-            float maxX=Math.max(1280,stage.definition.width*config.pixelsPerH-1280);
-            float maxY=Math.max(800,stage.definition.height*config.pixelsPerH-720);
-            float startX=MathUtils.clamp(stage.player.x*config.pixelsPerH+430,1280,maxX);
-            float startY=MathUtils.clamp(stage.player.y*config.pixelsPerH+300,800,maxY);
-            float gemX=MathUtils.clamp(stage.definition.clearGem.x*config.pixelsPerH+430,1280,maxX);
-            float gemY=MathUtils.clamp(stage.definition.clearGem.y*config.pixelsPerH+300,800,maxY);
-            introCamera.begin(startX,startY,gemX,gemY);
+            introCamera.begin(stage.definition,config.pixelsPerH);
         } else introCamera.cancel();
     }
     public void openMenu(){
@@ -151,24 +147,43 @@ public class GameplayScreen extends ScreenAdapter {
             if(commands.restart && !stage.clear.frozen()) {stage.respawn();paused=false;input.clear();}
         }
         float target=stage.player.x*stage.config.pixelsPerH+430;
-        if(introFrame) {cameraX=introCamera.x();cameraY=introCamera.y();}
-        else if(!stage.clear.frozen()&&!paused)cameraX=MathUtils.lerp(cameraX,target,1-(float)Math.exp(-5*delta));
-        cameraX=MathUtils.clamp(cameraX,1280,stage.definition.width*stage.config.pixelsPerH-1280);
+        if(introFrame) {cameraX=introCamera.x();cameraY=introCamera.y();camera.zoom=introCamera.zoom();}
+        else {
+            camera.zoom=1;
+            if(!stage.clear.frozen()&&!paused)cameraX=MathUtils.lerp(cameraX,target,1-(float)Math.exp(-5*delta));
+        }
         if(!introFrame&&!stage.clear.frozen()&&!paused)cameraY=MathUtils.lerp(cameraY,stage.player.y*config.pixelsPerH+300,1-(float)Math.exp(-5*delta));
-        cameraY=MathUtils.clamp(cameraY,800,Math.max(800,stage.definition.height*config.pixelsPerH-720));
-        if("prologue".equals(stage.definition.id))cameraY=800;
+        float halfCameraWidth=1280*camera.zoom,halfCameraHeight=720*camera.zoom;
+        float worldWidth=stage.definition.width*config.pixelsPerH;
+        float worldHeight=stage.definition.height*config.pixelsPerH;
+        float minCameraX=Math.min(halfCameraWidth,worldWidth*.5f),maxCameraX=Math.max(minCameraX,worldWidth-halfCameraWidth);
+        float minCameraY=Math.min(halfCameraHeight,worldHeight*.5f),maxCameraY=Math.max(minCameraY,worldHeight-halfCameraHeight);
+        cameraX=MathUtils.clamp(cameraX,minCameraX,maxCameraX);
+        cameraY=MathUtils.clamp(cameraY,minCameraY,maxCameraY);
+        if("prologue".equals(stage.definition.id)&&!introFrame)cameraY=800;
         camera.position.set(Math.round(cameraX),Math.round(cameraY),0);camera.update();
         ScreenUtils.clear(0.018f,0.027f,0.04f,1);
         viewport.apply();batch.setProjectionMatrix(ui.combined);batch.begin();
-        // 한 장을 넓게 cover하고 조금만 움직인다. 반복 타일링하지 않는다.
+        // 도시 배경은 지정 카메라 구역에서만 전환하고 두 장을 짧게 겹쳐 그린다.
         StageCatalog.Entry entry=catalog.find(stage.definition.id);
-        Texture bg=entry==null?assets.background:caveAssets.background(entry.background);
-        float cover=Math.max(2560f/bg.getWidth(),1440f/bg.getHeight());
-        float bgWidth=bg.getWidth()*cover,bgHeight=bg.getHeight()*cover;
         float progressX=MathUtils.clamp((cameraX-1280)/Math.max(1,stage.definition.width*config.pixelsPerH-2560),0,1);
         float progressY=MathUtils.clamp((cameraY-720)/Math.max(1,stage.definition.height*config.pixelsPerH-1440),0,1);
-        if(stage.definition.id.startsWith("mine_"))batch.setColor(.78f,.70f,.54f,1);else if(stage.definition.id.startsWith("city_"))batch.setColor(.64f,.70f,.76f,1);else batch.setColor(.52f,.60f,.66f,1);
-        batch.draw(bg,-(bgWidth-2560)*progressX,-(bgHeight-1440)*progressY,bgWidth,bgHeight);
+        if(stage.definition.id.startsWith("city_")) {
+            cityBackgroundSelector.update(stage.definition,cameraX/config.pixelsPerH,cameraY/config.pixelsPerH,
+                delta,!paused);
+            float blend=cityBackgroundSelector.blend();
+            if(cityBackgroundSelector.previousPath()!=null&&blend<1)
+                drawPanorama(caveAssets.background(cityBackgroundSelector.previousPath()),progressX,progressY,.64f,.70f,.76f,1-blend);
+            String path=cityBackgroundSelector.activePath();
+            Texture bg=caveAssets.background(path==null?(entry==null?null:entry.background):path);
+            drawPanorama(bg,progressX,progressY,.64f,.70f,.76f,cityBackgroundSelector.previousPath()==null?1:blend);
+        } else {
+            Texture bg=entry==null?assets.background:caveAssets.background(entry.background);
+            float tintR=stage.definition.id.startsWith("mine_")?.78f:.52f;
+            float tintG=stage.definition.id.startsWith("mine_")?.70f:.60f;
+            float tintB=stage.definition.id.startsWith("mine_")?.54f:.66f;
+            drawPanorama(bg,progressX,progressY,tintR,tintG,tintB,1);
+        }
         batch.setColor(Color.WHITE);batch.end();
         batch.setProjectionMatrix(camera.combined);batch.begin();renderer.draw(batch,stage,paused?1:(float)(accumulator*120));batch.end();
         batch.setProjectionMatrix(ui.combined);batch.begin();hud.draw(batch,stage,paused,debug);
@@ -179,6 +194,14 @@ public class GameplayScreen extends ScreenAdapter {
         }
         batch.end();
         capture();
+    }
+    private void drawPanorama(Texture texture,float progressX,float progressY,float r,float g,float b,float alpha) {
+        if(texture==null)return;
+        float cover=Math.max(2560f/texture.getWidth(),1440f/texture.getHeight());
+        float width=texture.getWidth()*cover,height=texture.getHeight()*cover;
+        batch.setColor(r,g,b,alpha);
+        batch.draw(texture,-(width-2560)*progressX,-(height-1440)*progressY,width,height);
+        batch.setColor(Color.WHITE);
     }
     private void capture(){
         frames++;

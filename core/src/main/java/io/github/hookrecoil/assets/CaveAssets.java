@@ -1,5 +1,5 @@
 /* 파일: CaveAssets.java
- * 역할: 동굴·광산·지하도시 챕터 에셋 로더. 책임: 실측 아틀라스 추출·배경 지연 로드·ClampToEdge.
+ * 역할: 동굴·광산·지하도시 V2 챕터 에셋 로더. 책임: 실측 아틀라스 추출·배경 지연 로드·ClampToEdge.
  * 협력: CaveRenderer, MineRenderer, CityRenderer, StageSelectView. 수명: GameplayScreen이 해제.
  * 관련 사양: docs/12_CAVE_CHAPTER.md, docs/assets/city_chapter/STAGES_11_15.md.
  */
@@ -16,20 +16,20 @@ public class CaveAssets implements Disposable {
     public CaveAssets(){
         loadAtlas("cave_chapter/atlas.json","cave_chapter/","");
         loadAtlas("mine_chapter/atlas.json","mine_chapter/","mine_");
-        loadCityAtlas();
+        loadCityAtlas("city_chapter/v2_atlas.json", "city_chapter/", "city_v2_");
     }
-    private void loadCityAtlas() {
-        JsonValue root=new JsonReader().parse(Gdx.files.internal("city_chapter/atlas.json"));
+    private void loadCityAtlas(String atlasPath,String directory,String prefix) {
+        JsonValue root=new JsonReader().parse(Gdx.files.internal(atlasPath));
         JsonValue atlasSheets=root.get("sheets");
         for(JsonValue sheet=atlasSheets.child;sheet!=null;sheet=sheet.next) {
-            Texture t=new Texture(Gdx.files.internal("city_chapter/"+sheet.getString("image")));this.sheets.add(t);
+            Texture t=new Texture(Gdx.files.internal(directory+sheet.getString("image")));this.sheets.add(t);
             t.setFilter(Texture.TextureFilter.Nearest,Texture.TextureFilter.Nearest);
             JsonValue sprites=sheet.get("sprites");
             for(JsonValue sprite=sprites.child;sprite!=null;sprite=sprite.next) {
                 int[] r=sprite.get("rect").asIntArray();
                 if(r[0]<0||r[1]<0||r[2]<=0||r[3]<=0||r[0]+r[2]>t.getWidth()||r[1]+r[3]>t.getHeight())
                     throw new IllegalArgumentException("City atlas rect out of bounds: "+sprite.name);
-                regions.put("city_"+sprite.name,new TextureRegion(t,r[0],r[1],r[2],r[3]));
+                regions.put(prefix+sprite.name,new TextureRegion(t,r[0],r[1],r[2],r[3]));
             }
         }
     }

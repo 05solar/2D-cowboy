@@ -76,7 +76,7 @@ public class StageSelectView extends InputAdapter {
             boolean compact=w<1000;float dx=detail.x+28,top=detail.y+detail.height-28;
             hud.wrap(b,e.name,dx,top,detail.width-56,1.35f,text);
             float body=top-40;
-            if(!compact&&e.available){Texture image=assets.background(e.background);float bw=detail.width-56,bh=Math.min(130,detail.height*.3f);
+            if(!compact&&e.available){String previewPath=e.backgroundVariants==null?e.background:e.backgroundVariants.horizontal;Texture image=assets.background(previewPath);float bw=detail.width-56,bh=Math.min(130,detail.height*.3f);
                 // 썸네일은 비율 보존 contain, 게임 카메라와 독립이다.
                 float k=Math.min(bw/image.getWidth(),bh/image.getHeight());b.setColor(.8f,.85f,.87f,1);b.draw(image,dx+(bw-image.getWidth()*k)/2,body-bh,image.getWidth()*k,image.getHeight()*k);b.setColor(Color.WHITE);body-=bh+16;
             }

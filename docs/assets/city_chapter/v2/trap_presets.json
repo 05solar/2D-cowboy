@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 2,
+  "retractableSpikes": {
+    "durationsSeconds": {
+      "off": 1.4,
+      "warning": 0.5,
+      "rising": 0.2,
+      "on": 1.0,
+      "retracting": 0.2
+    },
+    "warningRender": "retract_spikes_off plus warning_lamp",
+    "partialSprite": "retract_spikes_partial",
+    "lethal": "visible exposed blades during rising/on/retracting",
+    "random": false
+  },
+  "note": "Initial timings, not a validated level schedule"
+}
