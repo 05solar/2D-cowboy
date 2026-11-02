@@ -6,12 +6,15 @@ package io.github.some_example_name.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import io.github.hookrecoil.HookRecoilGame;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
         if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support and helps on Windows.
+        WindowsTaskbarIdentity.applyToProcess();
         createApplication();
     }
 
@@ -34,9 +37,20 @@ public class Lwjgl3Launcher {
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
 
         configuration.setWindowedMode(1280, 720);
+        configuration.setWindowListener(new Lwjgl3WindowListener() {
+            @Override public void created(Lwjgl3Window window) {WindowsTaskbarIdentity.applyToWindow(window.getWindowHandle());}
+            @Override public void iconified(boolean iconified) {}
+            @Override public void maximized(boolean maximized) {}
+            @Override public void focusLost() {}
+            @Override public void focusGained() {}
+            @Override public boolean closeRequested() {return true;}
+            @Override public void filesDropped(String[] files) {}
+            @Override public void refreshRequested() {}
+        });
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         //// They can also be loaded from the root of assets/ .
-        configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+        configuration.setWindowIcon("hook-recoil-window-icon-128.png", "hook-recoil-window-icon-64.png",
+            "hook-recoil-window-icon-32.png", "hook-recoil-window-icon-16.png");
 
         //// This could improve compatibility with Windows machines with buggy OpenGL drivers, Macs
         //// with Apple Silicon that have to emulate compatibility with OpenGL anyway, and more.

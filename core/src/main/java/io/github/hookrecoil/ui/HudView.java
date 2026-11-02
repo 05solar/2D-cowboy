@@ -76,8 +76,8 @@ public class HudView implements Disposable {
             if(s.complete)text(b,"클리어 보석 획득! 기록이 저장되었습니다.",748,756,2f,muted);
             if(s.complete)box(b,730,600,1100,60,0.09f,0.15f,0.16f,1);
             text(b,s.complete?"ENTER / R / 클릭   재도전":"ESC 계속하기    R 체크포인트 재시작",748,644,2.2f,gold);
-            if(s.complete) text(b,"TIME  "+(int)s.elapsed+"s     SHOTS  "+s.shots+"     FALLS  "+s.deaths,748,700,1.8f,muted);
-            if(s.complete)text(b,"N 다음 스테이지     M 스테이지 선택",748,568,1.6f,muted);
+            if(s.complete) text(b,"TIME  "+(int)s.elapsed+"s     SHOTS  "+s.shots+"     FALLS  "+s.deaths,748,700,2.5f,muted);
+            if(s.complete)text(b,"N 다음 스테이지     M 스테이지 선택",748,568,2.3f,muted);
         }
         if(s.clear.frozen()&&!s.complete&&!paused)text(b,"클리어 보석 획득",1040,1070,2.5f,gold);
         if((s.deathTimer>0||s.deathWaiting)&&!paused) {

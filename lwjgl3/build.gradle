@@ -35,6 +35,8 @@ if (JavaVersion.current().isJava9Compatible()) {
 dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
   implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  implementation "net.java.dev.jna:jna:5.16.0"
+  implementation "net.java.dev.jna:jna-platform:5.16.0"
   implementation project(':core')
   testImplementation rootProject.project(':core').sourceSets.test.output
 

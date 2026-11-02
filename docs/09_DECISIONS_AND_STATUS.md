@@ -147,3 +147,11 @@ V2 실측 atlas rect와 5개 새 가로 배경을 추가하고 기존 세로 배
 ## 2026-10-30 시작 카메라 경로 보간 수정
 
 시작 안내 카메라는 스폰에서 시작해 전체 맵이 보이도록 축소하고, 보석 위치로 이동하며 일반 배율로 확대한 뒤 스폰으로 돌아온다. 16:9 화면비는 유지하고 줌에 맞게 월드 경계를 계산한다. 스테이지를 다시 불러올 때 연출 상태를 초기화해 배열 범위 초과를 막았다. `:lwjgl3:verifyCityNative` 28개 확인에서 연속 스테이지 로드, 전체 맵 프레이밍, 보석 확대, 스폰 복귀, 카메라 위치·줌 연속성과 시뮬레이션 정지를 확인했다. 상세 동작은 [13_STAGE_INTRO_CAMERA.md](13_STAGE_INTRO_CAMERA.md).
+
+## 2026-10-30 Windows 작업표시줄 앱 식별
+
+`lwjgl3:run`은 `java.exe` 안에서 GLFW 게임 창을 실행한다. 프로세스 AppUserModelID는 `05solar.HookRecoil`로 지정하고, Windows 배포 아이콘은 `lwjgl3/icons/logo.png`, 런타임 창 아이콘은 `lwjgl3/src/main/resources/hook-recoil-window-icon-*.png`를 사용한다. `SHGetPropertyStoreForWindow`를 통한 작업표시줄 재실행 아이콘 지정은 현재 `HRESULT 0x80070578`로 실패하므로 작업표시줄 표시까지 해결됐다고 보지 않는다. 창 아이콘 파일과 컴파일은 확인했지만, 작업표시줄 아이콘은 미해결이다.
+
+## 2026-10-30 클리어 결과 글자 크기
+
+클리어 화면의 다음 스테이지/스테이지 선택 안내를 기존 배율 1.6에서 2.3으로, TIME·SHOTS·FALLS 기록을 1.8에서 2.5로 확대했다. `:lwjgl3:compileJava :core:compileJava`가 통과했다. 실제 화면에서 줄바꿈·겹침 여부는 추가 확인이 필요하다.
