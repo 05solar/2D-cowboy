@@ -1,6 +1,6 @@
 /* 파일: MineDeviceRuntime.java
  * 역할: 광산·도시 공유 압착기·톱·공중 재충전 장치와 광산 이동체를 시뮬레이션한다.
- * 주요 책임: 고정 주기 갱신, 이동 발판 속도 전달, 상대 이동체 스윕 사망 판정, 재시작 위상 복원.
+ * 주요 책임: 고정 주기 갱신, 발판 표면·플레이어 폭 기준 탑승 및 속도 전달, 상대 이동체 스윕 사망 판정, 재시작 복원.
  * 협력 대상: StageRuntime, StageDefinition, PlayerState, GemSensor.
  * 수명: StageRuntime이 소유하며 체크포인트 복귀·재시작 때 모든 장치 상태를 초기화한다.
  * 관련 사양: docs/assets/mine_chapter/STAGES_06_10.md, docs/CITY_CHAPTER_V2.md.
@@ -46,12 +46,13 @@ public final class MineDeviceRuntime {
         for(StageDefinition.MineSaw s:stage.mineSaws) {s.x=s.previousX=s.fromX;s.y=s.previousY=s.fromY;s.angle=0;}
     }
 
-    public void tick(float dt,PlayerState player) {
+    public void tick(float dt,PlayerState player,float playerHalfWidth) {
         warning=false;riding=false;riderVx=riderVy=0;
         int riddenPlatform=-1;
         if(player.grounded) for(StageDefinition.MineMover m:stage.mineMovers) if(m.platform>=0) {
             StageDefinition.Block b=stage.platforms[m.platform];
-            if(Math.abs(player.y-b.surfaceY(player.x))<0.025f&&player.x+0.02f>b.x&&player.x-0.02f<b.x+b.width) {riddenPlatform=m.platform;break;}
+            boolean overlapsPlatform=player.x+playerHalfWidth>b.x&&player.x-playerHalfWidth<b.x+b.width;
+            if(Math.abs(player.y-b.surfaceY(player.x))<0.025f&&overlapsPlatform) {riddenPlatform=m.platform;break;}
         }
         float oldTime=time;time+=dt;
         for(StageDefinition.MineMover m:stage.mineMovers) {

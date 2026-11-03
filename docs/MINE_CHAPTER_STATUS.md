@@ -12,9 +12,10 @@
 
 ## 확인된 결과와 미완료 범위
 
-- `:core:verifyMineSurfaces`: 19 assertions 통과.
+- `:core:verifyMineSurfaces`: 최신 실행에서 21 assertions 통과. 과거 19 assertions 기록은 스테이지 10 가장자리 탑승 회귀 검사를 추가하기 전 결과다.
 - `:core:verifyPrologue`: 134 assertions, `:core:verifyCaves`: 최근 기록상 79 assertions 통과.
 - `:lwjgl3:verifyMinesNative`: 최근 기록상 19 checks 통과. 카드 시작 가능 여부와 광산 맵·배경 로딩을 확인했다.
+- 스테이지 10의 이동 광차 탑승은 플레이어 중심이 발판 밖에 있어도 충돌체 폭이 상판과 겹치면 탑승으로 인식하도록 수정했다. `:core:verifyMineSurfaces`의 21 assertions에서 가장자리 지지와 광차 이동 전달을 확인했다.
 - `:core:verifyMines`의 자동 입력 경로는 `mine_01`에서 보석까지 도달하지 못한다. 전체 광산 완주 경로는 검증되지 않았다.
 - 각 체크포인트의 정지 출발, 이동체·위험물 최대속도 관통, 재시작 반복, 수동 플레이 및 30/60/144 FPS 조작 일관성은 통과로 표시하지 않는다.
 

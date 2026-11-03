@@ -51,7 +51,7 @@ public final class MineVerification {
         float walkDx=(startBlock.width*.82f-.2f)/90f;
         for(int i=0;i<90;i++)s.collision.move(s.player,walkDx,-.001f);
         check(s.player.grounded&&s.collision.supports(s.player.x,s.player.y),"Walking stays grounded across the authored outer contour");
-        float liftSurface=s.definition.platforms[1].surfaceY(5.8f);s.player.reset(5.8f,liftSurface);s.player.grounded=true;s.mineDevices.tick(.25f,s.player);
+        float liftSurface=s.definition.platforms[1].surfaceY(5.8f);s.player.reset(5.8f,liftSurface);s.player.grounded=true;s.mineDevices.tick(.25f,s.player,s.config.halfWidth);
         check(s.player.y>liftSurface,"Riding lift carries player from its visible surface");
         s.player.grounded=false;s.mineDevices.transferLaunchVelocity(s.player);
         check(s.player.vy>0,"Leaving lift transfers its velocity exactly once");
@@ -60,6 +60,11 @@ public final class MineVerification {
         StageDefinition.Block cartBlock=game("mine_02").definition.platforms[1];
         float cartTopOffset=cartBlock.y+cartBlock.height-cartBlock.surfaceY(cartBlock.x+cartBlock.width*.5f);
         check(cartTopOffset>.04f&&cartTopOffset<.08f,"Minecart collision follows its top deck");
+        StageRuntime escape=game("mine_05");StageDefinition.Block escapeCart=escape.definition.platforms[5];
+        float edgeX=escapeCart.x-.1f,edgeY=escapeCart.surfaceY(edgeX);escape.player.reset(edgeX,edgeY);
+        check(escape.collision.supports(edgeX,edgeY),"Mine 10 cart supports the player's body when only its edge overlaps the deck");
+        escape.mineDevices.tick(.25f,escape.player,escape.config.halfWidth);
+        check(escape.player.x>edgeX+.001f,"Mine 10 moving cart carries a grounded player whose body overlaps at the deck edge");
 
         s=game("mine_04");s.player.reset(7.6f-0.12f,7.65f);s.player.grounded=false;s.player.previousX=7.1f;s.player.previousY=8.2f;s.player.ammo=0;
         check(s.mineDevices.tryRecharge(s.player,s.config)&&s.player.ammo==2,"Airborne recharge ring restores two shots");
@@ -70,7 +75,7 @@ public final class MineVerification {
         check(s.mineDevices.lethal(s.player,s.config),"Saw uses circular body collision");
 
         s=game("mine_03");StageDefinition.MineCrusher crusher=s.definition.mineCrushers[0];
-        s.mineDevices.tick(2.05f,s.player);check(crusher.extension>0,"Crusher extends through its timed states");
+        s.mineDevices.tick(2.05f,s.player,s.config.halfWidth);check(crusher.extension>0,"Crusher extends through its timed states");
         s.player.reset(crusher.x+crusher.width*.5f,crusher.topY-crusher.extension+.1f);
         check(s.mineDevices.lethal(s.player,s.config),"Extended crusher contact is lethal");
         float start=s.definition.mineCrushers[0].extension;s.respawn();
