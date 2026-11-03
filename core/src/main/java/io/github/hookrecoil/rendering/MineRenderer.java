@@ -10,7 +10,6 @@ package io.github.hookrecoil.rendering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import io.github.hookrecoil.assets.CaveAssets;
 import io.github.hookrecoil.stage.StageDefinition;
 import io.github.hookrecoil.stage.StageRuntime;
@@ -22,7 +21,6 @@ public final class MineRenderer {
 
     public void draw(SpriteBatch batch,StageRuntime stage) {
         float u=stage.config.pixelsPerH;
-        drawRails(batch,stage,u);
         drawTerrain(batch,stage,u);
         drawSpikes(batch,stage,u);
         drawCrushers(batch,stage,u);
@@ -30,20 +28,6 @@ public final class MineRenderer {
         drawMovers(batch,stage,u);
         drawRechargeRings(batch,stage,u);
         drawCheckpoints(batch,stage,u);
-    }
-
-    private void drawRails(SpriteBatch b,StageRuntime s,float u) {
-        for(StageDefinition.MineMover m:s.definition.mineMovers) {
-            float x0=Math.min(m.fromX,m.toX)*u,y0=Math.min(m.fromY,m.toY)*u;
-            float x1=Math.max(m.fromX,m.toX)*u,y1=Math.max(m.fromY,m.toY)*u;
-            if(Math.abs(m.fromX-m.toX)>.01f) {
-                TextureRegion rail=region("guide_rail");float h=(x1-x0)*rail.getRegionHeight()/rail.getRegionWidth();
-                b.setColor(.78f,.69f,.52f,.55f);b.draw(rail,x0,(m.fromY+m.toY)*u*.5f-h*.5f,x1-x0,h);b.setColor(Color.WHITE);
-            } else if(Math.abs(m.fromY-m.toY)>.01f) {
-                TextureRegion rail=region("guide_rail");float h=(y1-y0),w=h*rail.getRegionWidth()/rail.getRegionHeight();
-                b.setColor(.78f,.69f,.52f,.55f);b.draw(rail,(m.fromX*u)-w*.5f,y0,w,h);b.setColor(Color.WHITE);
-            }
-        }
     }
 
     private void drawTerrain(SpriteBatch b,StageRuntime s,float u) {

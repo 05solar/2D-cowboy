@@ -5,7 +5,7 @@
 ## 프로젝트 파일과 ID
 
 - 제공 묶음의 배경·시트 PNG와 `atlas.json`, `stages.json`, `ui_layout.json`, `validation.json`은 `assets/cave_chapter/`에 원본 그대로 복사했다. 함께 온 적용 문서는 `docs/assets/cave_chapter/`에서 확인한다. `preview.html`은 웹 런타임으로 사용하지 않는다.
-- `assets/stages/prologue.json`은 독립 ID `prologue`다. 제공 `stages.json`의 20개 본편에는 `cave_01`~`surface_05`만 들어간다. 광산 이후 15개는 이름과 선행 조건만 보유하고 `available=false`다.
+- `assets/stages/prologue.json`은 독립 ID `prologue`다. `assets/cave_chapter/stages.json`에는 프롤로그와 분리된 본편 20개 ID가 있다. 현재 테스트 설정은 구현 데이터가 있는 `cave_01`~`city_05`(본편 1~15)를 `available=true`로 두고, 맵이 없는 `surface_01`~`surface_05`(16~20)는 `available=false`로 둔다. 시작 가능 표시는 클리어 경로 검증을 뜻하지 않는다.
 - 동굴 배치: `assets/stages/cave_01.json`~`cave_05.json`. 공통 속성은 `StageDefinition`; 해석은 `StageCatalog` 및 `GameplayScreen.loadStage`가 담당한다. 배경 경로는 카탈로그 ID로 선택하고 `CaveAssets.background`가 필요할 때만 불러온다.
 - 실측 좌표의 모든 시트 영역은 `CaveAssets`가 atlas `rect` 그대로 추출한다. 캐릭터 획득 시트는 기존 `GemAssets`가 계속 사용한다. PNG를 수정하거나 자동 등분하지 않는다.
 - 맵 좌표 생성기는 `tools/BuildCaveMaps.py`, 재현 가능한 120Hz 실제 입력 경로는 `assets/stages/cave_routes.json`과 `core/src/test/.../CaveRouteDriver.java`에 있다. 맵 콜라이더는 데이터 사각형만 사용하며 배경 그림에서 만들지 않는다.
