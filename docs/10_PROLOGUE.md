@@ -6,14 +6,14 @@
 
 ## 플레이 피드백 반영: 크기·총·스윙
 
-- 캐릭터 표시와 충돌체를 기존의 75%로 축소했다. 현재 충돌체는 폭 0.345H, 높이 0.75H이며 H는 맵의 기존 기준 단위를 유지한다. 손·총·섬광·갈고리 연결점도 함께 맞췄다.
+- 캐릭터 충돌체는 폭 0.345H, 높이 0.75H다. 프롤로그 그림 크기는 `playerVisualScale=0.75`이며, 본편은 별도 `playerMainVisualScale=0.68`을 사용해 그림만 조금 더 작게 표시한다. 본편 표시 크기 변경은 충돌체·이동 물리를 바꾸지 않는다. 두 배율은 `assets/config/physics.json`에서 관리한다. H는 맵의 기존 기준 단위다.
 - 별도 회전 총 에셋은 불투명도 45%로 표시한다. 캐릭터 시트에 이미 그려진 총은 몸과 한 이미지이므로 원본대로 유지하며 캐릭터 전체를 반투명하게 만들지 않는다.
 - A/D 스윙 가속은 접선 방향 20H/s², 입력 가속 상한은 12H/s다. 일반 공중 가속과 분리해 기존 4.5H/s 제한에 막히지 않는다. 전체 속도 상한 16H/s는 유지한다.
 - 연결 후 줄을 최대 2.4H/s로 서서히 당겨 길이 3.7H까지 줄인다. 처음부터 더 짧은 줄을 늘리지는 않는다. 충돌 검사를 거쳐 위치를 보정한다.
 - 해제 순간에는 축적된 속도를 그대로 유지한다. 반복 해제로 공짜 충격량이 생기지 않는다. 최신 사용자 피드백에 따른 변경으로, 원본의 연결 시 줄 길이 고정 규칙보다 이 프롤로그 조작안을 우선한다.
 - 두 링을 연결하며 D로 가속하면 **총 발사 없이 건너편 x=36~41 발판에 착지 가능**하다. 반동은 추가 추진·보정에 사용할 수 있다. 5H의 천장 없는 구멍은 여전히 반동이 필요하다.
 
-설정 위치: `assets/config/physics.json`의 `playerVisualScale`, `gunOpacity`, `swingAcceleration`, `swingSpeed`, `ropeRetractSpeed`, `swingRopeLength`.
+설정 위치: `assets/config/physics.json`의 `playerVisualScale`, `playerMainVisualScale`, `gunOpacity`, `swingAcceleration`, `swingSpeed`, `ropeRetractSpeed`, `swingRopeLength`.
 
 ## 실행
 

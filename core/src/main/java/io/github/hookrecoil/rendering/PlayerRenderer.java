@@ -1,5 +1,5 @@
 /* 파일: PlayerRenderer.java
- * 역할: 발판 접점 기준 캐릭터 애니메이션. 책임: 속도 기반 air, 사망 대기 포즈, 뒤쪽 발사 반전, 독립 회전 총.
+ * 역할: 발판 접점 기준 캐릭터 애니메이션. 책임: 챕터별 표시 크기, 속도 기반 air, 사망 대기 포즈, 뒤쪽 발사 반전, 독립 회전 총.
  * 협력: GameAssets, StageRuntime. 관련 사양: docs/10_PROLOGUE.md. 원본 PNG는 변경하지 않는다.
  */
 package io.github.hookrecoil.rendering;
@@ -33,7 +33,8 @@ public class PlayerRenderer {
         float unit=stage.config.pixelsPerH;
         float x=Math.round(MathUtils.lerp(p.previousX,p.x,alpha)*unit);
         float y=Math.round(MathUtils.lerp(p.previousY,p.y,alpha)*unit);
-        float scale=stage.config.playerVisualScale;
+        float scale="prologue".equals(stage.definition.id)?stage.config.playerVisualScale:stage.config.playerMainVisualScale;
+        if(scale<=0)scale=stage.config.playerVisualScale;
         batch.draw(region,Math.round(x-region.getRegionWidth()*scale/2f),y-4*scale,region.getRegionWidth()*scale,region.getRegionHeight()*scale);
         // 시트에 포함된 총 자세는 유지하고, 별도 부품을 손 근처에서 실제 조준 방향으로 회전한다.
         if(stage.deathTimer<=0 && !stage.deathWaiting && stage.grapple.attached<0) {

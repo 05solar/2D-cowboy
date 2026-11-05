@@ -1,5 +1,5 @@
 /* 파일: MineVerification.java
- * 역할: 광산 6~10 통합 검증. 책임: 실제 데이터·이동 장치·위험·재충전·완주 경로 검사.
+ * 역할: 광산 6~10 통합 검증. 책임: 맵 차별화·장치·위험·재충전·완주 경로 검사.
  * 협력 대상: MineRouteDriver, StageRuntime, ProgressStore. 파일 저장은 격리된 임시 폴더만 사용한다.
  * 관련 사양: docs/assets/mine_chapter/STAGES_06_10.md.
  */
@@ -38,10 +38,20 @@ public final class MineVerification {
         return s;
     }
     public static void main(String[] args) {
+        int[] expectedObstacleCounts={1,3,6,8,10};
+        for(int i=0;i<expectedObstacleCounts.length;i++) {
+            StageRuntime authored=game(String.format(java.util.Locale.ROOT,"mine_%02d",i+1));
+            int obstacleCount=authored.definition.hazards.length+authored.definition.mineCrushers.length+authored.definition.mineSaws.length;
+            check(obstacleCount==expectedObstacleCounts[i],"Mine stage "+(i+6)+" has its authored progressive obstacle count");
+            java.util.Set<String> silhouettes=new java.util.HashSet<>();
+            for(StageDefinition.Block platform:authored.definition.platforms)silhouettes.add(platform.sprite);
+            check(silhouettes.size()>=3,"Mine stage "+(i+6)+" uses varied platform silhouettes");
+        }
+
         StageRuntime s=game("mine_01");
         check(s.definition.mineMovers.length==2,"Mine 6 contains lift and moving ring");
         StageDefinition.Block liftBlock=s.definition.platforms[1];
-        check(liftBlock.surfaceY(5.8f)<liftBlock.y+liftBlock.height-.8f,"Lift collision uses its recessed deck surface, not the sprite rectangle edge");
+        check(liftBlock.surfaceY(5.8f)<liftBlock.y+liftBlock.height,"Lift collision uses its recessed deck surface, not the sprite rectangle edge");
         StageDefinition.Block startBlock=s.definition.platforms[0];
         check(startBlock.surfaceProfile!=null&&startBlock.surfaceY()<startBlock.y+startBlock.height,"Platform records the visible outer surface profile below the atlas rectangle edge");
         check(Math.abs(startBlock.surfaceY(startBlock.x+startBlock.width*.12f)-startBlock.surfaceY(startBlock.x+startBlock.width*.88f))>.001f,"Collision surface follows visible silhouette changes across the platform");

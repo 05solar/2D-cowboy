@@ -1,74 +1,63 @@
-# 기술 사양
+# 기술 사양과 현재 구현
 
-## 현재 프로젝트에서 확인한 사실
+기준일: 2026-11-05. 이 문서는 저장소의 현재 구현과 아직 검증되지 않은 목표를 구분한다. 게임 규칙의 원본은 [HOOK_RECOIL 원본 명세](specs/HOOK_RECOIL_Game_Spec_v1.md)이며 수정하지 않는다.
 
-아래 표는 최초 문서 작성 시점의 템플릿 이력이다. 이후 프롤로그는 `HookRecoilGame` 진입점, 1280×720 창, 정적 충돌·줄 제약으로 구현했다. Java 21/Gradle 9.7.1 실행 및 회귀 검증 결과는 [프롤로그 문서](10_PROLOGUE.md)를 따른다.
+## 실행 기반
 
-| 항목 | 현재 상태 | 근거 파일 |
+| 항목 | 현재 구현 | 근거 |
 |---|---|---|
-| 언어·구조 | Java, `core` + `lwjgl3` Gradle 모듈 | `settings.gradle`, 각 `build.gradle` |
-| 게임 프레임워크 | libGDX `1.14.2` 선언 | `gradle.properties` |
-| 데스크톱 | LWJGL `3.4.3` 제약 선언 | `gradle.properties`, `lwjgl3/build.gradle` |
-| 소스·타깃 | Java 8 호환 설정 | 루트 및 데스크톱 `build.gradle` |
-| 시작 클래스 | `io.github.some_example_name.lwjgl3.Lwjgl3Launcher` | `lwjgl3/build.gradle` |
-| 게임 본체 | 로고를 그리는 `Main` 템플릿 | `core/src/main/java/.../Main.java` |
-| 현재 창 | 640×480 | `Lwjgl3Launcher.java` |
-| 물리 라이브러리 | 별도 Box2D 의존성 없음 | `core/build.gradle` |
-| 에셋 | 루트 `assets`를 데스크톱 리소스에 포함 | `lwjgl3/build.gradle` |
+| 언어·모듈 | Java, Gradle `core` + `lwjgl3` | `settings.gradle`, 모듈별 `build.gradle` |
+| 게임 프레임워크 | libGDX 1.14.2, LWJGL3 3.4.3 | `gradle.properties` |
+| 실행 환경 | Gradle wrapper 9.7.1, Java 21에서 사용 | `gradlew.bat`, 실행 검증 기록 |
+| 소스 호환 | Java 8 source/target 설정 | Gradle 설정 |
+| 게임 시작 클래스 | `io.github.hookrecoil.HookRecoilGame` | `core/src/main/java/io/github/hookrecoil/HookRecoilGame.java` |
+| 데스크톱 진입점 | `io.github.some_example_name.lwjgl3.Lwjgl3Launcher` | `lwjgl3/build.gradle` |
+| 물리 | 자체 고정 스텝, 플레이어 충돌·줄·장치 코드. Box2D 미사용 | `StageRuntime`, `CollisionWorld`, `GrappleSystem` |
+| 좌표 | 월드 단위 H, 기본 에셋 기준 `pixelsPerH=180` | `assets/config/physics.json` |
+| 표시 | 플레이 시야 16:9, 픽셀 아트 Nearest 렌더링 | 화면·에셋 로더 |
 
-버전은 로컬 설정을 기록한 것이며 최신 버전이라는 의미가 아니다. 실행·호환성 검증은 아직 수행하지 않았다. 현재 창과 로고는 게임 목표 사양이 아니다.
+게임은 기존 Java/libGDX 구조를 유지한다. 기준 PC의 성능 수치, 배포용 JRE 포함 패키지와 Windows 외 플랫폼은 검증된 사양으로 선언하지 않는다.
 
-## 채택할 개발 기준
+## 물리 설정
 
-- 기존 Java/libGDX/LWJGL3 구성을 사용한다. 프레임워크 교체는 계획에 없다.
-- 초기 구현은 현재 Java 8 문법·바이트코드 범위를 유지한다. Gradle 실행 JDK와 배포 JRE는 소스 호환 수준과 별개다. wrapper/daemon 설정에 맞는 실행 환경을 P0에서 검증한다.
-- 우선 검증·배포 대상은 Windows x64 데스크톱으로 잡는다(설계안). 다른 PC 운영체제 지원은 별도 검증 후 명시한다.
-- 물리 좌표는 오른쪽 +X, 위쪽 +Y, 플레이어 높이 1H, 시간은 초로 통일한다. 픽셀과 H 변환은 렌더·맵 로딩 경계에서만 한다.
-- 목표 표시 비율은 16:9. 논리 시야 크기는 P2에서 결정한다. 넓은 화면에서도 같은 월드 범위를 유지하고 남는 공간은 여백으로 처리한다.
-- 에셋 원본과 실행용 파일을 분리한다. 초기에는 도형 렌더링으로 진행한다.
+공통 초기값은 `assets/config/physics.json`에서 읽는다. 현재 값은 중력 24H/s², 점프 8H/s, 지상 속도 4.5H/s, 공중 가속 5H/s², 속도 상한 16H/s, 반동 5.5H/s, 탄창 2발, 발사 간격 0.22초, 갈고리 사거리 7H, 발사 속도 40H/s, 적중 반경 0.28H, 발사 간격 0.15초다. 코요테 시간 0.08초, 점프 버퍼 0.10초, 착지 유효 시간 0.05초다.
 
-## 물리 구현 결정 절차
+물리 루프는 120Hz 고정 스텝이다. 프레임 표시와 판정을 분리한다. 플레이어 충돌체는 폭 0.345H, 높이 0.75H다. 프롤로그 캐릭터 그림 배율 0.75, 본편 그림 배율 0.68이다. 이 변경은 시각 크기만 바꾸고 충돌체·물리 크기는 유지한다.
 
-물리 백엔드는 미정이다. `PhysicsWorld` 경계 아래에 숨기고, P1에서 직접 충돌/제약 구현 또는 물리 라이브러리 도입을 검토한다. 아직 사용하지 않는 라이브러리를 설치되어 있다고 가정하지 않는다.
+일부 프롤로그 이동 피드백 값은 설정에 별도로 있다: 스윙 가속 20H/s², 스윙 입력 속도 12H/s, 줄 당김 2.4H/s, 최종 줄 길이 3.7H, 별도 총 알파 0.45. 이 값은 프롤로그의 누적 조정 결과이며 모든 맵의 수동 밸런스 검증을 뜻하지 않는다.
 
-필수 실험: 느슨한 최대 거리 줄, 접선 속도 보존, 이동 고정점의 상대 속도, 얇은 지형에 대한 스윕/연속 충돌, 줄 위치 보정 중 관통 방지, 이동 발판 이탈 속도 1회 전달. 이 실험을 통과한 방식만 채택하고 구체 API와 의존 버전을 결정 기록에 남긴다.
+## 런타임 갱신 책임
 
-## 시간 갱신 계약 — 설계안
+- `InputRouter`는 키보드·마우스 이벤트를 `InputFrame`으로 전달한다.
+- `StageRuntime`은 스테이지 시간, 플레이어, 장치, 충돌, 사망·클리어 전이 순서를 소유한다.
+- `CollisionWorld`는 지형·플랫폼 충돌과 스윕을 처리한다. 광산 플랫폼은 수동 `surfaceProfile`을 사용하며 이미지 알파에서 자동 충돌을 만들지 않는다.
+- `GrappleSystem`, `RecoilSystem`, `PlayerController`는 각 조작 영역을 나눠 담당한다.
+- `DeviceRuntime`, `MineDeviceRuntime`, `CityDeviceRuntime`은 해당 장치 상태·시간·재시작을 관리한다.
+- `GameplayScreen`은 로딩·입력 차단·카메라·렌더 연결을 맡는다. `StageIntroCamera`는 스폰→전체 맵→보석→스폰 투어를 별도로 관리한다.
+- `ClearSequence`는 바닥에서 확인된 보석 획득 위치에 캐릭터를 고정하고 별도 연출 시계를 진행한다. 연출 시계는 일시정지/앱 비활성에서 멈춘다.
 
-1. 입력 이벤트를 수집해 다음 물리 틱의 `InputFrame`으로 전달한다. 짧은 클릭도 놓치지 않고 같은 클릭을 여러 틱에서 소비하지 않는다.
-2. 누적 시간으로 `dt=1/120초` 고정 갱신을 수행한다. 렌더링에서는 남은 누적 시간 비율로 위치를 보간한다.
-3. 틱 내 순서: 장치 위치·위상 갱신 → 입력/점프/반동 → 중력·기류·이동 → 스윕 충돌과 줄 제약 해결 → 접촉·착지/재충전 → 위험·트리거 수집 → 우선순위에 따른 상태 확정 → UI/음향 이벤트.
-4. 충돌과 줄 제약이 서로 위반을 재발시키지 않도록 해결 순서를 실험한다. 해결 불가능한 끼임을 지형 내부 위치로 확정하지 않는다.
-5. 같은 틱의 사망은 출구·체크포인트·수집 확정보다 우선한다(후자의 우선순위는 설계안). 저장·해금은 생존 확정 뒤 실행한다.
-6. 물리 시간과 시도 경과 시간을 분리한다. 시도 시간은 사망 연출·복원 대기를 포함하되 일시정지·포커스 상실은 제외한다.
-7. 과부하 시 무한 catch-up을 막는 최대 처리 정책은 P1에서 정한다. 게임을 임의 가변 dt로 돌리지 않는다. 정상 30FPS에서도 4틱/프레임 처리를 보장하며, 심각한 지연은 진단 로그에 남긴다.
+위 목록은 파일 책임 요약이다. 실제 메서드 계약과 초기화 경로는 해당 클래스를 기준으로 한다.
 
-동일 플랫폼·동일 빌드의 입력 재생 일관성을 우선한다. 서로 다른 CPU/OS의 비트 단위 결정성은 검증 없이 보장하지 않는다.
+## 화면·자원·저장
 
-## 성능·장치 요구
+자원은 `GameAssets`, `CaveAssets`, `GemAssets`가 로드하고 소유자가 해제한다. 스테이지 데이터는 `StageCatalog` 및 `StageDefinition`이 읽는다. 진행 저장은 ID 기반 `ProgressStore` schema 2이며 획득 중단 복구를 위한 pending journal을 가진다. 프롤로그의 과거 `CompletionStore` 기록은 새 진행 파일이 없을 때 `prologue` 완료로 이관한다. 저장 형식 세부사항은 [데이터·저장 상태](05_DATA_AND_SAVE_SPEC.md)를 참조한다.
 
-| 항목 | 목표/상태 |
-|---|---|
-| 물리 | 고정 120Hz |
-| 화면 | 기준 PC에서 1920×1080, 60FPS 이상 목표 |
-| 프레임 독립성 | 30/60/144FPS, 주요 도착점 오차 0.05H 이내 목표 |
-| 재시작 | 사망 연출 0.25초 이내, 조작 복귀 0.7초 이내 목표 |
-| 입력·통신 | 키보드·마우스, 오프라인, 계정·서버 불필요 |
-| CPU/GPU/RAM/디스크 최소·권장 | 미정, 완성된 대표 맵과 배포본 측정 후 작성 |
-| 개발 JDK/IDE/배포 JRE | P0에서 실제 실행 확인 후 버전 고정 |
+기본 창 실행은 `.\gradlew.bat :lwjgl3:run`, JAR 생성은 `.\gradlew.bat :lwjgl3:jar`다. 실행 아이콘·작업표시줄 재실행 아이콘 상태는 [작업 인수인계](PROJECT_HANDOFF.md)의 미해결 항목을 본다.
 
-최소 PC 사양을 추측으로 배포 문구에 넣지 않는다. P2에서 기준 PC의 OS·CPU·GPU·RAM·드라이버를 기록하고 P6에서 프레임 시간·메모리·로딩·설치 크기를 측정해 확정한다.
-
-## 실행·빌드 절차
-
-저장소 루트 PowerShell에서 사용할 기존 Gradle 작업:
+## 자동 검증 명령
 
 ```powershell
-.\gradlew.bat --version
-.\gradlew.bat lwjgl3:run
-.\gradlew.bat core:test
-.\gradlew.bat build
-.\gradlew.bat lwjgl3:jar
+.\gradlew.bat :core:verifyPrologue
+.\gradlew.bat :core:verifyCaves
+.\gradlew.bat :core:verifyMineSurfaces
+.\gradlew.bat :core:verifyMines
+.\gradlew.bat :core:verifyCity
+.\gradlew.bat :lwjgl3:verifyMinesNative
+.\gradlew.bat :lwjgl3:verifyCityNative
 ```
 
-`core:test`는 테스트 프레임워크와 테스트가 준비된 뒤 실제 검증 수단이 된다. 테스트 없음은 통과 증거가 아니다. JAR 출력은 `lwjgl3/build/libs/`. 런타임 포함 배포는 기존 Construo 설정을 검토하고 실제 패키징·실행을 확인한 뒤 확정한다. `local.properties`와 개인 환경 경로를 문서나 저장소에 복제하지 않는다.
+검증 결과는 시점별 기록이다. 기준일 현재 광산 표면 검증 31 assertions와 광산 네이티브 19 checks가 통과했다. `:core:verifyMines`는 `mine_01` 자동 경로가 2단계에서 grounded=false로 실패한다. 드라이버가 갈고리 조작을 재현하지 않으므로 실패 원인은 자동 경로의 한계일 수 있으며, 이는 수동 통과를 입증하지도 반증하지도 않는다. 챕터별 최신 결과는 [진행 기록](09_DECISIONS_AND_STATUS.md)을 본다.
+
+## 아직 완료로 볼 수 없는 항목
+
+성능 목표 1080p/60FPS, 30/60/144FPS 전체 맵 궤도 일관성, 모든 체크포인트에서 정지·2발 출발 통과, 100회 재시작, 챕터별 난도 상승 및 전체 수동 플레이는 완전히 검증되지 않았다. 최소·권장 PC 사양과 배포 패키지도 미정이다. 계획 문서의 수치나 성공 목표를 측정 결과로 인용하지 않는다.

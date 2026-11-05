@@ -31,8 +31,6 @@ def spike(x,y,w,h,direction):return dict(x=x,y=y,width=w,height=h,direction=dire
 
 def build(number,tops,centers,widths,kind,height,checkpoints,movers=None,crushers=None,saws=None,rings=None,hazards=None,ceilings=None,anchors=None):
     meta=next(x for x in patch['stages'] if x['number']==number)
-    # Give short authored ledges enough control room for air braking; the hazards and device timing carry difficulty.
-    widths=[max(w,3.2) if i not in (0,len(widths)-1) else w for i,w in enumerate(widths)]
     blocks=[platform(x,y,w) for x,y,w in zip(centers,tops,widths)]
     for m in movers or []:
         if m.get('platform',-1)>=0:
@@ -61,39 +59,50 @@ def build(number,tops,centers,widths,kind,height,checkpoints,movers=None,crusher
 def add_anchor(x,y,rail_x,rail_y,rail_w,mover=None):
     return [ceiling(rail_x,rail_y,rail_w)],[point(x,y)],[mover] if mover else []
 
-# 6 / 7 use their authored moving platforms on the lower route. Ring paths are fixed ping-pong.
-ce,an,mv=add_anchor(10.5,11.5,9.8,11.9,3.2,dict(id='lift_ring',kind='anchor',anchor=0,fromX=10.5,fromY=11.5,toX=13.5,toY=13.1,period=5.4))
-build(6,[2,2,3.5,5.3,7.1,8.9,10.7,12.5],[3,6,9,9,9,9,9,9],[5.2,2.4,2.2,2.1,2.0,2.0,2.0,4.2],
-      'lift',22,[3,6],[dict(id='lift_01',kind='lift',platform=1,fromX=4.8,fromY=1.2,toX=4.8,toY=3.7,period=7.2)]+
-      mv,ceilings=ce,anchors=an,hazards=[spike(11.8,15.6,1.1,.65,'ceiling')])
+# Each mine stage now has a distinct silhouette and a deliberately larger obstacle set.
+# Stage 6 teaches the lift on a broad zigzag; 7 makes carts cross a wider S route.
+ce,an,mv=add_anchor(11.2,11.8,10.2,12.2,3.0,dict(id='lift_ring',kind='anchor',anchor=0,fromX=11.2,fromY=11.8,toX=14.0,toY=13.4,period=5.4))
+build(6,[2.0,2.0,4.2,6.0,7.8,9.6,12.0,14.7],[3.0,6.0,9.0,9.0,9.0,9.0,11.0,14.0],[5.2,2.5,3.2,2.1,2.2,2.0,2.4,4.5],
+      'lift',22,[3,6],[dict(id='lift_01',kind='lift',platform=1,fromX=4.75,fromY=1.2,toX=4.75,toY=3.7,period=7.2)]+
+      mv,ceilings=ce,anchors=an,hazards=[spike(10.85,4.15,.55,.42,'floor')])
 
-ce,an,mv=add_anchor(12,12.3,10.4,12.7,3.2,dict(id='cart_ring',kind='anchor',anchor=0,fromX=12,fromY=12.3,toX=15, toY=13.3,period=4.8))
-build(7,[2,2,4.5,7,9.5,12,12,14.5,17],[3,6,9,6,3,6,9,9,6],[5.2,2.4,2.2,2.0,2.0,2.0,2.4,2.0,4.0],
-      'cart',22,[4,7],[dict(id='cart_01',kind='cart',platform=1,fromX=4.8,fromY=1.2,toX=7.6,toY=1.2,period=4.8),
-      dict(id='cart_02',kind='cart',platform=6,fromX=7.8,fromY=11.2,toX=10.2,toY=11.2,period=4.4,phase=.35)]+mv,
-      ceilings=ce,anchors=an,hazards=[spike(12,10.2,.8,.55,'ceiling'),spike(1.0,5.8,.55,1.1,'right')])
+# Stage 7 crosses the shaft twice with moving minecarts and adds three readable spike groups.
+ce,an,mv=add_anchor(12.6,13.0,11.0,13.4,3.2,dict(id='cart_ring',kind='anchor',anchor=0,fromX=12.6,fromY=13.0,toX=15.2,toY=14.1,period=4.8))
+build(7,[2.0,2.0,4.7,7.2,9.4,11.6,11.6,14.2,17.0],[3.0,6.0,10.0,14.0,11.0,7.0,9.0,12.0,15.0],[5.2,2.5,2.4,2.0,2.2,2.0,2.4,2.0,4.2],
+      'cart',22,[4,7],[dict(id='cart_01',kind='cart',platform=1,fromX=4.75,fromY=1.2,toX=7.25,toY=1.2,period=4.8),
+      dict(id='cart_02',kind='cart',platform=6,fromX=7.8,fromY=10.8,toX=10.2,toY=10.8,period=4.4,phase=.35)]+mv,
+      ceilings=ce,anchors=an,hazards=[spike(10.9,4.65,.55,.42,'floor'),spike(7.8,12.75,.6,.48,'ceiling'),spike(16.5,7.0,.55,1.0,'left')])
 
-ce,an,mv=add_anchor(11.8,14.1,10.2,14.5,3.2)
-build(8,[2,4.5,7,9.5,12,14.5,17,19.5],[3,6,9,6,3,6,9,6],[5.2,2.2,2.0,2.0,2.0,2.0,2.0,4.0],
-      'crusher',24,[3,6],crushers=[dict(id='press_upper',direction='down',x=7.4,topY=12.4,width=1.25,stroke=1.8,period=3.6,phase=.15),
-      dict(id='press_lower',direction='up',x=2.5,topY=15.5,width=1.25,stroke=1.55,period=3.6,phase=.62)],
-      ceilings=ce,anchors=an,hazards=[spike(11.5,17.3,1,.65,'ceiling'),spike(8.2,8.2,1.0,.55,'floor')])
+# Stage 8 is a crusher shaft: short side shelves alternate around two timed pistons.
+ce,an,mv=add_anchor(11.6,14.1,10.0,14.5,3.2)
+build(8,[2.0,4.4,6.7,9.0,11.3,13.6,15.9,18.2],[3.0,7.0,12.0,15.0,11.0,6.0,3.0,9.0],[5.2,2.5,2.2,2.0,2.1,1.9,2.0,4.2],
+      'crusher',24,[3,6],crushers=[dict(id='press_upper',direction='down',x=8.5,topY=8.8,width=1.25,stroke=1.55,period=3.6,phase=.15),
+      dict(id='press_lower',direction='up',x=4.0,topY=17.0,width=1.25,stroke=1.45,period=3.6,phase=.62)],
+      ceilings=ce,anchors=an,hazards=[spike(12.45,6.65,.55,.42,'floor'),spike(14.0,10.15,.65,.5,'ceiling'),
+      spike(.3,13.1,.55,1.0,'right'),spike(5.0,13.55,.55,.42,'floor')])
 
-ce,an,mv=add_anchor(11.8,13.5,10.2,13.9,3.2,dict(id='saw_route_anchor',kind='anchor',anchor=0,fromX=11.8,fromY=13.5,toX=14.2,toY=14.4,period=5.1))
-build(9,[2,4.5,7,9.5,12,14.5,17,19.5],[3,6,9,6,3,6,9,6],[5.2,2.2,2.0,2.0,2.0,2.0,2.0,4.0],
-      'saw',24,[3,6],movers=mv,saws=[dict(id='saw_01',fromX=10.8,fromY=10.8,toX=13.5,toY=10.8,radius=.55,period=3.6,phase=.2),
-      dict(id='saw_02',fromX=3.2,fromY=16.3,toX=5.2,toY=16.3,radius=.52,period=4.2,phase=.55)],
-      rings=[dict(id='mine_04.recharge.01',x=7.6,y=8.2,halfWidth=.35,halfHeight=.4)],ceilings=ce,anchors=an,
-      hazards=[spike(11.7,12.3,.8,.6,'floor'),spike(2.3,18.0,.9,.6,'ceiling')])
+# Stage 9 is a saw gallery with a long horizontal transfer between alternating ledges.
+ce,an,mv=add_anchor(12.4,14.2,10.8,14.6,3.2,dict(id='saw_route_anchor',kind='anchor',anchor=0,fromX=12.4,fromY=14.2,toX=15.2,toY=15.0,period=5.1))
+build(9,[2.0,4.5,7.0,9.5,12.0,14.5,17.0,19.5],[3.0,7.0,12.0,16.0,12.0,7.0,3.0,9.0],[5.2,2.4,2.0,1.8,2.0,1.8,2.0,4.2],
+      'saw',24,[3,6],movers=mv,saws=[dict(id='saw_01',fromX=9.5,fromY=8.6,toX=14.5,toY=8.6,radius=.52,period=3.6,phase=.2),
+      dict(id='saw_02',fromX=4.2,fromY=13.0,toX=8.5,toY=13.0,radius=.52,period=4.2,phase=.55),
+      dict(id='saw_03',fromX=7.4,fromY=18.0,toX=12.0,toY=18.0,radius=.5,period=4.6,phase=.15)],
+      rings=[dict(id='mine_04.recharge.01',x=8.0,y=8.1,halfWidth=.35,halfHeight=.4)],ceilings=ce,anchors=an,
+      hazards=[spike(12.65,6.95,.55,.42,'floor'),spike(17.1,9.1,.5,1.0,'left'),spike(11.0,11.2,.65,.5,'ceiling'),
+      spike(6.0,14.45,.6,.42,'floor'),spike(.4,16.5,.55,1.0,'right')])
 
-ce,an,mv=add_anchor(12,16.0,10.4,16.4,3.2,dict(id='escape_ring',kind='anchor',anchor=0,fromX=12,fromY=16,toX=15, toY=17.4,period=5.2))
-build(10,[2,4.5,7,9.5,12,14.5,17,19.5,22],[3,6,9,6,3,6,9,6,3],[5.2,2.2,2.0,2.0,2.0,2.0,2.0,2.0,4.0],
-      'escape',27,[4],movers=[dict(id='escape_lift',kind='lift',platform=2,fromX=7.9,fromY=6.2,toX=7.9,toY=8.0,period=6.2),
-      dict(id='escape_cart',kind='cart',platform=5,fromX=5,fromY=13.7,toX=7, toY=13.7,period=4.6)]+mv,
-      crushers=[dict(id='escape_press',direction='down',x=7.4,topY=17.2,width=1.25,stroke=1.8,period=3.6,phase=.18)],
-      saws=[dict(id='escape_saw',fromX=10.4,fromY=20.2,toX=13.2,toY=20.2,radius=.55,period=3.8,phase=.15)],
-      rings=[dict(id='mine_05.recharge.01',x=7.5,y=15.1,halfWidth=.35,halfHeight=.4)],ceilings=ce,anchors=an,
-      hazards=[spike(11.7,18.6,.9,.6,'ceiling'),spike(1.5,7.5,1,.55,'floor'),spike(10.4,11.0,.8,.6,'floor')])
+# Stage 10 combines a lift, cart, moving ring, two crushers, two saw paths and six spike groups.
+ce,an,mv=add_anchor(12.5,16.2,10.9,16.6,3.2,dict(id='escape_ring',kind='anchor',anchor=0,fromX=12.5,fromY=16.2,toX=15.5,toY=17.6,period=5.2))
+build(10,[2.0,4.3,6.6,8.9,11.2,13.5,15.8,18.1,20.4],[3.0,6.0,10.0,15.0,12.0,8.0,3.0,10.0,15.0],[5.2,2.3,2.0,1.9,1.8,1.8,1.8,2.6,4.8],
+      'escape',26,[4],movers=[dict(id='escape_lift',kind='lift',platform=2,fromX=9.0,fromY=5.8,toX=9.0,toY=7.5,period=6.2),
+      dict(id='escape_cart',kind='cart',platform=5,fromX=7.1,fromY=12.7,toX=9.1,toY=12.7,period=4.6)]+mv,
+      crushers=[dict(id='escape_press_upper',direction='down',x=13.4,topY=11.5,width=1.2,stroke=1.4,period=3.6,phase=.18),
+      dict(id='escape_press_lower',direction='up',x=5.0,topY=17.6,width=1.2,stroke=1.3,period=3.6,phase=.58)],
+      saws=[dict(id='escape_saw_01',fromX=10.0,fromY=12.7,toX=14.3,toY=12.7,radius=.5,period=3.8,phase=.15),
+      dict(id='escape_saw_02',fromX=4.2,fromY=18.0,toX=8.2,toY=18.0,radius=.5,period=4.1,phase=.42)],
+      rings=[dict(id='mine_05.recharge.01',x=8.0,y=15.0,halfWidth=.35,halfHeight=.4)],ceilings=ce,anchors=an,
+      hazards=[spike(10.55,6.55,.45,.42,'floor'),spike(10.35,6.05,.65,.5,'ceiling'),spike(17.0,8.7,.5,1.0,'left'),
+      spike(11.2,13.0,.65,.48,'ceiling'),spike(3.55,15.75,.55,.42,'floor'),spike(.4,19.1,.55,1.0,'right')])
 
 routes={
  'mine_01':[dict(platform=1,waitTop=4.4),dict(platform=2),dict(platform=3),dict(platform=4),dict(platform=5),dict(platform=6),dict(platform=7)],

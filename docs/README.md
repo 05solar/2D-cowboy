@@ -1,38 +1,40 @@
 # HOOK & RECOIL 개발 문서
 
-문서 기준일: 2026-11-03. 프로젝트는 Java/libGDX `core`·`lwjgl3` 구조를 사용한다. 프롤로그와 본편 1~15의 아트·맵 데이터가 연결되어 있으며, 본편 16~20은 아직 실행 가능한 맵이 없다. 카탈로그에서 1~15는 테스트를 위해 시작 가능하고, 이는 각 스테이지의 완주 검증을 뜻하지 않는다. 새 세션에서 이어서 작업할 때는 [작업 인수인계](PROJECT_HANDOFF.md)를 먼저 읽는다.
+문서 기준일: 2026-11-05. 프로젝트는 기존 Java/libGDX `core`·`lwjgl3` 구조를 사용한다. 프롤로그와 본편 1~15의 실행 데이터가 있으며, 16~20은 카탈로그 메타데이터만 있고 맵이 없다. 테스트용 `available=true`는 클리어 검증을 의미하지 않는다.
 
-## 현재 상태와 실행
+## 시작·현재 상태
 
-- 실행: `.\gradlew.bat :lwjgl3:run`
-- 전체 현황 및 남은 검증: [결정·진행 기록](09_DECISIONS_AND_STATUS.md)
-- 새 세션 재개 안내: [작업 인수인계](PROJECT_HANDOFF.md)
-- 동굴 1~5: [동굴 적용 상태](12_CAVE_CHAPTER.md)
-- 광산 6~10: [광산 적용 상태](MINE_CHAPTER_STATUS.md)
-- 지하도시 11~15의 현재 V2 아트와 검증 범위: [지하도시 V2](CITY_CHAPTER_V2.md)
-- 플레이 조작·화면·획득 연출: [프롤로그](10_PROLOGUE.md), [보석 클리어](11_GEM_CLEAR.md)
-- 게임 시작 카메라: [시작 카메라](13_STAGE_INTRO_CAMERA.md)
+- 실행: 프로젝트 루트 PowerShell에서 `.\gradlew.bat :lwjgl3:run`
+- 새 세션 인수인계: [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)
+- 현재 결정 및 변경 이력: [09_DECISIONS_AND_STATUS.md](09_DECISIONS_AND_STATUS.md)
+- 현재 검증 범위: [07_TEST_PLAN.md](07_TEST_PLAN.md)
+- 동굴 1~5: [12_CAVE_CHAPTER.md](12_CAVE_CHAPTER.md)
+- 광산 6~10: [MINE_CHAPTER_STATUS.md](MINE_CHAPTER_STATUS.md)
+- 지하도시 11~15: [CITY_CHAPTER_V2.md](CITY_CHAPTER_V2.md)
+- 조작과 시각 표현: [10_PROLOGUE.md](10_PROLOGUE.md)
+- 지상 보석 획득·완료 저장: [11_GEM_CLEAR.md](11_GEM_CLEAR.md)
+- 시작 카메라: [13_STAGE_INTRO_CAMERA.md](13_STAGE_INTRO_CAMERA.md)
 
-각 상태 문서는 자동 검사, 실제 입력 경로, 수동 플레이테스트를 구분한다. 결과가 없는 항목은 통과로 간주하지 않는다. V1·V2 에셋 문서와 단계별 설계는 제작 참고 자료이며, 실제 런타임 연결 여부는 위 상태 문서를 기준으로 한다.
+각 결과는 실행 시점에 종속된다. 자동 경로, 네이티브 데이터 로드, 수동 플레이테스트는 서로 다른 검증으로 기록한다.
 
-## 설계·작업 기준
+## 기준 문서
 
-| 문서 | 내용 |
+| 문서 | 범위 |
 |---|---|
-| [게임 원본 명세](specs/HOOK_RECOIL_Game_Spec_v1.md) | 게임 규칙과 본편 20개 기획. 원본 보존 |
-| [개발 프로세스](01_DEVELOPMENT_PROCESS.md) | 단계별 작업·완료 기준 |
-| [기술 사양](02_TECHNICAL_SPEC.md) | 엔진, 물리 갱신, 성능 기준 |
-| [기능 사양](03_FEATURE_SPEC.md) | 입력·이동·갈고리·반동·진행·화면 계약 |
-| [파일 구조](04_PROJECT_STRUCTURE.md) | 기능별 패키지와 파일 책임 |
-| [데이터·저장 사양](05_DATA_AND_SAVE_SPEC.md) | 스테이지 데이터와 저장·복구 정책 |
-| [코드 작성 규칙](06_CODING_RULES.md) | 파일 분리, 주석, 명명, 자원 수명 |
-| [검증 계획](07_TEST_PLAN.md) | 자동 검사와 수동 플레이테스트 기준 |
-| [콘텐츠·에셋 계획](08_CONTENT_AND_ASSETS.md) | 본편 콘텐츠 및 에셋 제작 계획 |
-| [결정·진행 기록](09_DECISIONS_AND_STATUS.md) | 최신 상태 요약과 변경 이력 |
+| [원본 게임 명세](specs/HOOK_RECOIL_Game_Spec_v1.md) | 보존된 게임 기획 원문 |
+| [개발 프로세스](01_DEVELOPMENT_PROCESS.md) | 단계·완료 조건과 현재 범위 |
+| [기술 사양](02_TECHNICAL_SPEC.md) | 실제 엔진·물리·실행 구성 |
+| [기능 사양](03_FEATURE_SPEC.md) | 조작·상태·원본과 현재 차이 |
+| [파일 구조](04_PROJECT_STRUCTURE.md) | 현재 코드·데이터 책임 |
+| [데이터·저장](05_DATA_AND_SAVE_SPEC.md) | 실제 ID·맵·schema 2 저장 |
+| [코드 규칙](06_CODING_RULES.md) | 기능 분리·상단 주석·리소스 수명 |
+| [검증 방법](07_TEST_PLAN.md) | 명령과 테스트 한계 |
+| [콘텐츠·에셋](08_CONTENT_AND_ASSETS.md) | 1~20 리소스 범위 및 연결 상태 |
+| [결정·진행 기록](09_DECISIONS_AND_STATUS.md) | 최신 상태 및 변경 이력 |
 
-## 문서 유지 규칙
+## 유지 규칙
 
-- [루트 AGENTS.md](../AGENTS.md)와 [코드 작성 규칙](06_CODING_RULES.md)을 소스 수정 전에 따른다.
-- 원본 명세를 임의로 덮어쓰지 않는다. 후속 문서에는 설계 목표와 검증된 사실을 구분해 쓴다.
-- 기능·데이터 구조 변경은 관련 사양과 진행 기록에 함께 반영한다.
-- 에셋 원본과 참고 문서는 보존한다. 실제 런타임에서 사용되는 리소스는 챕터 상태 문서와 코드로 확인한다.
+- 새 작업은 [루트 AGENTS.md](../AGENTS.md)와 관련 최신 상태 문서를 먼저 읽는다.
+- 원본 사양과 제공 에셋 라이선스/atlas 자료는 보존한다. 현재 구현과 달라진 부분은 별도 상태 문서에 쓴다.
+- 문서의 목표·초기 수치와 실제 검사 결과를 구분한다. 실행하지 않은 검증은 PASS로 쓰지 않는다.
+- 공유 문서에 개발자 개인 경로·`local.properties` 내용을 기록하지 않는다.
