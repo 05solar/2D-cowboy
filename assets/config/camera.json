@@ -1,3 +1,7 @@
 {
-  "gameplayZoom": 1.2
+  "gameplayZoom": 1.0,
+  "verticalFollowOffset": 70,
+  "verticalFollowDeadZone": 150,
+  "lowerEdgeAllowance": 120,
+  "prologueCameraY": 520
 }

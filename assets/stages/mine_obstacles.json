@@ -1,0 +1,407 @@
+{
+  "mine_01": {
+    "cityBarriers": [
+      {
+        "id": "mine_01.barrier.1",
+        "x": 8.5,
+        "y": 2.1,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 8.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      },
+      {
+        "id": "mine_01.barrier.6",
+        "x": 20.6,
+        "y": 6.3,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 8.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      }
+    ],
+    "hazards": [],
+    "mineCrushers": [],
+    "mineSaws": []
+  },
+  "mine_02": {
+    "cityBarriers": [
+      {
+        "id": "mine_02.barrier.2",
+        "x": 9.1,
+        "y": 2.1,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 6.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.4,
+        "phase": 0
+      },
+      {
+        "id": "mine_02.barrier.4",
+        "x": 17.6,
+        "y": 5.3,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 6.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.4,
+        "phase": 0
+      },
+      {
+        "id": "mine_02.barrier.8",
+        "x": 16.6,
+        "y": 6.3,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 6.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.4,
+        "phase": 0
+      }
+    ],
+    "hazards": [
+      {
+        "x": 13.806,
+        "y": 4.513,
+        "width": 0.4,
+        "height": 0.35,
+        "direction": "floor"
+      },
+      {
+        "x": 18.373,
+        "y": 6.304,
+        "width": 0.4,
+        "height": 0.35,
+        "direction": "floor"
+      }
+    ],
+    "mineCrushers": [],
+    "mineSaws": []
+  },
+  "mine_03": {
+    "cityBarriers": [
+      {
+        "id": "mine_03.barrier.1",
+        "x": 9.6,
+        "y": 2.1,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 5.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.6,
+        "phase": 0
+      },
+      {
+        "id": "mine_03.barrier.3",
+        "x": 18.1,
+        "y": 2.6,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 5.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.6,
+        "phase": 0
+      },
+      {
+        "id": "mine_03.barrier.5",
+        "x": 23.1,
+        "y": 3.6,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 5.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.6,
+        "phase": 0
+      },
+      {
+        "id": "mine_03.barrier.7",
+        "x": 32.1,
+        "y": 4.6,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 5.6,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.6,
+        "phase": 0
+      },
+      {
+        "id": "mine_03.barrier.floor4",
+        "x": 22.6,
+        "y": 4.42,
+        "width": 1.6,
+        "height": 0.18,
+        "offSeconds": 5.6,
+        "warningSeconds": 0.3,
+        "onSeconds": 0.8,
+        "phase": 0
+      }
+    ],
+    "hazards": [],
+    "mineCrushers": [
+      {
+        "id": "mine_03.press.2",
+        "direction": "down",
+        "x": 13.5,
+        "topY": 7.3,
+        "width": 0.7,
+        "stroke": 3.6,
+        "period": 5.5,
+        "phase": 0.5833318181818181
+      },
+      {
+        "id": "mine_03.press.6",
+        "direction": "down",
+        "x": 27.3,
+        "topY": 8.0,
+        "width": 0.7,
+        "stroke": 3.6,
+        "period": 5.5,
+        "phase": 0.08032181818181817
+      }
+    ],
+    "mineSaws": []
+  },
+  "mine_04": {
+    "cityBarriers": [
+      {
+        "id": "mine_04.barrier.1",
+        "x": 8.1,
+        "y": 3.1,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 7.4,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      },
+      {
+        "id": "mine_04.barrier.3",
+        "x": 16.1,
+        "y": 5.3,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 7.4,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      },
+      {
+        "id": "mine_04.barrier.5",
+        "x": 20.1,
+        "y": 6.5,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 7.4,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      },
+      {
+        "id": "mine_04.barrier.6",
+        "x": 18.9,
+        "y": 8.1,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 7.4,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      },
+      {
+        "id": "mine_04.barrier.8",
+        "x": 17.1,
+        "y": 10.4,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 7.4,
+        "warningSeconds": 0.4,
+        "onSeconds": 1.2,
+        "phase": 0
+      }
+    ],
+    "hazards": [],
+    "mineCrushers": [],
+    "mineSaws": [
+      {
+        "id": "mine_04.saw.2",
+        "fromX": 8.0,
+        "toX": 8.15,
+        "fromY": 4.2,
+        "toY": 4.2,
+        "radius": 0.38,
+        "period": 4.6,
+        "phase": 0.8583333333333333
+      },
+      {
+        "id": "mine_04.saw.4",
+        "fromX": 15.95,
+        "toX": 16.15,
+        "fromY": 6.4,
+        "toY": 6.4,
+        "radius": 0.38,
+        "period": 4.6,
+        "phase": 0.06666666666666667
+      },
+      {
+        "id": "mine_04.saw.5",
+        "fromX": 19.549999999999997,
+        "toX": 20.15,
+        "fromY": 7.6,
+        "toY": 7.6,
+        "radius": 0.38,
+        "period": 4.6,
+        "phase": 0.5958333333333333
+      }
+    ],
+    "rechargeRings": [
+      {
+        "id": "mine_04.recharge.01",
+        "x": 16.775394,
+        "y": 13.430951,
+        "halfWidth": 0.35,
+        "halfHeight": 0.4
+      }
+    ]
+  },
+  "mine_05": {
+    "cityBarriers": [
+      {
+        "id": "mine_05.barrier.1",
+        "x": 9.1,
+        "y": 3.5,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 4.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 2.0,
+        "phase": 0
+      },
+      {
+        "id": "mine_05.barrier.3",
+        "x": 15.1,
+        "y": 5.9,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 4.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 2.0,
+        "phase": 0
+      },
+      {
+        "id": "mine_05.barrier.5",
+        "x": 21.1,
+        "y": 8.3,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 4.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 2.0,
+        "phase": 0
+      },
+      {
+        "id": "mine_05.barrier.7",
+        "x": 27.1,
+        "y": 10.7,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 4.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 2.0,
+        "phase": 0
+      },
+      {
+        "id": "mine_05.barrier.9",
+        "x": 33.1,
+        "y": 13.1,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 4.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 2.0,
+        "phase": 0
+      },
+      {
+        "id": "mine_05.barrier.11",
+        "x": 39.1,
+        "y": 15.5,
+        "width": 0.14,
+        "height": 5.4,
+        "offSeconds": 4.0,
+        "warningSeconds": 0.4,
+        "onSeconds": 2.0,
+        "phase": 0
+      },
+      {
+        "id": "mine_05.barrier.floor6",
+        "x": 21.1,
+        "y": 9.1,
+        "width": 1.8,
+        "height": 0.18,
+        "offSeconds": 5.0,
+        "warningSeconds": 0.3,
+        "onSeconds": 1.0,
+        "phase": 0
+      }
+    ],
+    "hazards": [],
+    "mineCrushers": [
+      {
+        "id": "mine_05.press.4",
+        "direction": "down",
+        "x": 17.75,
+        "topY": 11.3,
+        "width": 0.7,
+        "stroke": 3.6,
+        "period": 4.6,
+        "phase": 0.24242181818181818
+      },
+      {
+        "id": "mine_05.press.10",
+        "direction": "down",
+        "x": 35.8,
+        "topY": 18.5,
+        "width": 0.7,
+        "stroke": 3.6,
+        "period": 4.6,
+        "phase": 0.7560818181818181
+      }
+    ],
+    "mineSaws": [
+      {
+        "id": "mine_05.saw.2",
+        "fromX": 11.45,
+        "toX": 12.15,
+        "fromY": 5.8,
+        "toY": 5.8,
+        "radius": 0.38,
+        "period": 4.6,
+        "phase": 0.44166666666666665
+      },
+      {
+        "id": "mine_05.saw.6",
+        "fromX": 20.95,
+        "toX": 21.15,
+        "fromY": 9.4,
+        "toY": 9.4,
+        "radius": 0.38,
+        "period": 4.6,
+        "phase": 0.95
+      },
+      {
+        "id": "mine_05.saw.8",
+        "fromX": 29.5,
+        "toX": 30.15,
+        "fromY": 13.0,
+        "toY": 13.0,
+        "radius": 0.38,
+        "period": 4.6,
+        "phase": 0.6666666666666666
+      }
+    ]
+  }
+}

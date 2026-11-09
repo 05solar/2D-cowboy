@@ -61,21 +61,25 @@ public final class NativeCityVerification extends ApplicationAdapter {
         float worldHeight=introStage.definition.height*introStage.config.pixelsPerH;
         float halfWidth=1280*gameplayZoom,halfHeight=720*gameplayZoom;
         float minX=Math.min(halfWidth,worldWidth*.5f),maxX=Math.max(minX,worldWidth-halfWidth);
-        float minY=Math.min(halfHeight,worldHeight*.5f),maxY=Math.max(minY,worldHeight-halfHeight);
+        CameraConfig cameraSettings=(CameraConfig)field("cameraConfig");
+        float minY=Math.min(Math.max(0,halfHeight-cameraSettings.lowerEdgeAllowance),worldHeight*.5f);
+        float maxY=Math.max(minY,worldHeight-halfHeight);
         float spawnCameraX=MathUtils.clamp(introStage.player.x*introStage.config.pixelsPerH+430,minX,maxX);
-        float spawnCameraY=MathUtils.clamp(introStage.player.y*introStage.config.pixelsPerH+220,minY,maxY);
+        float spawnCameraY=MathUtils.clamp(introStage.player.y*introStage.config.pixelsPerH+cameraSettings.verticalFollowOffset,minY,maxY);
         float gemCameraX=MathUtils.clamp(introStage.definition.clearGem.x*introStage.config.pixelsPerH+430,minX,maxX);
-        float gemCameraY=MathUtils.clamp(introStage.definition.clearGem.y*introStage.config.pixelsPerH+220,minY,maxY);
+        float gemCameraY=MathUtils.clamp(introStage.definition.clearGem.y*introStage.config.pixelsPerH+cameraSettings.verticalFollowOffset,minY,maxY);
         Object intro=field("introCamera");
         Method overviewReached=intro.getClass().getDeclaredMethod("overviewReachedAt");overviewReached.setAccessible(true);
         Method gemReached=intro.getClass().getDeclaredMethod("gemReachedAt");gemReached.setAccessible(true);
         float overviewSeconds=(Float)overviewReached.invoke(intro),gemSeconds=(Float)gemReached.invoke(intro);
+        check(overviewSeconds<=1.9f,"Opening camera reveals the whole map promptly");
         int overviewFrames=(int)Math.ceil(overviewSeconds*60);
-        float previousX=camera.position.x,previousY=camera.position.y,maxStep=0,previousZoom=camera.zoom,maxZoomStep=0;
+        float previousX=camera.position.x,previousY=camera.position.y,maxScreenStep=0,previousZoom=camera.zoom,maxZoomStep=0;
         for(int i=0;i<overviewFrames;i++) {
             screen.render(overviewSeconds/overviewFrames);
-            maxStep=Math.max(maxStep,(float)Math.sqrt((camera.position.x-previousX)*(camera.position.x-previousX)
-                +(camera.position.y-previousY)*(camera.position.y-previousY)));
+            float worldStep=(float)Math.sqrt((camera.position.x-previousX)*(camera.position.x-previousX)
+                +(camera.position.y-previousY)*(camera.position.y-previousY));
+            maxScreenStep=Math.max(maxScreenStep,worldStep*1280f/(2560f*camera.zoom));
             maxZoomStep=Math.max(maxZoomStep,Math.abs(camera.zoom-previousZoom));
             previousX=camera.position.x;previousY=camera.position.y;previousZoom=camera.zoom;
         }
@@ -83,19 +87,24 @@ public final class NativeCityVerification extends ApplicationAdapter {
         boolean fullMapInFrame=camera.position.x-1280*camera.zoom<=1&&camera.position.x+1280*camera.zoom>=worldWidth-1
             &&camera.position.y-720*camera.zoom<=1&&camera.position.y+720*camera.zoom>=worldHeight-1;
         check(camera.zoom>=requiredZoom&&fullMapInFrame,"Opening camera zooms out to fit the whole stage");
+        float safeHalfHeight=522*camera.zoom;
+        boolean fullMapOutsideHud=camera.position.y+18*camera.zoom-safeHalfHeight<=1
+            &&camera.position.y+18*camera.zoom+safeHalfHeight>=worldHeight-1;
+        check(fullMapOutsideHud,"Opening overview keeps the top and bottom of the map clear of HUD panels");
         int gemFrames=(int)Math.ceil((gemSeconds-overviewSeconds)*60);
         for(int i=0;i<gemFrames;i++) {
             screen.render((gemSeconds-overviewSeconds)/gemFrames);
-            maxStep=Math.max(maxStep,(float)Math.sqrt((camera.position.x-previousX)*(camera.position.x-previousX)
-                +(camera.position.y-previousY)*(camera.position.y-previousY)));
+            float worldStep=(float)Math.sqrt((camera.position.x-previousX)*(camera.position.x-previousX)
+                +(camera.position.y-previousY)*(camera.position.y-previousY));
+            maxScreenStep=Math.max(maxScreenStep,worldStep*1280f/(2560f*camera.zoom));
             maxZoomStep=Math.max(maxZoomStep,Math.abs(camera.zoom-previousZoom));
             previousX=camera.position.x;previousY=camera.position.y;previousZoom=camera.zoom;
         }
         check(Math.abs(camera.position.x-Math.round(gemCameraX))<1&&Math.abs(camera.position.y-Math.round(gemCameraY))<1,
             "Opening camera zooms to the clear gem without advancing gameplay");
         check(Math.abs(camera.zoom-gameplayZoom)<.001f,"Opening camera returns to gameplay zoom at the gem");
-        check(maxStep<100,"Opening camera zoom and position transitions stay continuous");
-        check(maxZoomStep<.12f,"Opening camera zoom transitions stay continuous");
+        check(maxScreenStep<48,"Opening camera screen-space movement stays continuous");
+        check(maxZoomStep<.25f,"Opening camera zoom transitions stay continuous");
         capture("city-intro-gem");
         screen.render(.45f);screen.render(1.6f);
         check(Math.abs(camera.position.x-Math.round(spawnCameraX))<1&&Math.abs(camera.position.y-Math.round(spawnCameraY))<1,

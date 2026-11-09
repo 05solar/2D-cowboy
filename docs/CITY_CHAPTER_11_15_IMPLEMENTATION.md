@@ -23,3 +23,4 @@
 ```
 
 `verifyCity`의 정적 데이터·장치 assertion 통과와 자동 주행 진단 결과를 따로 기록한다. FPS별 입력 궤도, 모든 체크포인트의 정지 출발, 실패 후 재시작, 100회 장치 위상 초기화는 아직 검증되지 않았다.
+Latest correction and validation: see [CITY_11_15_REWORK_2026-11-09.md](CITY_11_15_REWORK_2026-11-09.md). It supersedes earlier route-failure notes: all five scripted StageRuntime routes reached the clear gem; human playtesting and visual review remain open.

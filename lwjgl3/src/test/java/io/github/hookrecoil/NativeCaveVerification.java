@@ -61,6 +61,8 @@ public class NativeCaveVerification extends ApplicationAdapter {
             if(frame==35){menu().chapter=0;menu().focus=0;key(Input.Keys.RIGHT);key(Input.Keys.RIGHT);check(menu().chapter==2,"Keyboard chapter switch reaches city");check(menu().selected().available&&menu().canStart(),"Implemented city maps remain available for testing");capture("menu-city");key(Input.Keys.LEFT);key(Input.Keys.LEFT);}
             if(frame==45){key(Input.Keys.ESCAPE);check(menu()==null,"Escape restores prior screen");key(Input.Keys.M);}
             if(frame==55){check(menu()!=null,"M opens menu");for(int i=0;i<6;i++)key(Input.Keys.W);key(Input.Keys.ENTER);key(Input.Keys.ENTER);check(menu()==null&&stage().definition.id.equals("cave_01"),"Keyboard starts cave 1");
+                // 시작 연출 중에는 시뮬레이션이 정지하므로 사망 대기 UI 검증 전에 연출을 끝낸다.
+                for(int i=0;i<360;i++)screen.render(1f/60);
                 screen.pause();double before=stage().elapsed;screen.render(.5f);check(stage().elapsed==before,"App pause freezes simulation");screen.resume();key(Input.Keys.ESCAPE);
                 stage().resolveGoal(true);screen.render(0);capture("death-screen");check(stage().deathTimer>0&&stage().deaths==1,"Fall death overlay rendered");
                 for(int i=0;i<48;i++)screen.render(1f/60);check(stage().deathWaiting,"Death panel remains after animation without input");capture("death-waiting");

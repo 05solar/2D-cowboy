@@ -2,31 +2,46 @@
   "mine_01": [
     {
       "platform": 1,
-      "waitTop": 4.4
+      "waitTop": 4.4,
+      "approachEdge": true
     },
     {
-      "platform": 2
+      "platform": 2,
+      "approachEdge": true
     },
     {
-      "platform": 3
+      "platform": 3,
+      "approachEdge": true
     },
     {
-      "platform": 4
+      "platform": 4,
+      "approachEdge": true
     },
     {
-      "platform": 5
+      "platform": 5,
+      "approachEdge": true
     },
     {
-      "platform": 6
+      "platform": 6,
+      "approachEdge": true
     },
     {
-      "platform": 7
+      "platform": 7,
+      "approachEdge": true
+    },
+    {
+      "platform": 8,
+      "approachEdge": true
+    },
+    {
+      "platform": 9,
+      "approachEdge": true
     }
   ],
   "mine_02": [
     {
       "platform": 1,
-      "waitX": 7.3
+      "waitX": 5.4
     },
     {
       "platform": 2
@@ -50,80 +65,173 @@
     },
     {
       "platform": 8
+    },
+    {
+      "platform": 9
+    },
+    {
+      "platform": 10
+    },
+    {
+      "platform": 11
+    },
+    {
+      "platform": 12
+    },
+    {
+      "platform": 13
     }
   ],
   "mine_03": [
     {
-      "platform": 1
+      "platform": 1,
+      "approachEdge": true
     },
     {
-      "platform": 2
+      "platform": 2,
+      "approachEdge": true
     },
     {
-      "platform": 3
+      "platform": 3,
+      "approachEdge": true
     },
     {
-      "platform": 4
+      "platform": 4,
+      "approachEdge": true
     },
     {
-      "platform": 5
+      "platform": 5,
+      "approachEdge": true
     },
     {
-      "platform": 6
+      "platform": 6,
+      "approachEdge": true
     },
     {
-      "platform": 7
+      "platform": 7,
+      "approachEdge": true
+    },
+    {
+      "platform": 8,
+      "approachEdge": true
     }
   ],
   "mine_04": [
     {
-      "platform": 1
+      "platform": 1,
+      "approachEdge": true
     },
     {
-      "platform": 2
+      "platform": 2,
+      "approachEdge": true,
+      "takeoffInset": 1.0
     },
     {
-      "platform": 3
+      "platform": 3,
+      "approachEdge": true
     },
     {
-      "platform": 4
+      "platform": 4,
+      "approachEdge": true,
+      "takeoffInset": 1.0
     },
     {
-      "platform": 5
+      "platform": 5,
+      "approachEdge": true,
+      "takeoffInset": 1.0
     },
     {
-      "platform": 6
+      "platform": 6,
+      "approachEdge": true
     },
     {
-      "platform": 7
+      "platform": 7,
+      "approachEdge": true
+    },
+    {
+      "platform": 8,
+      "approachEdge": true
+    },
+    {
+      "platform": 9,
+      "approachEdge": true
+    },
+    {
+      "platform": 10,
+      "approachEdge": true
+    },
+    {
+      "platform": 11,
+      "approachEdge": true
+    },
+    {
+      "platform": 12,
+      "approachEdge": true
+    },
+    {
+      "platform": 13,
+      "approachEdge": true
+    },
+    {
+      "platform": 14,
+      "approachEdge": true
     }
   ],
   "mine_05": [
     {
-      "platform": 1
+      "platform": 1,
+      "approachEdge": true
     },
     {
       "platform": 2,
-      "waitTop": 8.5
+      "approachEdge": true
     },
     {
-      "platform": 3
+      "platform": 3,
+      "approachEdge": true,
+      "takeoffInset": 1.9
     },
     {
-      "platform": 4
+      "platform": 4,
+      "approachEdge": true
     },
     {
       "platform": 5,
-      "waitX": 6.8
+      "approachEdge": true
     },
     {
-      "platform": 6
+      "platform": 6,
+      "approachEdge": true,
+      "takeoffInset": 1.9
     },
     {
-      "platform": 7
+      "platform": 7,
+      "approachEdge": true
     },
     {
-      "platform": 8
+      "platform": 8,
+      "approachEdge": true
+    },
+    {
+      "platform": 9,
+      "approachEdge": true,
+      "takeoffInset": 1.9
+    },
+    {
+      "platform": 10,
+      "approachEdge": true
+    },
+    {
+      "platform": 11,
+      "approachEdge": true
+    },
+    {
+      "platform": 12,
+      "approachEdge": true
+    },
+    {
+      "platform": 13,
+      "approachEdge": true
     }
   ]
 }

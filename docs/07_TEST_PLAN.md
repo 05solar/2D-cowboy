@@ -35,7 +35,7 @@
 
 - `:core:verifyCaves`: PASS, 79 assertions. cave_01~05 재현 경로·관련 회귀 포함.
 - `:lwjgl3:compileJava`: PASS.
-- `:lwjgl3:verifyCityNative`: PASS, 28 checks. 도시 atlas/배경/스테이지 로드와 오프닝 카메라 전환 확인. 해당 검증 창은 1280×720이므로 기본 1600×900의 화면 크기 검증은 포함하지 않음.
+- `:lwjgl3:verifyCityNative`: PASS, 29 checks. 도시 atlas/배경/스테이지 로드, 전체 맵 공개 시간, 오프닝 카메라 전환을 확인. 해당 검증 창은 1280×720이므로 기본 1600×900의 UI/조준 검증은 포함하지 않음.
 - `git diff --check`: PASS, 줄바꿈 변환 경고 외 공백 오류 없음.
 
 이전 기록에서 광산 표면 31 assertions 및 광산 native 19 checks 통과가 남아 있다. `:core:verifyMines`는 mine_01 자동 입력이 2단계에서 grounded가 되지 않아 실패했다. 해당 driver가 갈고리를 사용하지 않으므로 이를 실제 플레이의 성공/실패로 단정하지 않는다. cave native 검사는 사망 패널 대기 assertion 실패 이력이 있으며 재실행 전까지 통과로 표기하지 않는다. 챕터별 과거 결과는 해당 상태 문서의 날짜를 본다.

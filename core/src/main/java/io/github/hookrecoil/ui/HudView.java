@@ -23,6 +23,10 @@ public class HudView implements Disposable {
     public void text(SpriteBatch b,String value,float x,float y,float scale,Color color) {
         font.getData().setScale(scale*0.25f);font.setColor(color);font.draw(b,value,x,y);
     }
+    private void centeredText(SpriteBatch b,String value,float centerX,float y,float scale,Color color) {
+        font.getData().setScale(scale*0.25f);font.setColor(color);
+        GlyphLayout layout=new GlyphLayout(font,value);font.draw(b,value,centerX-layout.width*0.5f,y);
+    }
     private float run(SpriteBatch b,String value,float x,float y,float scale,Color color) {
         font.getData().setScale(scale*0.25f);font.setColor(color);
         return font.draw(b,value,x,y).width;
@@ -37,7 +41,7 @@ public class HudView implements Disposable {
     public void wrap(SpriteBatch b,String value,float x,float y,float width,float scale,Color color) {
         font.getData().setScale(scale*.25f);font.setColor(color);font.draw(b,value,x,y,width,com.badlogic.gdx.utils.Align.left,true);
     }
-    public void draw(SpriteBatch b,StageRuntime s,boolean paused,boolean debug) {
+    public void draw(SpriteBatch b,StageRuntime s,boolean paused,boolean debug,boolean allClear) {
         Color cream=new Color(0.94f,0.9f,0.78f,1),gold=new Color(0.93f,0.69f,0.34f,1),muted=new Color(0.61f,0.71f,0.76f,1);
         box(b,0,1260,2560,180,0.025f,0.04f,0.055f,0.9f);
         box(b,64,1295,5,89,0.9f,0.64f,0.29f,1);
@@ -66,15 +70,29 @@ public class HudView implements Disposable {
         }
         if(paused || s.complete) {
             box(b,0,216,2560,1044,0.015f,0.025f,0.04f,0.8f);
-            box(b,650,510,1260,430,0.045f,0.07f,0.085f,1);
-            box(b,650,936,1260,4,0.9f,0.65f,0.3f,1);
-            text(b,s.complete?"CLEAR":"일시정지",748,852,3.6f,cream);
-            if(s.complete)box(b,730,600,1100,60,0.09f,0.15f,0.16f,1);
-            text(b,s.complete?"ENTER / R / 클릭   재도전":"ESC 계속하기    R 체크포인트 재시작",748,644,2.2f,gold);
-            if(s.complete) text(b,"TIME  "+(int)s.elapsed+"s     SHOTS  "+s.shots+"     FALLS  "+s.deaths,748,700,2.5f,muted);
-            if(s.complete)text(b,"N 다음 스테이지     M 스테이지 선택",748,568,2.3f,muted);
+            if(s.complete) {
+                Color orange=new Color(1f,0.36f,0.06f,1f);
+                box(b,560,450,1440,540,0.045f,0.07f,0.085f,1);
+                box(b,560,986,1440,4,0.9f,0.65f,0.3f,1);
+                centeredText(b,allClear?"ALL CLEAR":"CLEAR",1280,875,4.8f,orange);
+                if(allClear)centeredText(b,"전체 15개 스테이지를 모두 클리어했습니다",1280,805,1.7f,cream);
+                text(b,"시간  "+(int)s.elapsed+"초     발사  "+s.shots+"     추락  "+s.deaths,748,740,2.5f,muted);
+                box(b,730,625,1100,54,0.09f,0.15f,0.16f,1);
+                if(allClear) {
+                    text(b,"R / 클릭: 재도전",748,668,2.3f,gold);
+                    text(b,"엔터: 처음부터 다시 시작     M 스테이지 선택",748,535,2.3f,muted);
+                } else {
+                    text(b,"엔터 / R / 클릭: 재도전",748,668,2.3f,gold);
+                    text(b,"N 다음 스테이지     M 스테이지 선택",748,535,2.3f,muted);
+                }
+            } else {
+                box(b,650,510,1260,430,0.045f,0.07f,0.085f,1);
+                box(b,650,936,1260,4,0.9f,0.65f,0.3f,1);
+                text(b,"일시 정지",748,852,3.6f,cream);
+                text(b,"ESC 계속하기    R 체크포인트에서 재시작",748,644,2.2f,gold);
+            }
         }
-        if(s.clear.frozen()&&!s.complete&&!paused)text(b,"CLEAR",1040,1070,2.5f,gold);
+        if(s.clear.frozen()&&!s.complete&&!paused)centeredText(b,"CLEAR",1280,790,10f,new Color(1f,0.36f,0.06f,1f));
         if((s.deathTimer>0||s.deathWaiting)&&!paused) {
             box(b,500,535,1560,370,0.025f,0.035f,0.045f,0.95f);
             box(b,500,901,1560,4,0.86f,0.34f,0.28f,1);

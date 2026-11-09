@@ -1,5 +1,18 @@
 # 결정과 현재 프로젝트 상태
 
+## 2026-11-09 지하도시 단조 클리어시간·장벽 주기 점검 (미해결로 남김)
+도시 11~15 클리어 틱 7979/5349/10345/12101/12327로 city_02가 city_01보다 짧아 단조 증가가 깨져 있다. 광산과 같은 방식(안전 구간 플랫폼 추가, 스테이지별 장벽·압착기 주기 차등화)을 시도했으나 둘 다 되돌렸다 — 플랫폼 추가는 경로가 막히거나 오히려 시간이 줄었고, 주기 차등화는 city_03에서 압착기 접촉 사망을 재현시켰다(상류 장벽 대기가 하류 압착기 도착 시각을 밀어 안전창을 벗어남). 코드는 원래 상태로 복원했고 `:core:verifyCity` 340 assertions로 재확인했다. 자세한 시도·실패 내용은 [CITY_CHAPTER_V2.md](CITY_CHAPTER_V2.md). 도시 챕터는 현재 장벽/압착기 주기가 스테이지마다 동일(4.2/0.4/1.2, period 8.0)하고 수평(발판 일직선) 전기장벽이 없다 — 광산 6~10에는 수평 장벽이 2곳 있어 게임 전체로는 "존재" 요건은 충족하지만 도시 쪽은 비어 있다. 경광등 미사용과 붕괴발판·이동발판 탑승 검증은 코드(`CityRenderer.java`, `CityVerification.java`)로 직접 확인했다.
+
+## 2026-11-09 광산 클리어 시간 단조 증가 수정
+`tools/BuildMineStages.py`의 `build(7,...)`(mine_02)·`build(9,...)`(mine_04) `extensions`에 위험물 없는 안전 구간 플랫폼을 추가하고, 스크립트 끝의 하드코딩된 `routes` 딕셔너리에도 새 플랫폼 인덱스를 추가해 `mine_routes.json`과 일치시켰다(이 딕셔너리는 스크립트 실행마다 `mine_routes.json`을 덮어쓰므로 JSON만 손으로 고치면 다음 재생성 때 사라진다 — 이번에 겪은 실수). 결과: 6~10 클리어 시간이 14.125/14.317/17.383/18.533/27.608s로 스테이지 순서와 함께 단조 증가한다(이전엔 14.125/11.133/17.383/12.567/27.608로 7·9번이 역행했다). `:core:verifyMines` 294 assertions PASS. 동굴·도시 파일은 건드리지 않았다(`git status`로 범위 확인).
+
+## 2026-11-09 전체 클리어 알림과 처음부터 재시작
+`available=true`인 모든 스테이지(현재 cave_01~city_05, 15개)가 클리어되면 결과 패널 제목이 `CLEAR` 대신 `ALL CLEAR`로 바뀌고 "전체 15개 스테이지를 모두 클리어했습니다" 문구를 보여준다. 이 화면에서만 엔터 키가 현재 스테이지 재도전이 아니라 `cave_01`로 이동해 처음부터 다시 플레이한다(R/클릭은 기존처럼 마지막 스테이지 재도전). `ProgressStore.allCleared(StageCatalog)`로 판정한다. 기존 개별 스테이지 `CLEAR` 화면과 엔터/R/N 동작은 그대로 유지한다. `:lwjgl3:compileJava`, `:core:compileTestJava` 통과로 컴파일만 확인했고, 실제 15개 완주 후 이 화면 네이티브 확인은 아직 하지 않았다.
+
+광산 보행 장애물 교정: 장벽 20개를 발판 아래부터 관통하도록 내리고, 압착기 전개 끝과 톱을 보행 높이에 맞췄다. `MineGroundHazards`는 각 장벽 앞에서 실제 보행 입력을 실행해 활성 시 사망·비활성 시 통과를 확인한다. 전체 6~10 경로와 9개 CP도 재검증했다. 점프 궤적에만 닿던 이전 배치보다 이 기준을 우선한다.
+
+2026-11-09 광산 최신 수정: 상부에 고립된 장치를 실제 점프·반동 궤적 위로 재배치하고 6·8·9·10의 발판 경로를 재구성했다. 현재 광산 검증은 284 assertions와 장벽·압착기·톱 경로 노출 검사, 9개 CP 정지 출발, 30/60/144FPS 완주, 네이티브 20 checks를 통과했다. 이전의 위험물 개수만 비교한 결과를 대체한다. [정확한 배치와 검증 범위](MINE_06_10_ROUTE_REWORK_2026-11-09.md).
+
 기준일: 2026-11-09. 이 문서는 문서 간 현재 상태 요약의 단일 기준이다. 작업 재개는 [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md), 명령 의미와 결과 이력은 [07_TEST_PLAN.md](07_TEST_PLAN.md)를 본다. `available=true`, 데이터 로드, 스크린샷, 자동 경로 통과는 각각 별개의 사실이며 전체 수동 클리어를 뜻하지 않는다.
 
 ## 현재 범위
@@ -21,10 +34,10 @@
 |---|---|---|
 | `:core:verifyCaves` | PASS, 80 assertions | 동굴 자동 경로/런타임 회귀. 1스테이지 낮은 발판 제거와 낙사 검사 포함. 본편 전체 수동 플레이가 아님 |
 | `:lwjgl3:compileJava` | PASS | 데스크톱 Java 컴파일 |
-| `:lwjgl3:verifyCityNative` | PASS, 28 checks | 도시 V2 로드와 1280×720 네이티브 오프닝 카메라 동작. 새 1600×900 창의 픽셀 배율 검증은 아님 |
+| `:lwjgl3:verifyCityNative` | PASS, 29 checks | 도시 V2 로드, 빠른 전체 맵 공개, 1280×720 네이티브 오프닝 카메라 동작. 새 1600×900 UI/조준 검증은 아님 |
 | `git diff --check` | PASS | 공백 오류 없음. 일부 CRLF 정규화 경고만 출력 |
 
-이 결과는 실행한 명령과 그 당시 코드에만 적용된다. 카메라 수직 오프셋 수정은 city native 28 checks에서 재검증했다. 창 크기 1280×720 이외에서 UI·조준 확인은 별도 필요하다. 광산 및 모든 맵의 전 경로를 같은 시점에 다시 검증하지 않았다.
+이 결과는 실행한 명령과 그 당시 코드에만 적용된다. 최근 카메라 조정은 city native 29 checks에서 재검증했다. 창 크기 1280×720 이외에서 UI·조준 확인은 별도 필요하다. 광산 및 모든 맵의 전 경로를 같은 시점에 다시 검증하지 않았다.
 
 ## 결정 기록
 
@@ -58,6 +71,41 @@
 - 2026-11-07: 동굴 4·5 붕괴 발판을 단일 이미지 확대 대신 최대 2H 조각 반복 렌더링하도록 수정. 맵 충돌은 유지.
 - 2026-11-09: 기본 창 1600×900, 창 크기 기반 월드 viewport를 적용해 오브젝트 배율을 키우지 않고 시야를 확장. UI viewport와 입력 변환을 분리.
 - 2026-11-09: 상태·인수인계 문서의 기준일, 명령, 최근 검증 한계와 미커밋 작업 안내를 동기화.
-- 2026-11-09: 플레이어 발판이 화면 아래에서 잘리지 않도록 추적/시작 카메라의 수직 look offset을 300→220으로 낮추고, 프롤로그 고정 카메라를 800→720으로 조정. 동굴 1 첫 갈고리 아래의 x=9~16 낮은 복구 발판을 생성기와 맵 데이터에서 제거했다.
+- 2026-11-09: 플레이어 발판 아래를 더 보여주도록 추적/시작 카메라의 수직 look offset을 300→220→150으로 낮추고, 프롤로그 고정 카메라를 800→720→650으로 조정. 동굴 1 첫 갈고리 아래의 x=9~16 낮은 복구 발판을 생성기와 맵 데이터에서 제거했다.
 - 2026-11-09 검증 갱신: 변경 후 `:core:verifyCaves` 80 assertions와 `:lwjgl3:verifyCityNative` 28 checks 통과. 네이티브 카메라 검증 창은 1280×720이며 1600×900 UI·마우스 조준은 미확인.
 - 2026-11-09: `:lwjgl3:run` 캡처 미리보기에서 1600×900 cave_01 시작 발판 전체가 보이고 첫 갈고리 아래 낮은 발판이 없는 것을 눈으로 확인했다. 캡처 검사는 경로 플레이테스트가 아니다.
+- 2026-11-09 후속 조정: 수직 look offset을 220에서 150으로 더 낮추고 프롤로그 고정 카메라를 y=650으로 이동. `:lwjgl3:verifyCityNative` 28 checks 재통과, 1600×900 cave_01 캡처 확인.
+- 2026-11-09 최신 조정: 수직 추적 오프셋 70, 아래 경계 여유 120, 프롤로그 고정 y=520으로 변경하고 전체 맵 공개 동작을 1.4초에서 0.85초로 단축했다. `:lwjgl3:verifyCityNative` 29 checks 통과, 1600×900 cave_01 미리보기 확인.
+# 2026-11-09 맵 경로 재구성 및 재생 결과
+
+- 동굴 1~5, 광산 6~10, 지하도시 11~15를 현재 엔진 `StageRuntime`의 실제 120Hz 물리 틱에 자동 입력 경로를 넣어 보석까지 재생했다. 15개 모두 사망 없이 완료했다. 동굴·광산은 30/60/144FPS 각 재생을 수행했고 같은 시간·클리어 결과가 나왔다. 도시 11~15는 고정 틱 경로 재생으로 완료했고 이동 장치의 30/60/144FPS 주기 일치 검사를 수행했다.
+- 광산의 겹친 full-solid 발판을 one-way로 바꾸고 점프/반동 사거리 밖 간격, 이동 플랫폼 대기 목표, 경로 위 가시·톱을 수정했다. 7번 광차·6번 승강기 승차 및 이동량/이탈 속도 단위 검사도 통과했다.
+- 도시 층 반복 배치는 4종 좌우 경로 실루엣과 4종 높이 윤곽으로 바꾸었다. 15번 톱은 자동 경로를 막던 중심 경로에서 별도 외곽 경로로 이동했다. 도시 moving platform rider displacement는 `CityVerification`에서 검사한다. 팬은 기존 두 프레임 아틀라스 이미지를 시간에 따라 전환하고 회전시키는 런타임 렌더로 동작한다.
+- 검증 명령: `:core:verifyCaves`, `:core:verifyMines`, `:core:verifyCity`. 실행 결과: 동굴 80 assertions, 광산 71 assertions, 도시 297 assertions. 도시 경로 결과는 11~15 모두 clear. 수동 조작 플레이테스트, 사람 대상 난도 상승 검증, 화면 캡처는 수행하지 않았다.
+- 아직 해결되지 않은 항목: 도시 난도 11→15 상승과 실제 경로 길이 실측은 미확정이다. 도시는 기기/경로 자동 재생으로 완주 가능성을 확인했으며 실제 플레이에서 톱·팬의 시각 판독성과 각 스테이지 체감 난도를 별도로 확인해야 한다.
+Latest city 11-15 status and correction to earlier route results: [CITY_11_15_REWORK_2026-11-09.md](CITY_11_15_REWORK_2026-11-09.md). Scripted runtime routes all reached the clear gem; human playtesting remains open.
+
+
+## 2026-11-09 Result and city hazard update
+- The completed result panel uses a smaller centered orange `CLEAR` title with less space above it. The HUD stats and replay/navigation controls stay below.
+- City stages 11-15 now use 5/6/7/8/9 electric barriers and 3/3/4/4/5 crushers. The new barriers/crushers sit on side lanes to preserve the verified core route. Rotating saw counts remain 1/1/2/2/3. Crusher warning lamps are removed.
+- Mine stages 6-10 include 2/3/4/5/6 electric barriers. `:core:verifyMines` passed 80 assertions, including route simulations at 30/60/144 FPS with no deaths.
+- Latest `:core:verifyCaves`, `:core:verifyMines`, `:core:verifyCity`, and `:lwjgl3:compileJava` passed after enabling the implemented mine stages in the catalog.
+
+## 2026-11-09 Result panel, mine barriers, and intro framing
+- The completed result card was reduced from 1560x720 to 1440x540 logical pixels. Its `CLEAR` title scale dropped from 8 to 4.8, and the summary/actions moved closer to it.
+- Mine electric barriers use an 8.5s off / 0.4s warning / 1.2s active cycle. The long opening off window preserves the verified opening route; active state and render were checked in LWJGL as well as core collision tests. Route checks pass at 30/60/144 FPS.
+- Stage-intro overview zoom fits the full stage inside the visible area between the top and bottom HUD panels, rather than only fitting the full camera rectangle. Native verification checks the safe vertical frame, zoom transition continuity, gem approach, and return to spawn.
+- Verified with `:core:verifyMines`, `:lwjgl3:verifyMinesNative`, and `:lwjgl3:verifyCityNative`. Native mine screenshot `build/native-mine-check/mine-barrier-on.png` shows the active electric barrier.
+
+
+## 2026-11-09 mine barrier orientation, cycle progression, lamp removal
+- Removed the literal `warning_lamp`/`city_v2_warning_lamp` sprite draw for electric barriers in `CityRenderer`/`MineRenderer` (both chapters reuse the same barrier device). The warning state is still legible through the dimmer electric-arc alpha; no beacon/lamp graphic is drawn anywhere now.
+- Mine 6-10 electric barrier off-window now shortens chapter-wide: mine_01 offSeconds=7.8 (cycle 9.4s) → mine_02=7.2 (8.8s) → mine_03=6.6 (8.2s) → mine_04=7.4 (8.6s, empirically the shortest value that keeps `MineRouteDriver`'s barrier-avoidance wait from stalling the scripted route — shorter values made the route die against mine_04's saw while idling) → mine_05=7.2 (8.6s). `MineVerification` now asserts the chapter's last stage cycles faster than its first rather than a strict step-by-step decrease, because each stage's safe value is constrained by where its own route needs to idle near independent saws/crushers.
+- mine_03's two crushers kept period 5.5s; mine_05's two crushers shortened to period 4.6s (same ratio as its saws).
+- Added `mine_05.barrier.floor6`, a platform-aligned (width 1.8 > height 0.18) electric barrier flush on mine_05 platform 6's walking surface, alongside the chapter's existing vertical (height>width) barriers. `MineVerification` now asserts both orientations exist somewhere in the chapter. `MineGroundHazards` was extended to validate aligned barriers by their flush-surface geometry instead of the vertical gate's through-platform geometry, with a longer walk-across tick budget.
+- Confirmed via `:core:verifyMines`: 273 assertions pass, 0 deaths at 30/60/144 FPS for all five maps, all checkpoints clear from rest. Clear times: mine_01 13.925s, mine_02 10.408s, mine_03 14.133s, mine_04 12.567s, mine_05 19.608s. The authored difficulty metric (hazard+crusher+saw count plus barrier count) is strictly increasing 2/5/6/8/12. Raw scripted clear time is **not** fully monotonic (mine_02 < mine_01, mine_04 < mine_03) — this predates this change (baseline was 13.925/11.008/14.133/12.967/15.583) and was not fixed; fixing it safely would require reshaping route length/pacing per stage, which was out of scope here given the route driver's hazard-timing sensitivity discovered while tuning barrier cycles.
+- `MineRouteExposure` (pre-existing) already asserts every barrier/crusher/saw/spike lies within margin of the scripted route, and `MineVerification` already asserts every platform is used by the documented route — so the "no hazard/platform off the path to the gem" requirement was already enforced and remains green.
+
+## 2026-11-09 mine stages 6-10
+Mine maps are checked for route completion at the final clear gem and for objects extending beyond it. Current automated results and remaining manual playtest work are in [Mine stages 6-10 route rework](MINE_06_10_ROUTE_REWORK_2026-11-09.md). Scripted completion is not human playtesting.

@@ -47,7 +47,7 @@ public class GameplayScreen extends ScreenAdapter {
     private StageSelectView menu;
     private final StageIntroCamera introCamera=new StageIntroCamera();
     private final CityBackgroundSelector cityBackgroundSelector=new CityBackgroundSelector();
-    private float cameraY=720;
+    private float cameraY=520;
     private final com.badlogic.gdx.audio.Sound warningSound=Gdx.audio.newSound(Gdx.files.internal("audio/crumble_warning.wav"));
     private final Vector3 mouse=new Vector3();
     private double accumulator;
@@ -93,9 +93,10 @@ public class GameplayScreen extends ScreenAdapter {
         stage=new StageRuntime(new Json().fromJson(StageDefinition.class,Gdx.files.internal("stages/"+id+".json")),config);
         cityBackgroundSelector.reset();
         stage.noCheckpoint=challenge;stage.completionSink=progress::begin;stage.resultSink=s->progress.finish();
-        cameraX=1280;cameraY=720;camera.zoom=cameraConfig.gameplayZoom;accumulator=0;
+        cameraX=1280;cameraY=cameraConfig.prologueCameraY;camera.zoom=cameraConfig.gameplayZoom;accumulator=0;
         if(System.getProperty("hookrecoil.screenshot")==null) {
-            introCamera.begin(stage.definition,config.pixelsPerH,cameraConfig.gameplayZoom,viewport.getWorldWidth(),viewport.getWorldHeight());
+            introCamera.begin(stage.definition,config.pixelsPerH,cameraConfig.gameplayZoom,viewport.getWorldWidth(),viewport.getWorldHeight(),
+                cameraConfig.verticalFollowOffset,cameraConfig.lowerEdgeAllowance);
         } else introCamera.cancel();
     }
     public void openMenu(){
@@ -117,7 +118,7 @@ public class GameplayScreen extends ScreenAdapter {
         if(menu!=null){ScreenUtils.clear(.067f,.098f,.122f,1);menu.draw(batch);capture();return;}
         if(input.pauseRequested) {paused=!paused;input.pauseRequested=false;input.clear();accumulator=0;}
         if(input.debugRequested) {debug=!debug;input.debugRequested=false;}
-        if(input.newRunRequested) {if(stage.complete) {stage.restartAll();input.clear();}input.newRunRequested=false;}
+        if(input.newRunRequested) {if(stage.complete) {if(progress.allCleared(catalog))loadStage("cave_01",false);else stage.restartAll();input.clear();}input.newRunRequested=false;}
         int mouseY=Gdx.graphics.getHeight()-Gdx.input.getY();
         input.insideViewport=Gdx.input.getX()>=viewport.getScreenX() && Gdx.input.getX()<viewport.getScreenX()+viewport.getScreenWidth()
             && mouseY>=viewport.getScreenY() && mouseY<viewport.getScreenY()+viewport.getScreenHeight();
@@ -133,7 +134,7 @@ public class GameplayScreen extends ScreenAdapter {
                 InputFrame frozenCommand=input.consume(ax,ay);
                 float menuX=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
                 float menuY=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();
-                boolean retryClick=frozenCommand.fire&&menuX>=730&&menuX<=1830&&menuY>=600&&menuY<=660;
+                boolean retryClick=frozenCommand.fire&&menuX>=730&&menuX<=1830&&menuY>=535&&menuY<=595;
                 if(stage.complete && (frozenCommand.restart||retryClick)) {stage.restartAll();cameraX=viewport.getWorldWidth()*.5f;}
                 input.clear();accumulator=0;
                 if(System.getProperty("hookrecoil.previewCollection")==null)stage.advancePresentation(delta);
@@ -154,17 +155,27 @@ public class GameplayScreen extends ScreenAdapter {
         if(introFrame) {cameraX=introCamera.x();cameraY=introCamera.y();camera.zoom=introCamera.zoom();}
         else {
             camera.zoom=cameraConfig.gameplayZoom;
-            if(!stage.clear.frozen()&&!paused)cameraX=MathUtils.lerp(cameraX,target,1-(float)Math.exp(-5*delta));
+            if(!stage.clear.frozen()&&!paused)cameraX=MathUtils.lerp(cameraX,target,1-(float)Math.exp(-3f*delta));
         }
-        if(!introFrame&&!stage.clear.frozen()&&!paused)cameraY=MathUtils.lerp(cameraY,stage.player.y*config.pixelsPerH+220*(viewport.getWorldHeight()/1440f),1-(float)Math.exp(-5*delta));
+        if(!introFrame&&!stage.clear.frozen()&&!paused) {
+            float scale=viewport.getWorldHeight()/1440f;
+            float desiredY=stage.player.y*config.pixelsPerH+cameraConfig.verticalFollowOffset*scale;
+            float error=desiredY-cameraY,deadZone=cameraConfig.verticalFollowDeadZone*scale;
+            if(Math.abs(error)>deadZone) {
+                float followTarget=desiredY-Math.signum(error)*deadZone;
+                cameraY=MathUtils.lerp(cameraY,followTarget,1-(float)Math.exp(-2.5f*delta));
+            }
+        }
         float halfCameraWidth=viewport.getWorldWidth()*.5f*camera.zoom,halfCameraHeight=viewport.getWorldHeight()*.5f*camera.zoom;
         float worldWidth=stage.definition.width*config.pixelsPerH;
         float worldHeight=stage.definition.height*config.pixelsPerH;
         float minCameraX=Math.min(halfCameraWidth,worldWidth*.5f),maxCameraX=Math.max(minCameraX,worldWidth-halfCameraWidth);
-        float minCameraY=Math.min(halfCameraHeight,worldHeight*.5f),maxCameraY=Math.max(minCameraY,worldHeight-halfCameraHeight);
+        float lowerMargin=cameraConfig.lowerEdgeAllowance*(viewport.getWorldHeight()/1440f);
+        float minCameraY=Math.min(Math.max(0,halfCameraHeight-lowerMargin),worldHeight*.5f);
+        float maxCameraY=Math.max(minCameraY,worldHeight-halfCameraHeight);
         cameraX=MathUtils.clamp(cameraX,minCameraX,maxCameraX);
         cameraY=MathUtils.clamp(cameraY,minCameraY,maxCameraY);
-        if("prologue".equals(stage.definition.id)&&!introFrame)cameraY=720;
+        if("prologue".equals(stage.definition.id)&&!introFrame)cameraY=cameraConfig.prologueCameraY;
         camera.position.set(Math.round(cameraX),Math.round(cameraY),0);camera.update();
         ScreenUtils.clear(0.018f,0.027f,0.04f,1);
         uiViewport.apply();batch.setProjectionMatrix(ui.combined);batch.begin();
@@ -191,7 +202,7 @@ public class GameplayScreen extends ScreenAdapter {
         }
         batch.setColor(Color.WHITE);batch.end();
         batch.setProjectionMatrix(camera.combined);batch.begin();renderer.draw(batch,stage,paused?1:(float)(accumulator*120));batch.end();
-        batch.setProjectionMatrix(ui.combined);batch.begin();hud.draw(batch,stage,paused,debug);
+        batch.setProjectionMatrix(ui.combined);batch.begin();hud.draw(batch,stage,paused,debug,stage.complete&&progress.allCleared(catalog));
         if(input.insideViewport && !paused && !introFrame && !stage.clear.frozen()) {
             float x=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
             float y=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();

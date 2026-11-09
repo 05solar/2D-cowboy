@@ -1,12 +1,12 @@
 {
   "id": "mine_01",
   "name": "채굴 승강로",
-  "width": 18,
+  "width": 35.75,
   "height": 22,
   "deathPlaneY": 1,
   "spawnX": 3.0,
   "spawnY": 1.89912,
-  "exitX": 14.0,
+  "exitX": 32.5,
   "platforms": [
     {
       "x": 0.4,
@@ -32,6 +32,8 @@
         -0.09171
       ],
       "sprite": "platform_long",
+      "oneWay": true,
+      "ropeStops": true,
       "crumble": false
     },
     {
@@ -58,63 +60,41 @@
         -0.69188
       ],
       "sprite": "platform_medium",
+      "oneWay": true,
+      "ropeStops": true,
       "crumble": false
     },
     {
-      "x": 7.4,
-      "y": 3.4,
-      "width": 3.2,
+      "x": 8.0,
+      "y": 2.2,
+      "width": 2.8,
       "height": 0.8,
       "surfaceProfile": [
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.06208,
-        -0.03386,
-        -0.05644,
-        -0.05644
+        -0.04615,
+        -0.04615,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.05385,
+        -0.03846,
+        -0.03846
       ],
-      "sprite": "platform_long",
+      "sprite": "platform_medium",
+      "oneWay": true,
+      "ropeStops": true,
       "crumble": false
     },
     {
-      "x": 7.95,
-      "y": 5.2,
-      "width": 2.1,
-      "height": 0.8,
-      "surfaceProfile": [
-        -0.11268,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.05122,
-        -0.11268
-      ],
-      "sprite": "platform_small",
-      "crumble": false
-    },
-    {
-      "x": 7.9,
-      "y": 7.0,
+      "x": 11.9,
+      "y": 3.3,
       "width": 2.2,
       "height": 0.8,
       "surfaceProfile": [
@@ -136,63 +116,97 @@
         -0.11805
       ],
       "sprite": "platform_small",
+      "oneWay": true,
+      "ropeStops": true,
       "crumble": false
     },
     {
-      "x": 8.0,
-      "y": 8.8,
-      "width": 2.0,
+      "x": 13.5,
+      "y": 4.2,
+      "width": 3.0,
       "height": 0.8,
       "surfaceProfile": [
-        -0.10732,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.04878,
-        -0.10732
-      ],
-      "sprite": "platform_small",
-      "crumble": false
-    },
-    {
-      "x": 9.8,
-      "y": 11.2,
-      "width": 2.4,
-      "height": 0.8,
-      "surfaceProfile": [
-        -0.03956,
-        -0.03956,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.04615,
-        -0.03297,
-        -0.03297
+        -0.04945,
+        -0.04945,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.04121,
+        -0.04121
       ],
       "sprite": "platform_medium",
+      "oneWay": true,
+      "ropeStops": true,
       "crumble": false
     },
     {
-      "x": 11.75,
-      "y": 13.9,
+      "x": 16.5,
+      "y": 5.3,
+      "width": 3.0,
+      "height": 0.8,
+      "surfaceProfile": [
+        -0.04945,
+        -0.04945,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.04121,
+        -0.04121
+      ],
+      "sprite": "platform_medium",
+      "oneWay": true,
+      "ropeStops": true,
+      "crumble": false
+    },
+    {
+      "x": 20.2,
+      "y": 6.4,
+      "width": 2.6,
+      "height": 0.8,
+      "surfaceProfile": [
+        -0.04286,
+        -0.04286,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.03571,
+        -0.03571
+      ],
+      "sprite": "platform_medium",
+      "oneWay": true,
+      "ropeStops": true,
+      "crumble": false
+    },
+    {
+      "x": 22.75,
+      "y": 7.4,
       "width": 4.5,
       "height": 0.8,
       "surfaceProfile": [
@@ -214,13 +228,71 @@
         -0.07937
       ],
       "sprite": "platform_long",
+      "oneWay": true,
+      "ropeStops": true,
+      "crumble": false
+    },
+    {
+      "x": 27.0,
+      "y": 7.9,
+      "width": 3.0,
+      "height": 0.8,
+      "surfaceProfile": [
+        -0.04945,
+        -0.04945,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.05769,
+        -0.04121,
+        -0.04121
+      ],
+      "sprite": "platform_medium",
+      "oneWay": true,
+      "ropeStops": true,
+      "crumble": false
+    },
+    {
+      "x": 30.25,
+      "y": 8.5,
+      "width": 4.5,
+      "height": 0.8,
+      "surfaceProfile": [
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.0873,
+        -0.04762,
+        -0.07937,
+        -0.07937
+      ],
+      "sprite": "platform_long",
+      "oneWay": true,
+      "ropeStops": true,
       "crumble": false
     }
   ],
   "ceilings": [
     {
-      "x": 10.2,
-      "y": 12.2,
+      "x": 12.0,
+      "y": 12.4,
       "width": 3.0,
       "height": 0.5,
       "crumble": false
@@ -228,38 +300,30 @@
   ],
   "anchors": [
     {
-      "x": 11.2,
-      "y": 11.8
+      "x": 13.0,
+      "y": 12.0
     }
   ],
   "checkpoints": [
     {
-      "x": 9.0,
-      "y": 5.94878
+      "x": 13.0,
+      "y": 4.04634
     },
     {
-      "x": 11.0,
-      "y": 11.95385
+      "x": 18.0,
+      "y": 6.04231
     }
   ],
   "clearGem": {
     "id": "mine_01.clear_gem",
     "type": "clear_gem",
-    "x": 14.0,
-    "y": 15.092699999999999,
+    "x": 32.5,
+    "y": 9.6927,
     "halfWidth": 0.0716,
     "halfHeight": 0.15
   },
   "optionalGems": [],
-  "hazards": [
-    {
-      "x": 10.85,
-      "y": 4.15,
-      "width": 0.55,
-      "height": 0.42,
-      "direction": "floor"
-    }
-  ],
+  "hazards": [],
   "mineMovers": [
     {
       "id": "lift_01",
@@ -275,15 +339,39 @@
       "id": "lift_ring",
       "kind": "anchor",
       "anchor": 0,
-      "fromX": 11.2,
-      "fromY": 11.8,
-      "toX": 14.0,
-      "toY": 13.4,
+      "fromX": 13.0,
+      "fromY": 12.0,
+      "toX": 16.0,
+      "toY": 13.2,
       "period": 5.4
     }
   ],
   "mineCrushers": [],
   "mineSaws": [],
+  "cityBarriers": [
+    {
+      "id": "mine_01.barrier.1",
+      "x": 8.5,
+      "y": 2.1,
+      "width": 0.14,
+      "height": 5.4,
+      "offSeconds": 8.0,
+      "warningSeconds": 0.4,
+      "onSeconds": 1.2,
+      "phase": 0
+    },
+    {
+      "id": "mine_01.barrier.6",
+      "x": 20.6,
+      "y": 6.3,
+      "width": 0.14,
+      "height": 5.4,
+      "offSeconds": 8.0,
+      "warningSeconds": 0.4,
+      "onSeconds": 1.2,
+      "phase": 0
+    }
+  ],
   "rechargeRings": [],
   "zones": [
     {

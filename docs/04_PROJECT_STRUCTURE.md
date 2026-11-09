@@ -1,5 +1,7 @@
 # 프로젝트 파일 구조와 현재 책임
 
+광산 장치 원본은 `assets/stages/mine_obstacles.json`, 맵 생성기는 `tools/BuildMineStages.py`다. `core/src/test/java/io/github/hookrecoil/MineRouteExposure.java`는 실제 자동 입력 궤적과 위험 영역의 겹침을 검사해 경로 밖 장치가 검증을 통과하지 않도록 한다.
+
 기준일: 2026-11-09. 이 문서는 실제 저장소의 주요 파일을 안내한다. 각 소스 파일의 한국어 상단 주석과 코드를 세부 책임의 최종 기준으로 삼는다.
 
 ## 루트

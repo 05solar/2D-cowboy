@@ -1,5 +1,7 @@
 # 스테이지 데이터
 
+`mine_obstacles.json`은 광산 생성기용 장치 배치 원본이다. 고정 스테이지 ID에 장벽·압착기·톱·가시·충전 링 좌표와 위상을 대응시킨다. `BuildMineStages.py`가 이를 개별 맵에 병합한다. `mine_routes.json`은 자동 검증용 발판 목표와 이동 입력 선택 데이터다. 현재 기준은 [광산 경로 재배치](../../docs/MINE_06_10_ROUTE_REWORK_2026-11-09.md)를 따른다.
+
 `prologue.json`은 본편 번호와 분리된 테스트 프롤로그다. 발판·천장·링·체크포인트·위험·`clearGem` 위치를 담는다. 오른쪽이 +X, 위쪽이 +Y이며 월드 단위는 H다. 클리어는 출구가 아니라 바닥 `clear_gem` 접촉으로 처리한다.
 
 본편 맵은 같은 디렉터리의 `cave_01`~`cave_05`, `mine_01`~`mine_05`, `city_01`~`city_05` JSON이다. 본편 고정 ID 및 실행 가용성은 `assets/cave_chapter/stages.json`에서 관리한다. 1~15는 테스트 실행 가능이고 16~20은 실행 맵이 없다. `available`은 진행 해금이나 플레이테스트 통과를 뜻하지 않는다.

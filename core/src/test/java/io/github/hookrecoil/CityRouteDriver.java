@@ -16,6 +16,8 @@ final class CityRouteDriver {
     int settleTicks;
     boolean launched;
     boolean transitionEngaged;
+    String blockedBy="none";
+    int safeGateTicks,safeCrusherTicks;
 
     private void aimRecoil(StageRuntime stage,InputFrame input,float targetX,boolean finalPlatform) {
         boolean overheadRisk=false;
@@ -32,7 +34,15 @@ final class CityRouteDriver {
         }
     }
 
+    private void steer(StageRuntime stage,InputFrame input,float targetX) {
+        float error=targetX-stage.player.x;
+        float desiredVx=Math.max(-stage.config.groundSpeed,Math.min(stage.config.groundSpeed,error*2.2f));
+        float steering=desiredVx-stage.player.vx;
+        input.move=Math.abs(steering)<.45f?0:steering>0?1:-1;
+    }
+
     InputFrame next(StageRuntime stage) {
+        blockedBy="none";
         InputFrame input=new InputFrame();input.aimX=0;input.aimY=-1;
         if(stage.player.grounded) {
             for(int i=0;i<stage.definition.platforms.length;i++) {
@@ -52,16 +62,17 @@ final class CityRouteDriver {
         float targetCenter=target.x+target.width*.5f;
         for(StageDefinition.CityBarrier barrier:stage.definition.cityBarriers) {
             float barrierX=barrier.x+barrier.width*.5f;
-            if((stage.player.x-barrierX)*(targetCenter-barrierX)<0&& !"off".equals(barrier.state))return input;
-        }
-        if(stage.player.grounded)for(StageDefinition.MineSaw saw:stage.definition.mineSaws) {
-            float left=Math.min(stage.player.x,targetCenter)-1.0f,right=Math.max(stage.player.x,targetCenter)+1.0f;
-            float targetY=target.surfaceY(targetCenter);
-            float futureX=saw.x+(saw.x-saw.previousX)*120*1.4f;
-            boolean crossesNow=saw.x>=left&&saw.x<=right;
-            boolean crossesSoon=futureX>=left&&futureX<=right;
-            if((crossesNow||crossesSoon)&&saw.y>Math.min(stage.player.y,targetY)-.8f
-                &&saw.y<Math.max(stage.player.y,targetY)+4.0f)return input;
+            float routeBottom=Math.min(stage.player.y,target.surfaceY(targetCenter))-.3f;
+            // Include the recoil arc above both endpoints so dense gates are
+            // timed before launch, not only after the airborne crossing begins.
+            float routeTop=Math.max(stage.player.y,target.surfaceY(targetCenter))+stage.config.height+5.0f;
+            boolean crossesBarrierHeight=barrier.y+barrier.height>routeBottom&&barrier.y<routeTop;
+            if(crossesBarrierHeight&&(stage.player.x-barrierX)*(targetCenter-barrierX)<0) {
+                float cycle=barrier.offSeconds+barrier.warningSeconds+barrier.onSeconds;
+                float local=((stage.elapsed+barrier.phase)%Math.max(.01f,cycle)+cycle)%cycle;
+                if(!"off".equals(barrier.state)||local>barrier.offSeconds-1.5f){blockedBy="barrier "+barrier.id+" local="+local;return input;}
+                safeGateTicks++;
+            }
         }
         if(stage.player.grounded)for(StageDefinition.MineCrusher crusher:stage.definition.mineCrushers) {
             float left=Math.min(stage.player.x,targetCenter)-.8f,right=Math.max(stage.player.x,targetCenter)+.8f;
@@ -69,7 +80,14 @@ final class CityRouteDriver {
             float pathTop=Math.max(stage.player.y,targetY)+stage.config.height+1.0f;
             float pathBottom=Math.min(stage.player.y,targetY)-.8f;
             boolean overlapsPath=crusher.topY>=pathBottom&&crusher.topY-crusher.extension<=pathTop;
-            if(crusher.extension>.05f&&overlapsPath&&crusher.x+crusher.width>=left&&crusher.x<=right)return input;
+            if(overlapsPath&&crusher.x+crusher.width>=left&&crusher.x<=right) {
+                float period=Math.max(.01f,crusher.period);
+                float local=((stage.elapsed/period+crusher.phase)%1f+1f)%1f*period;
+                float openWindow=1.4f*period/3.6f;
+                // Reserve enough of the open interval for the whole crossing, not just launch.
+                if(!"open".equals(crusher.state)||local>openWindow-1.8f){blockedBy="crusher "+crusher.id+" local="+local;return input;}
+                safeCrusherTicks++;
+            }
         }
         boolean landed=target.active&&stage.player.grounded
             &&Math.abs(stage.player.y-target.surfaceY(stage.player.x))<.04f
@@ -97,11 +115,19 @@ final class CityRouteDriver {
             }
             if(transitionEngaged&&(stage.grapple.attached>=0||stage.grapple.flying)) {
                 input.hookHeld=stage.player.y<top-.45f;
-                input.move=stage.grapple.attached>=0?(stage.player.x>=stage.grapple.hookX?1:-1):(targetCenter>stage.player.x?1:-1);
+                if(stage.grapple.attached>=0&&"city_05".equals(stage.definition.id)&&platform>=40) {
+                    boolean targetOnPlayerSide=(targetCenter-stage.grapple.hookX)*(stage.player.x-stage.grapple.hookX)>=0;
+                    input.move=(targetCenter>stage.player.x?1:-1)*(targetOnPlayerSide?1:-1);
+                } else input.move=stage.grapple.attached>=0
+                    ?(stage.player.x>=stage.grapple.hookX?1:-1):(targetCenter>stage.player.x?1:-1);
                 if(stage.grapple.attached>=0&&stage.player.ammo>0&&stage.player.shotCooldown<=0
                     &&stage.player.y<top-1.0f&&airTicks%36==18) {input.fire=true;input.aimX=0;input.aimY=-1;}
                 airTicks++;
                 return input;
+            }
+            if(transitionEngaged&&!stage.player.grounded) {
+                // If the rope releases before the ledge, continue the jump/recoil approach instead of steering forever.
+                transitionEngaged=false;launched=true;airTicks=0;
             }
             if(transitionEngaged&&!stage.player.grounded) {
                 input.move=targetCenter>stage.player.x?1:-1;airTicks++;return input;
@@ -122,14 +148,11 @@ final class CityRouteDriver {
             input.move=platform>1&&!finalPlatform?(towardRight?1:-1):0;input.jump=true;launched=true;airTicks=0;return input;
         }
         if(!stage.player.grounded&&launched&&stage.player.y<target.surfaceY(targetX)-.02f) {
-            input.move=targetX>stage.player.x?1:-1;
+            steer(stage,input,targetX);
             if(airTicks==2&&stage.player.ammo>0){input.fire=true;aimRecoil(stage,input,targetX,finalPlatform);}
             airTicks++;return input;
         }
-        float error=targetX-stage.player.x;
-        float desiredVx=Math.max(-stage.config.groundSpeed,Math.min(stage.config.groundSpeed,error*2.2f));
-        float steering=desiredVx-stage.player.vx;
-        input.move=Math.abs(steering)<.45f?0:steering>0?1:-1;
+        steer(stage,input,targetX);
         if(!stage.player.grounded&&launched) {
             if(airTicks==2&&stage.player.ammo>0){input.fire=true;aimRecoil(stage,input,targetX,finalPlatform);}
             airTicks++;

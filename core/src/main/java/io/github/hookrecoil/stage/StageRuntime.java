@@ -54,8 +54,8 @@ public class StageRuntime {
         if(deathWaiting)return;
         elapsed+=dt;
         devices.tick(dt);
-        if(definition.id.startsWith("city_")){cityDevices.tick(dt,player);mineDevices.tickCityHazards(dt);devices.warning|=cityDevices.warning||mineDevices.warning;}
-        else {mineDevices.tick(dt,player,config.halfWidth);devices.warning|=mineDevices.warning;}
+        if(definition.id.startsWith("city_")){cityDevices.tick(dt,player,config.halfWidth);mineDevices.tickCityHazards(dt);devices.warning|=cityDevices.warning||mineDevices.warning;}
+        else {cityDevices.tickBarriers(dt);mineDevices.tick(dt,player,config.halfWidth);devices.warning|=mineDevices.warning||cityDevices.warning;}
         controller.prepare(player,in,dt);
         if(definition.id.startsWith("city_"))cityDevices.transferLaunchVelocity(player);else mineDevices.transferLaunchVelocity(player);
         if(in.fire && recoil.fire(player)) shots++;

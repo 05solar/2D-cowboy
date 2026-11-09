@@ -16,13 +16,21 @@ import io.github.hookrecoil.stage.StageRuntime;
 
 public final class MineRenderer {
     private final CaveAssets assets;
-    public MineRenderer(CaveAssets assets){this.assets=assets;}
+    private final TextureRegion emitterUpOff,emitterDownOff;
+    public MineRenderer(CaveAssets assets){
+        this.assets=assets;
+        TextureRegion up=assets.region("city_v2_electric_emitter_up"),down=assets.region("city_v2_electric_emitter_down");
+        int upCut=Math.round(up.getRegionHeight()*.58f),downHeight=Math.round(down.getRegionHeight()*.43f);
+        emitterUpOff=new TextureRegion(up,0,upCut,up.getRegionWidth(),up.getRegionHeight()-upCut);
+        emitterDownOff=new TextureRegion(down,0,0,down.getRegionWidth(),downHeight);
+    }
     private TextureRegion region(String name){return assets.region("mine_"+name);}
 
     public void draw(SpriteBatch batch,StageRuntime stage) {
         float u=stage.config.pixelsPerH;
         drawTerrain(batch,stage,u);
         drawSpikes(batch,stage,u);
+        drawElectricBarriers(batch,stage,u);
         drawCrushers(batch,stage,u);
         drawSaws(batch,stage,u);
         drawMovers(batch,stage,u);
@@ -78,11 +86,40 @@ public final class MineRenderer {
                 (c.extension>.08f?"crusher_lower_extended":"crusher_lower_retracted");
             TextureRegion r=region(name);float w=Math.max(c.width*u,r.getRegionWidth()*.45f),h=w*r.getRegionHeight()/r.getRegionWidth();
             float top=c.topY*u;
-            float slide=Math.min(c.extension*u,Math.max(0,h*.45f));
-            b.draw(r,c.x*u+(c.width*u-w)*.5f,upper?top-h-slide:top+slide,w,h);
-            TextureRegion lamp=assets.region("mine_warning_lamp");float lw=.42f*u,lh=lw*lamp.getRegionHeight()/lamp.getRegionWidth();
-            b.setColor(1,1,1,"warning".equals(c.state)?1:.38f);
-            b.draw(lamp,(c.x+c.width+.1f)*u,top-lh*.5f,lw,lh);b.setColor(Color.WHITE);
+            float slide=c.extension*u;
+            // 실제 압착 길이를 표시해 바닥에 닿는 판정이 공중의 그림 아래로 숨지 않게 한다.
+            if(slide>0) {
+                b.setColor(.6f,.65f,.7f,1);
+                b.draw(region("solid_fill"),c.x*u,upper?top-slide:top,c.width*u,slide);
+                b.setColor(Color.WHITE);
+            }
+            b.draw(r,c.x*u+(c.width*u-w)*.5f,upper?top-slide:top+slide-h,w,h);
+        }
+    }
+
+    private void drawElectricBarriers(SpriteBatch b,StageRuntime s,float u) {
+        for(StageDefinition.CityBarrier barrier:s.definition.cityBarriers) {
+            TextureRegion up=assets.region("city_v2_electric_emitter_up");
+            TextureRegion down=assets.region("city_v2_electric_emitter_down");
+            float x=barrier.x*u,y=barrier.y*u,w=barrier.width*u,h=barrier.height*u;
+            boolean off="off".equals(barrier.state);
+            if(!off) {
+                TextureRegion arc=assets.region("city_v2_electric_arc");
+                b.setColor(1,1,1,"warning".equals(barrier.state)?.35f:.76f);
+                b.draw(arc,x-w*.35f,y,w*1.7f,h);
+            }
+            float ew=Math.max(w*3,.7f*u);b.setColor(Color.WHITE);
+            if(off) {
+                float uh=ew*emitterUpOff.getRegionHeight()/emitterUpOff.getRegionWidth();
+                float dh=ew*emitterDownOff.getRegionHeight()/emitterDownOff.getRegionWidth();
+                b.draw(emitterDownOff,x+w*.5f-ew*.5f,y-dh*.15f,ew,dh);
+                b.draw(emitterUpOff,x+w*.5f-ew*.5f,y+h-uh*.85f,ew,uh);
+            } else {
+                float eh=ew*up.getRegionHeight()/up.getRegionWidth();
+                b.draw(down,x+w*.5f-ew*.5f,y-eh*.8f,ew,eh);
+                b.draw(up,x+w*.5f-ew*.5f,y+h-eh*.2f,ew,eh);
+            }
+            b.setColor(Color.WHITE);
         }
     }
 

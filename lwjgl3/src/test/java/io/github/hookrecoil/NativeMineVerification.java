@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Json;
 import io.github.hookrecoil.screens.GameplayScreen;
 import io.github.hookrecoil.stage.StageRuntime;
 import io.github.hookrecoil.stage.StageCatalog;
+import io.github.hookrecoil.stage.StageDefinition;
 import io.github.hookrecoil.save.ProgressStore;
 import io.github.hookrecoil.ui.StageSelectView;
 import java.lang.reflect.Field;
@@ -80,6 +81,14 @@ public final class NativeMineVerification extends ApplicationAdapter {
                 StageCatalog.Entry entry=((StageCatalog)new Json().fromJson(StageCatalog.class,Gdx.files.internal("cave_chapter/stages.json"))).find(id);
                 Object texture=background.invoke(assets,entry.background);check(texture!=null,id+" portrait background loads with clamp texture");
                 for(int frame=0;frame<3;frame++)screen.render(1f/60);
+                if(i==1) {
+                    Object intro=field("introCamera");Method cancel=intro.getClass().getDeclaredMethod("cancel");cancel.setAccessible(true);cancel.invoke(intro);
+                    StageDefinition.CityBarrier barrier=stage.definition.cityBarriers[0];
+                    stage.cityDevices.tickBarriers(barrier.offSeconds+.1f);
+                    stage.cityDevices.tickBarriers(barrier.warningSeconds+.1f);
+                    check("on".equals(barrier.state)&&barrier.collider.active,"Mine electric barrier becomes visibly and physically active");
+                    screen.render(1f/60);capture("mine-barrier-on");
+                }
                 capture(id+"-start");
             }
             java.nio.file.Files.write(output.resolve("result.txt"),("PASS native mine load/render: "+checks+" checks.\nAll five mine cards/maps/backgrounds loaded; test-only progress was isolated at "+save+".\n").getBytes(StandardCharsets.UTF_8));

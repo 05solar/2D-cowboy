@@ -37,6 +37,11 @@ public class ProgressStore {
     public boolean cleared(String id){Record r=record(id);return r!=null&&r.completed;}
     public boolean unlocked(StageCatalog.Entry e){return e!=null&&(e.available||cleared(e.requires));}
     public boolean canStart(StageCatalog.Entry e){return e!=null&&e.available&&unlocked(e);}
+    public boolean allCleared(StageCatalog catalog){
+        boolean any=false;
+        for(StageCatalog.Entry e:catalog.stages){if(!e.available)continue;any=true;if(!cleared(e.id))return false;}
+        return any;
+    }
     private Data read(Path path)throws IOException{
         Data d=new Json().fromJson(Data.class,new String(Files.readAllBytes(path),StandardCharsets.UTF_8));
         if(d.schemaVersion!=2||d.records==null)throw new IOException("Unsupported progress schema");

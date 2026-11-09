@@ -123,3 +123,11 @@ clear_gem 접촉 시 위치·이동 입력·중력·줄·함정 물리를 멈추
 6. 6~10이 동굴보다 더 많은 학습·제어를 요구하는지 관찰하되, 실패 횟수만 늘리는 불공정한 숨은 가시·랜덤 장치를 추가하지 않는다.
 
 이 묶음에는 PNG 리소스와 설계 문서가 있다. 위 합격 기준의 게임 엔진 실행·클리어 검증은 아직 수행하지 않았다.
+
+## Runtime verification update (2026-11-09)
+
+The implemented mine JSON adds 2/3/4/5/6 electric barriers for stages 6-10. `MineRenderer` draws the emitter, arc, and warning state; `StageRuntime` updates barrier phases and lethal contact. Restart returns the devices to their authored initial phase. `:core:verifyMines` passed 80 assertions and route simulations at 30/60/144 FPS reached each clear gem without deaths.
+
+
+## 2026-11-09 runtime map update
+See [Mine stages 6-10 route rework](../../MINE_06_10_ROUTE_REWORK_2026-11-09.md) for the implemented data, final gem endpoints, post-gem object checks, and automated route results.

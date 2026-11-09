@@ -30,7 +30,7 @@
 
 - `GameplayScreen`은 게임 렌더와 UI에 서로 다른 viewport를 쓴다. 월드 viewport는 창 높이×2를 논리 높이로, 16:9 논리 폭으로 갱신한다. 큰 창에서도 월드/화면 픽셀 배율을 유지한다.
 - UI는 2560×1440 논리 좌표를 별도로 유지한다. 마우스 조준은 월드 viewport로 역변환하며 메뉴 좌표는 UI viewport로 변환한다.
-- `assets/config/camera.json`의 `gameplayZoom=1.2`는 창 확대와 독립적인 게임 카메라 배율이다. 카메라 시작 투어는 스폰→전체 맵→보석→스폰 순이며 연출 중 스테이지 시뮬레이션이 멈춘다.
+- `assets/config/camera.json`의 `gameplayZoom=1.2`는 창 확대와 독립적인 게임 카메라 배율이다. `verticalFollowOffset=70`, `lowerEdgeAllowance=120`, `prologueCameraY=520`은 하단 발판이 보이도록 화면을 내리는 기준값이다. 카메라 시작 투어는 스폰→전체 맵→보석→스폰 순이며 전체 맵 공개까지 0.85초, 연출 중 스테이지 시뮬레이션은 멈춘다.
 - 배경은 장식 레이어로 반복하지 않는다. 도시 V2는 구역 선택과 크로스페이드가 있다.
 
 ## 상태 소유·저장

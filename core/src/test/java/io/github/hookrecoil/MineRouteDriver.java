@@ -14,11 +14,19 @@ import io.github.hookrecoil.stage.StageRuntime;
 public final class MineRouteDriver {
     private final JsonValue route;
     public int stepIndex,airTicks;
+    public boolean recoverUpperLanding;
     private boolean launched;
     public MineRouteDriver(JsonValue route){this.route=route;}
 
     public InputFrame next(StageRuntime stage) {
         InputFrame input=new InputFrame();input.aimX=0;input.aimY=-1;
+        if(recoverUpperLanding&&stage.player.grounded)for(int j=stepIndex+1;j<route.size;j++) {
+            StageDefinition.Block b=stage.definition.platforms[route.get(j).getInt("platform")];
+            if(Math.abs(stage.player.y-b.surfaceY(stage.player.x))<.04f&&stage.player.x>b.x&&stage.player.x<b.x+b.width) {
+                stepIndex=j+1;launched=false;airTicks=0;break;
+            }
+        }
+        if(stage.player.grounded&&stage.player.ammo<2&&route.get(Math.min(stepIndex,route.size-1)).getBoolean("approachEdge",false))return input;
         if(stepIndex>=route.size) {
             input.move=stage.player.x<stage.definition.clearGem.x?1:-1;return input;
         }
@@ -33,12 +41,34 @@ public final class MineRouteDriver {
             if(!waitTop&&!waitX){stepIndex++;launched=false;airTicks=0;return input;}
             input.move=0;return input;
         }
+        if(stage.player.grounded&&!launched)for(StageDefinition.MineCrusher press:stage.definition.mineCrushers) {
+            float left=Math.min(stage.player.x,center),right=Math.max(stage.player.x,center);
+            if(press.x+press.width>=left&&press.x<=right&&press.topY>Math.min(stage.player.y,top)
+                &&press.topY-press.stroke<Math.max(stage.player.y,top)+4) {
+                float local=((stage.elapsed/press.period+press.phase)%1+1)%1;
+                if(local>.12f)return input;
+            }
+        }
+        if(stage.player.grounded&&!launched)for(StageDefinition.CityBarrier barrier:stage.definition.cityBarriers) {
+            float low=Math.min(stage.player.y,top)-.5f;
+            float high=Math.max(stage.player.y,top)+stage.config.height+5.0f;
+            boolean crossesHeight=barrier.y+barrier.height>low&&barrier.y<high;
+            float left=Math.min(stage.player.x,center),right=Math.max(stage.player.x,center);
+            if(crossesHeight&&barrier.x+barrier.width>=left&&barrier.x<=right) {
+                float cycle=barrier.offSeconds+barrier.warningSeconds+barrier.onSeconds;
+                float local=((stage.elapsed+barrier.phase)%Math.max(.01f,cycle)+cycle)%cycle;
+                if(!"off".equals(barrier.state)||local>barrier.offSeconds-1.5f)return input;
+            }
+        }
         if(stage.player.grounded&&launched&&airTicks>20) {launched=false;airTicks=0;return input;}
         float currentTop=stage.player.y,rise=top-currentTop;
         if(!stage.player.grounded) {
             if(launched) {
-                input.move=Math.abs(center-stage.player.x)<.08f?0:center>stage.player.x?1:-1;
-                input.fire=airTicks==10;airTicks++;
+                float error=center-stage.player.x;
+                float desiredVx=Math.max(-stage.config.groundSpeed,Math.min(stage.config.groundSpeed,error*2.2f));
+                float steering=desiredVx-stage.player.vx;
+                input.move=Math.abs(steering)<.45f?0:steering>0?1:-1;
+                input.fire=airTicks==10||(airTicks==38&&top>stage.player.y);airTicks++;
             }
             return input;
         }
@@ -49,7 +79,13 @@ public final class MineRouteDriver {
                     &&stage.player.x+stage.config.halfWidth>source.x&&stage.player.x-stage.config.halfWidth<source.x+source.width) {
                     float gap=target.x>source.x+source.width?target.x-(source.x+source.width):
                         source.x>target.x+target.width?source.x-(target.x+target.width):0;
-                    if(gap>.22f)jump=true;
+                    if(gap>.22f||step.has("takeoffInset")) {
+                        jump=true;
+                        float edge=center>stage.player.x?source.x+source.width-step.getFloat("takeoffInset",.3f):source.x+step.getFloat("takeoffInset",.3f);
+                        if(step.getBoolean("approachEdge",false)&&Math.abs(edge-stage.player.x)>.4f) {
+                            input.move=edge>stage.player.x?1:-1;return input;
+                        }
+                    }
                     break;
                 }
             input.move=Math.abs(center-stage.player.x)<.12f?0:center>stage.player.x?1:-1;

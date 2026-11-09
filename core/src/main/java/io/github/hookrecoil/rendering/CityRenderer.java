@@ -117,8 +117,9 @@ public final class CityRenderer {
 
     private void drawWindAndBarriers(SpriteBatch batch,StageRuntime stage,float u) {
         for(StageDefinition.CityWindZone zone:stage.definition.cityWindZones) {
-            TextureRegion fan=region("fan_on_00");float size=Math.min(zone.width,zone.height)*.38f*u;
-            batch.setColor(1,1,1,.48f);batch.draw(fan,(zone.x+zone.width*.5f)*u-size*.5f,(zone.y+zone.height*.5f)*u-size*.5f,size,size);
+            TextureRegion fan=region(((int)(stage.elapsed*12)%2)==0?"fan_on_00":"fan_on_01");float size=Math.min(zone.width,zone.height)*.38f*u;
+            float x=(zone.x+zone.width*.5f)*u-size*.5f,y=(zone.y+zone.height*.5f)*u-size*.5f;
+            batch.setColor(1,1,1,.72f);batch.draw(fan,x,y,size*.5f,size*.5f,size,size,1,1,(stage.elapsed*540f)%360f);
             TextureRegion arrow=region("wind_arrow");float width=zone.width*u,height=Math.min(zone.height*u*.24f,width*arrow.getRegionHeight()/arrow.getRegionWidth());
             batch.setColor(.8f,.88f,.9f,.53f);batch.draw(arrow,zone.x*u,(zone.y+zone.height*.5f)*u-height*.5f,width,height);
             batch.setColor(Color.WHITE);
@@ -142,10 +143,6 @@ public final class CityRenderer {
                 float eh=ew*up.getRegionHeight()/up.getRegionWidth();
                 batch.draw(down,x+w*.5f-ew*.5f,y-eh*.8f,ew,eh);batch.draw(up,x+w*.5f-ew*.5f,y+h-eh*.2f,ew,eh);
             }
-            if("warning".equals(barrier.state)) {
-                TextureRegion lamp=region("warning_lamp");float lw=.42f*u,lh=lw*lamp.getRegionHeight()/lamp.getRegionWidth();
-                batch.draw(lamp,x+ew*.5f,y+h*.5f-lh*.5f,lw,lh);
-            }
             batch.setColor(Color.WHITE);
         }
     }
@@ -154,7 +151,7 @@ public final class CityRenderer {
         for(StageDefinition.MineMover mover:stage.definition.mineMovers) {
             if(mover.platform>=0) {
                 StageDefinition.Block platform=stage.definition.platforms[mover.platform];
-                String sprite=Math.abs(mover.toX-mover.fromX)>.01f?"moving_horizontal":"moving_vertical";
+                String sprite=Math.abs(mover.vx)>=Math.abs(mover.vy)?"moving_horizontal":"moving_vertical";
                 drawAtSurface(batch,region(sprite),platform.x,platform.y+platform.height,platform.width,u);
             } else if(mover.anchor>=0) {
                 TextureRegion image=region("moving_anchor");float w=.9f*u,h=w*image.getRegionHeight()/image.getRegionWidth();
@@ -193,8 +190,6 @@ public final class CityRenderer {
             TextureRegion image=region(name);float width=Math.max(crusher.width*u,image.getRegionWidth()*.36f),height=width*image.getRegionHeight()/image.getRegionWidth();
             float offset=Math.min(crusher.extension*u,height*.55f);float y=upper?crusher.topY*u-height-offset:crusher.topY*u+offset;
             batch.draw(image,crusher.x*u+(crusher.width*u-width)*.5f,y,width,height);
-            TextureRegion lamp=region("warning_lamp");float lw=.35f*u,lh=lw*lamp.getRegionHeight()/lamp.getRegionWidth();
-            batch.setColor(1,1,1,"warning".equals(crusher.state)?1:.35f);batch.draw(lamp,(crusher.x+crusher.width)*u,y+height*.5f-lh*.5f,lw,lh);batch.setColor(Color.WHITE);
         }
     }
 

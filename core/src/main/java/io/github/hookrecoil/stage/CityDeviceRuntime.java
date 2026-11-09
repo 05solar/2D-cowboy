@@ -60,12 +60,13 @@ public final class CityDeviceRuntime {
         }
     }
 
-    public void tick(float dt,PlayerState player) {
+    public void tick(float dt,PlayerState player,float playerHalfWidth) {
         warning=false;riding=false;riderVx=riderVy=0;
         int ridden=-1;
         if(player.grounded)for(StageDefinition.MineMover mover:stage.mineMovers)if(mover.platform>=0) {
             StageDefinition.Block platform=stage.platforms[mover.platform];
-            if(Math.abs(player.y-platform.surfaceY(player.x))<.035f&&player.x>platform.x-.02f&&player.x<platform.x+platform.width+.02f){ridden=mover.platform;break;}
+            boolean overlapsDeck=player.x+playerHalfWidth>platform.x&&player.x-playerHalfWidth<platform.x+platform.width;
+            if(Math.abs(player.y-platform.surfaceY(player.x))<.035f&&overlapsDeck){ridden=mover.platform;break;}
         }
         time+=dt;
         for(StageDefinition.MineMover mover:stage.mineMovers) {
@@ -83,6 +84,13 @@ public final class CityDeviceRuntime {
             }
             if(mover.structure>=0&&mover.structure<stage.cityStructures.length)moveStructure(stage.cityStructures[mover.structure],mover.x,mover.y);
         }
+        updateBarriers();
+    }
+
+    /** Advances only the shared electric barrier clock for non-city stages. */
+    public void tickBarriers(float dt) { time+=dt;warning=false;updateBarriers(); }
+
+    private void updateBarriers() {
         for(StageDefinition.CityBarrier barrier:stage.cityBarriers) {
             float cycle=barrier.offSeconds+barrier.warningSeconds+barrier.onSeconds;
             float phase=((time+barrier.phase)%Math.max(.01f,cycle)+cycle)%cycle;

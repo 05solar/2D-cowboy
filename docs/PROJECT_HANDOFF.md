@@ -17,7 +17,7 @@
 - 갈고리는 유효한 고정점에 연결한다. 반동 탄창은 2발이며 정상 착지와 스테이지별 충전 링으로 회복한다. 개별 스테이지와 장치 경로의 완주 가능성이 모두 검증된 것은 아니다.
 - 완료 목표는 바닥의 `clear_gem`이다. 획득 확정 시 기록 시간을 멈추고 입력·물리·장치를 정지한 뒤 별도 시계로 2초 애니메이션을 재생한다. 결과 화면 제목은 `CLEAR`다.
 - 사망 화면은 자동 재시작하지 않고 YOU DIED 패널에서 입력을 기다린다. 체크포인트 알림 팝업은 표시하지 않는다.
-- 게임 카메라의 수직 look offset은 220 논리 픽셀로 낮췄고, 프롤로그 고정 카메라는 y=720이다. 동굴 1의 첫 갈고리 아래 x=9~16 낮은 복구 발판을 제거했다.
+- 게임 카메라의 수직 추적 오프셋은 70, 아래 경계 여유는 120 논리 픽셀이다. 프롤로그 고정 카메라는 y=520이며 전체 맵 공개 구간은 0.85초다. 동굴 1의 첫 갈고리 아래 x=9~16 낮은 복구 발판을 제거했다.
 - 신규 스테이지 시작 시 스폰→전체 맵 축소 보기→클리어 보석 확대 보기→스폰 복귀 카메라 투어를 한다. 게임 시뮬레이션은 연출 중 정지한다.
 - 붕괴 발판은 동굴 4·5에서만 쓰인다. 긴 이미지를 한 장으로 늘이지 않고 최대 2H 조각으로 반복 렌더한다. 충돌은 스테이지 데이터/런타임 상태가 소유한다.
 - 동굴 1~5, 광산 6~10, 지하도시 V2 11~15의 시각 자료와 실행 데이터가 있다. 개발 맵이 있다는 사실은 수동 난도·클리어 검증을 뜻하지 않는다.
@@ -50,7 +50,7 @@
 
 - `:core:verifyCaves`: 80 assertions 통과. 동굴 경로는 30/60/144 FPS 자동 검증을 포함한다. 인간 조작 플레이테스트나 다른 챕터의 통과를 의미하지 않는다.
 - `:lwjgl3:compileJava`: 통과.
-- `:lwjgl3:verifyCityNative`: 28 checks 통과. 도시 V2 자료와 맵 로드, 오프닝 카메라 연속성·정지 동작을 확인했다. 수직 look offset 수정 후 재실행했다. 검증 창은 1280×720이며 1600×900 실제 창의 픽셀 배율은 별도 확인하지 않았다.
+- `:lwjgl3:verifyCityNative`: 수직 추적 오프셋 70·아래 경계 여유 120·0.85초 전체 맵 공개 적용 후 29 checks 통과. 도시 V2 로드와 카메라 연속성·정지를 확인했다. 검증 창은 1280×720이며 1600×900 UI/조준 정렬은 별도 확인하지 않았다.
 - 1600×900 `:lwjgl3:run` 미리보기 캡처에서 cave_01 시작 발판이 하단에서 잘리지 않는 것을 확인했다. 정지 화면 검사이며 플레이 경로 검증이 아니다.
 - `git diff --check`: 통과. 줄바꿈 형식 경고가 출력될 수 있으나 공백 오류는 없었다.
 - 이전 기록의 `:core:verifyMines`는 mine_01 자동 드라이버가 갈고리를 쓰지 않아 중간 위치에서 실패했다. 이 결과는 수동 플레이의 성공/실패를 대신하지 않는다.
@@ -75,3 +75,19 @@
 - [동굴 1~5](12_CAVE_CHAPTER.md)
 - [보석 완료](11_GEM_CLEAR.md)
 - [시작 카메라](13_STAGE_INTRO_CAMERA.md)
+# 2026-11-09 재개 메모: 맵 통과성 및 장치
+
+사용자가 기존에 자동 재생 중 사망/정체된 맵을 모두 완주 가능하게 고치고, 각 맵을 고친 뒤 실제 시뮬레이션으로 clear_gem까지 확인하도록 요청했다. 이번 수정은 새 엔진이 아니라 기존 Java/libGDX `StageRuntime`에 입력을 공급하는 재생 검증을 사용했다.
+
+완료된 재생 검증: cave_01~05, mine_01~05(스테이지 6~10), city_01~05(11~15). Cave와 mine은 30/60/144 FPS에서 전부 보석을 획득했고 결과 시간도 일치했다. City 전부 clear_gem에 도달했다. City의 이동 플랫폼 탑승 전달과 이동 궤적·주기, 광산 승강기/광차 표면 접촉도 assertions로 확인했다. 자세한 결과와 한계는 `09_DECISIONS_AND_STATUS.md`, `MINE_CHAPTER_STATUS.md`, `CITY_CHAPTER_V2.md`에 기록했다.
+
+이번 맵 구성 변경은 `tools/BuildMineStages.py`와 `tools/BuildCityStages.py`가 원본이므로 맵 JSON을 직접 고칠 때 생성 스크립트와 함께 갱신해야 한다. 광산 generator는 `py -3 tools/BuildMineStages.py --activate`로 생성한다. 도시 generator는 `py -3 tools/BuildCityStages.py`로 생성한다. 광산 6~10은 one-way 발판, 조정된 착지 간격 및 위험물 경로를 사용한다. 도시 11~15는 4종 x 실루엣/높이 패턴을 사용하여 매 층이 같은 줄로 반복되지 않도록 했다. 도시 fan visual은 `CityRenderer`의 두 팬 프레임 전환과 회전으로 표시하고, 실제 일정한 힘은 `CityWindZone`에서 적용한다.
+
+다음 작업자는 변경 전 `git status --short`와 본 문서부터 확인한다. 먼저 아래 명령을 재실행해 상태를 검증한다:
+
+```powershell
+.\gradlew.bat :core:verifyCaves :core:verifyMines :core:verifyCity
+```
+
+`BUILD FAILED`가 없고 각 경로가 `ROUTE CLEAR`/PASS여야 한다. 이는 scripted runtime simulation이지 사람의 실제 조작 테스트는 아니다. 아직 도시 난도 상승과 목표 경로 길이의 실측, 실사용자 플레이테스트를 하지 않았다. 최근 사용자가 별도 장면 캡처 없이 시뮬레이션을 원했으므로 native preview capture task는 이 작업에서 실행하지 않았다. 카메라·에셋 렌더링의 native 시각 검증은 이번 결과에 포함되지 않는다.
+For the latest city 11-15 layout and verification, read [CITY_11_15_REWORK_2026-11-09.md](CITY_11_15_REWORK_2026-11-09.md). This supersedes earlier automated route failure notes.

@@ -11,10 +11,11 @@ import com.badlogic.gdx.math.MathUtils;
 import io.github.hookrecoil.stage.StageDefinition;
 
 final class StageIntroCamera {
-    private static final float ZOOM_OUT_SECONDS=1.4f,OVERVIEW_HOLD_SECONDS=.8f;
+    private static final float ZOOM_OUT_SECONDS=1f,OVERVIEW_HOLD_SECONDS=.8f;
     private static final float GEM_APPROACH_SECONDS=1.4f,GEM_HOLD_SECONDS=.45f,RETURN_SECONDS=1.6f;
     private float spawnX,spawnY,gemX,gemY,overviewX,overviewY,overviewZoom=1,gameplayZoom=1,time;
     private float viewWidth=2560f,viewHeight=1440f;
+    private float verticalFollowOffset=70f,lowerEdgeAllowance=120f;
     private boolean active;
 
     void begin(StageDefinition stage,float pixelsPerH,float gameplayZoom) {
@@ -22,19 +23,29 @@ final class StageIntroCamera {
     }
 
     void begin(StageDefinition stage,float pixelsPerH,float gameplayZoom,float viewWidth,float viewHeight) {
+        begin(stage,pixelsPerH,gameplayZoom,viewWidth,viewHeight,70f,120f);
+    }
+
+    void begin(StageDefinition stage,float pixelsPerH,float gameplayZoom,float viewWidth,float viewHeight,
+               float verticalFollowOffset,float lowerEdgeAllowance) {
         time=0;active=false;
         this.gameplayZoom=gameplayZoom;
         this.viewWidth=viewWidth;this.viewHeight=viewHeight;
+        this.verticalFollowOffset=verticalFollowOffset;this.lowerEdgeAllowance=lowerEdgeAllowance;
         float worldWidth=stage.width*pixelsPerH,worldHeight=stage.height*pixelsPerH;
         float halfWidth=viewWidth*.5f*gameplayZoom,halfHeight=viewHeight*.5f*gameplayZoom;
         float maxX=Math.max(halfWidth,worldWidth-halfWidth);
-        float maxY=Math.max(halfHeight,worldHeight-halfHeight);
+        float minY=Math.min(Math.max(0,halfHeight-lowerEdgeAllowance*(viewHeight/1440f)),worldHeight*.5f);
+        float maxY=Math.max(minY,worldHeight-halfHeight);
         spawnX=MathUtils.clamp(stage.spawnX*pixelsPerH+430*(viewWidth/2560f),halfWidth,maxX);
-        spawnY=MathUtils.clamp(stage.spawnY*pixelsPerH+220*(viewHeight/1440f),halfHeight,maxY);
+        spawnY=MathUtils.clamp(stage.spawnY*pixelsPerH+verticalFollowOffset*(viewHeight/1440f),minY,maxY);
         gemX=MathUtils.clamp(stage.clearGem.x*pixelsPerH+430*(viewWidth/2560f),halfWidth,maxX);
-        gemY=MathUtils.clamp(stage.clearGem.y*pixelsPerH+220*(viewHeight/1440f),halfHeight,maxY);
-        overviewX=worldWidth*.5f;overviewY=worldHeight*.5f;
-        overviewZoom=Math.max(gameplayZoom,Math.max(worldWidth/viewWidth,worldHeight/viewHeight)*1.08f);
+        gemY=MathUtils.clamp(stage.clearGem.y*pixelsPerH+verticalFollowOffset*(viewHeight/1440f),minY,maxY);
+        overviewX=worldWidth*.5f;overviewY=worldHeight*.5f+18f*(viewHeight/1440f);
+        // The HUD covers the top 180px and bottom 216px of the logical view.
+        // Fit the whole level inside the remaining play window, with a small margin.
+        float unobscuredHeight=viewHeight*(1f-396f/1440f);
+        overviewZoom=Math.max(gameplayZoom,Math.max(worldWidth/viewWidth,worldHeight/unobscuredHeight)*1.06f);
         active=true;
     }
 
