@@ -58,7 +58,7 @@ public class NativeCaveVerification extends ApplicationAdapter {
             if(frame==5){capture("menu-1280");Gdx.graphics.setWindowedMode(640,480);}
             if(frame==15){check(Gdx.graphics.getWidth()==640,"Small window resized and card list scrolls");capture("menu-640");key(Input.Keys.TAB);key(Input.Keys.TAB);key(Input.Keys.TAB);check(menu().focus!=3,"Tab moves distinct focus");Gdx.graphics.setWindowedMode(1920,1080);}
             if(frame==25){capture("menu-1920");Gdx.graphics.setWindowedMode(1280,720);}
-            if(frame==35){menu().chapter=0;menu().focus=0;key(Input.Keys.RIGHT);key(Input.Keys.RIGHT);check(menu().chapter==2,"Keyboard chapter switch reaches city");check(!menu().selected().available&&!menu().canStart(),"Unimplemented city maps remain locked");capture("menu-future");key(Input.Keys.LEFT);key(Input.Keys.LEFT);}
+            if(frame==35){menu().chapter=0;menu().focus=0;key(Input.Keys.RIGHT);key(Input.Keys.RIGHT);check(menu().chapter==2,"Keyboard chapter switch reaches city");check(menu().selected().available&&menu().canStart(),"Implemented city maps remain available for testing");capture("menu-city");key(Input.Keys.LEFT);key(Input.Keys.LEFT);}
             if(frame==45){key(Input.Keys.ESCAPE);check(menu()==null,"Escape restores prior screen");key(Input.Keys.M);}
             if(frame==55){check(menu()!=null,"M opens menu");for(int i=0;i<6;i++)key(Input.Keys.W);key(Input.Keys.ENTER);key(Input.Keys.ENTER);check(menu()==null&&stage().definition.id.equals("cave_01"),"Keyboard starts cave 1");
                 screen.pause();double before=stage().elapsed;screen.render(.5f);check(stage().elapsed==before,"App pause freezes simulation");screen.resume();key(Input.Keys.ESCAPE);

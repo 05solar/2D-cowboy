@@ -1,6 +1,6 @@
 # 지하도시 11~15 상태 안내
 
-이 문서는 V1 구현 기록을 보존하는 과거 상태 문서다. 현재 런타임은 두꺼운 V1 블록 대신 얇은 발판과 열린 구조물을 사용하는 V2 리소스·배치다. 최신 적용 범위와 검증 상태는 [지하도시 V2 적용 상태](CITY_CHAPTER_V2.md), 설계 원본은 [V2 레벨 설계](assets/city_chapter/v2/REDESIGN_AND_LEVELS.md)를 기준으로 한다.
+이 문서는 V1 구현 기록을 보존하는 과거 상태 문서다. 현재 런타임은 두꺼운 V1 블록 대신 얇은 발판과 열린 구조물을 사용하는 V2 리소스·배치다. 최신 적용 범위와 검증 상태는 [지하도시 V2 적용 상태](CITY_CHAPTER_V2.md), 설계 원본은 [V2 레벨 설계](assets/city_chapter/v2/REDESIGN_AND_LEVELS.md)를 기준으로 한다. 화면/native 검증은 레벨 경로의 완주 검증과 구분한다.
 
 V1 에셋과 제작 자료는 `assets/city_chapter/` 및 `docs/assets/city_chapter/`에 이력으로 보존되어 있다. V1 자산이 현재 런타임에서 사용된다고 간주하지 않는다. 본편 카탈로그 `assets/cave_chapter/stages.json`에서는 테스트를 위해 11~15도 시작 가능하지만, 16~20은 준비 중이다.
 

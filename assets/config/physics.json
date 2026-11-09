@@ -5,6 +5,7 @@
   "hookInterval": 0.15, "coyoteTime": 0.08, "jumpBuffer": 0.10,
   "landingTime": 0.05, "halfWidth": 0.1725, "height": 0.75,
   "playerVisualScale": 0.75, "playerMainVisualScale": 0.68, "gunOpacity": 0.45,
+  "clearGemVisualScale": 2.0,
   "swingAcceleration": 20, "swingSpeed": 12,
   "ropeRetractSpeed": 2.4, "swingRopeLength": 3.7,
   "pixelsPerH": 180,

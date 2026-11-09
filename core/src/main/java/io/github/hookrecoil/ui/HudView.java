@@ -60,10 +60,6 @@ public class HudView implements Disposable {
         text(b,zone.detail,64,77,1.8f,muted);
         keyLegend(b,58,cream,muted);
         if(prologue)for(int i=0;i<s.definition.zones.length;i++) box(b,64+i*2440f/s.definition.zones.length,226,2420f/s.definition.zones.length,5,i<=s.zoneIndex()?0.85f:0.17f,i<=s.zoneIndex()?0.6f:0.24f,0.28f,1);
-        if(s.noticeTimer>0) {
-            box(b,925,1100,710,70,0.04f,0.1f,0.12f,0.93f);
-            text(b,"체크포인트 활성화  /  여기서 다시 시작",968,1147,1.8f,gold);
-        }
         if(debug) {
             box(b,60,920,730,270,0.02f,0.03f,0.04f,0.88f);
             text(b,String.format("120 Hz | x %.2f  y %.2f\nvx %.2f  vy %.2f\nHook: %s  |  ammo %d\nJump ~3H / Recoil gap 5H",s.player.x,s.player.y,s.player.vx,s.player.vy,s.grapple.attached>=0?"ATTACHED":(s.grapple.flying?"FLYING":"READY"),s.player.ammo),85,1160,1.8f,cream);
@@ -72,14 +68,13 @@ public class HudView implements Disposable {
             box(b,0,216,2560,1044,0.015f,0.025f,0.04f,0.8f);
             box(b,650,510,1260,430,0.045f,0.07f,0.085f,1);
             box(b,650,936,1260,4,0.9f,0.65f,0.3f,1);
-            text(b,s.complete?s.definition.name+" 완료":"일시정지",748,852,3.6f,cream);
-            if(s.complete)text(b,"클리어 보석 획득! 기록이 저장되었습니다.",748,756,2f,muted);
+            text(b,s.complete?"CLEAR":"일시정지",748,852,3.6f,cream);
             if(s.complete)box(b,730,600,1100,60,0.09f,0.15f,0.16f,1);
             text(b,s.complete?"ENTER / R / 클릭   재도전":"ESC 계속하기    R 체크포인트 재시작",748,644,2.2f,gold);
             if(s.complete) text(b,"TIME  "+(int)s.elapsed+"s     SHOTS  "+s.shots+"     FALLS  "+s.deaths,748,700,2.5f,muted);
             if(s.complete)text(b,"N 다음 스테이지     M 스테이지 선택",748,568,2.3f,muted);
         }
-        if(s.clear.frozen()&&!s.complete&&!paused)text(b,"클리어 보석 획득",1040,1070,2.5f,gold);
+        if(s.clear.frozen()&&!s.complete&&!paused)text(b,"CLEAR",1040,1070,2.5f,gold);
         if((s.deathTimer>0||s.deathWaiting)&&!paused) {
             box(b,500,535,1560,370,0.025f,0.035f,0.045f,0.95f);
             box(b,500,901,1560,4,0.86f,0.34f,0.28f,1);

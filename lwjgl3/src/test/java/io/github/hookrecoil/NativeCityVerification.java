@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.hookrecoil.assets.CaveAssets;
 import io.github.hookrecoil.screens.GameplayScreen;
+import io.github.hookrecoil.screens.CameraConfig;
 import io.github.hookrecoil.stage.StageCatalog;
 import io.github.hookrecoil.stage.StageRuntime;
 import java.lang.reflect.Field;
@@ -55,14 +56,16 @@ public final class NativeCityVerification extends ApplicationAdapter {
         load.invoke(screen,"city_01",false);
         StageRuntime introStage=(StageRuntime)field("stage");
         OrthographicCamera camera=(OrthographicCamera)field("camera");
+        float gameplayZoom=((CameraConfig)field("cameraConfig")).gameplayZoom;
         float worldWidth=introStage.definition.width*introStage.config.pixelsPerH;
         float worldHeight=introStage.definition.height*introStage.config.pixelsPerH;
-        float minX=Math.min(1280,worldWidth*.5f),maxX=Math.max(minX,worldWidth-1280);
-        float minY=Math.min(720,worldHeight*.5f),maxY=Math.max(minY,worldHeight-720);
+        float halfWidth=1280*gameplayZoom,halfHeight=720*gameplayZoom;
+        float minX=Math.min(halfWidth,worldWidth*.5f),maxX=Math.max(minX,worldWidth-halfWidth);
+        float minY=Math.min(halfHeight,worldHeight*.5f),maxY=Math.max(minY,worldHeight-halfHeight);
         float spawnCameraX=MathUtils.clamp(introStage.player.x*introStage.config.pixelsPerH+430,minX,maxX);
-        float spawnCameraY=MathUtils.clamp(introStage.player.y*introStage.config.pixelsPerH+300,minY,maxY);
+        float spawnCameraY=MathUtils.clamp(introStage.player.y*introStage.config.pixelsPerH+220,minY,maxY);
         float gemCameraX=MathUtils.clamp(introStage.definition.clearGem.x*introStage.config.pixelsPerH+430,minX,maxX);
-        float gemCameraY=MathUtils.clamp(introStage.definition.clearGem.y*introStage.config.pixelsPerH+300,minY,maxY);
+        float gemCameraY=MathUtils.clamp(introStage.definition.clearGem.y*introStage.config.pixelsPerH+220,minY,maxY);
         Object intro=field("introCamera");
         Method overviewReached=intro.getClass().getDeclaredMethod("overviewReachedAt");overviewReached.setAccessible(true);
         Method gemReached=intro.getClass().getDeclaredMethod("gemReachedAt");gemReached.setAccessible(true);
@@ -90,7 +93,7 @@ public final class NativeCityVerification extends ApplicationAdapter {
         }
         check(Math.abs(camera.position.x-Math.round(gemCameraX))<1&&Math.abs(camera.position.y-Math.round(gemCameraY))<1,
             "Opening camera zooms to the clear gem without advancing gameplay");
-        check(Math.abs(camera.zoom-1)<.001f,"Opening camera returns to gameplay zoom at the gem");
+        check(Math.abs(camera.zoom-gameplayZoom)<.001f,"Opening camera returns to gameplay zoom at the gem");
         check(maxStep<100,"Opening camera zoom and position transitions stay continuous");
         check(maxZoomStep<.12f,"Opening camera zoom transitions stay continuous");
         capture("city-intro-gem");

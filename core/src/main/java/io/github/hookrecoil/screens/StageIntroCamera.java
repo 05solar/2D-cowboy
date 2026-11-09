@@ -11,27 +11,34 @@ import com.badlogic.gdx.math.MathUtils;
 import io.github.hookrecoil.stage.StageDefinition;
 
 final class StageIntroCamera {
-    private static final float VIEW_WIDTH=2560f,VIEW_HEIGHT=1440f;
     private static final float ZOOM_OUT_SECONDS=1.4f,OVERVIEW_HOLD_SECONDS=.8f;
     private static final float GEM_APPROACH_SECONDS=1.4f,GEM_HOLD_SECONDS=.45f,RETURN_SECONDS=1.6f;
-    private float spawnX,spawnY,gemX,gemY,overviewX,overviewY,overviewZoom=1,time;
+    private float spawnX,spawnY,gemX,gemY,overviewX,overviewY,overviewZoom=1,gameplayZoom=1,time;
+    private float viewWidth=2560f,viewHeight=1440f;
     private boolean active;
 
-    void begin(StageDefinition stage,float pixelsPerH) {
+    void begin(StageDefinition stage,float pixelsPerH,float gameplayZoom) {
+        begin(stage,pixelsPerH,gameplayZoom,2560f,1440f);
+    }
+
+    void begin(StageDefinition stage,float pixelsPerH,float gameplayZoom,float viewWidth,float viewHeight) {
         time=0;active=false;
+        this.gameplayZoom=gameplayZoom;
+        this.viewWidth=viewWidth;this.viewHeight=viewHeight;
         float worldWidth=stage.width*pixelsPerH,worldHeight=stage.height*pixelsPerH;
-        float maxX=Math.max(VIEW_WIDTH*.5f,worldWidth-VIEW_WIDTH*.5f);
-        float maxY=Math.max(VIEW_HEIGHT*.5f,worldHeight-VIEW_HEIGHT*.5f);
-        spawnX=MathUtils.clamp(stage.spawnX*pixelsPerH+430,VIEW_WIDTH*.5f,maxX);
-        spawnY=MathUtils.clamp(stage.spawnY*pixelsPerH+300,VIEW_HEIGHT*.5f,maxY);
-        gemX=MathUtils.clamp(stage.clearGem.x*pixelsPerH+430,VIEW_WIDTH*.5f,maxX);
-        gemY=MathUtils.clamp(stage.clearGem.y*pixelsPerH+300,VIEW_HEIGHT*.5f,maxY);
+        float halfWidth=viewWidth*.5f*gameplayZoom,halfHeight=viewHeight*.5f*gameplayZoom;
+        float maxX=Math.max(halfWidth,worldWidth-halfWidth);
+        float maxY=Math.max(halfHeight,worldHeight-halfHeight);
+        spawnX=MathUtils.clamp(stage.spawnX*pixelsPerH+430*(viewWidth/2560f),halfWidth,maxX);
+        spawnY=MathUtils.clamp(stage.spawnY*pixelsPerH+220*(viewHeight/1440f),halfHeight,maxY);
+        gemX=MathUtils.clamp(stage.clearGem.x*pixelsPerH+430*(viewWidth/2560f),halfWidth,maxX);
+        gemY=MathUtils.clamp(stage.clearGem.y*pixelsPerH+220*(viewHeight/1440f),halfHeight,maxY);
         overviewX=worldWidth*.5f;overviewY=worldHeight*.5f;
-        overviewZoom=Math.max(1f,Math.max(worldWidth/VIEW_WIDTH,worldHeight/VIEW_HEIGHT)*1.08f);
+        overviewZoom=Math.max(gameplayZoom,Math.max(worldWidth/viewWidth,worldHeight/viewHeight)*1.08f);
         active=true;
     }
 
-    void cancel(){active=false;time=0;overviewZoom=1;}
+    void cancel(){active=false;time=0;overviewZoom=gameplayZoom;}
     boolean active(){return active;}
     float overviewReachedAt(){return ZOOM_OUT_SECONDS+OVERVIEW_HOLD_SECONDS;}
     float gemReachedAt(){return overviewReachedAt()+GEM_APPROACH_SECONDS;}
@@ -46,7 +53,7 @@ final class StageIntroCamera {
 
     float x(){return value(spawnX,overviewX,gemX);}
     float y(){return value(spawnY,overviewY,gemY);}
-    float zoom(){return value(1,overviewZoom,1);}
+    float zoom(){return value(gameplayZoom,overviewZoom,gameplayZoom);}
 
     private float value(float spawn,float overview,float gem) {
         float t;

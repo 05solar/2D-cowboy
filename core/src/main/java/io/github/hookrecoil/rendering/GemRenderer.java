@@ -13,7 +13,8 @@ public class GemRenderer {
     private final GemAssets assets;
     public GemRenderer(GemAssets a){assets=a;}
     private float scale(StageRuntime s){return s.config.playerVisualScale*0.84f;}
-    private float gemHeight(StageRuntime s){return s.config.height*s.config.pixelsPerH*0.52f;}
+    private float baseGemHeight(StageRuntime s){return s.config.height*s.config.pixelsPerH*0.52f;}
+    private float gemHeight(StageRuntime s){return baseGemHeight(s)*s.config.clearGemVisualScale;}
     private float glow(StageRuntime s){
         double time=s.clear.frozen()?s.clear.time:s.elapsed;
         return 0.20f+0.05f*(0.5f+0.5f*(float)Math.sin(time*Math.PI*2/1.25));
@@ -54,7 +55,7 @@ public class GemRenderer {
         }
     }
     public void optional(SpriteBatch batch,StageRuntime s,float x,float y) {
-        float px=x*s.config.pixelsPerH,py=y*s.config.pixelsPerH,height=gemHeight(s)*.9f;
+        float px=x*s.config.pixelsPerH,py=y*s.config.pixelsPerH,height=baseGemHeight(s)*.9f;
         effect(batch,"aura",px,py,height*2.5f,glow(s),.65f,.9f,1);
         effect(batch,"gem",px,py,height,.92f,.52f,.78f,1);
     }

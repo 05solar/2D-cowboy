@@ -5,7 +5,7 @@
 package io.github.hookrecoil.physics;
 
 public class PhysicsConfig {
-    public float playerVisualScale, playerMainVisualScale, gunOpacity, swingAcceleration, swingSpeed, ropeRetractSpeed, swingRopeLength;
+    public float playerVisualScale, playerMainVisualScale, gunOpacity, clearGemVisualScale, swingAcceleration, swingSpeed, ropeRetractSpeed, swingRopeLength;
     public float gravity, jumpSpeed, groundSpeed, airAcceleration, maxSpeed, recoil;
     public float shotInterval, hookRange, hookSpeed, hookInterval, hookHitRadius;
     public float coyoteTime, jumpBuffer, landingTime, halfWidth, height, pixelsPerH, surfaceStepHeight;

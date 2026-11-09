@@ -33,6 +33,8 @@ public class GameplayScreen extends ScreenAdapter {
     private final OrthographicCamera camera=new OrthographicCamera();
     private final OrthographicCamera ui=new OrthographicCamera();
     private final FitViewport viewport=new FitViewport(2560,1440,camera);
+    private final FitViewport uiViewport=new FitViewport(2560,1440,ui);
+    private final CameraConfig cameraConfig=new Json().fromJson(CameraConfig.class,Gdx.files.internal("config/camera.json"));
     private final InputRouter input=new InputRouter();
     private StageRuntime stage;
     private final PhysicsConfig config=new Json().fromJson(PhysicsConfig.class,Gdx.files.internal("config/physics.json"));
@@ -45,7 +47,7 @@ public class GameplayScreen extends ScreenAdapter {
     private StageSelectView menu;
     private final StageIntroCamera introCamera=new StageIntroCamera();
     private final CityBackgroundSelector cityBackgroundSelector=new CityBackgroundSelector();
-    private float cameraY=800;
+    private float cameraY=720;
     private final com.badlogic.gdx.audio.Sound warningSound=Gdx.audio.newSound(Gdx.files.internal("audio/crumble_warning.wav"));
     private final Vector3 mouse=new Vector3();
     private double accumulator;
@@ -53,6 +55,7 @@ public class GameplayScreen extends ScreenAdapter {
     private boolean paused,debug;
     private int frames;
     public GameplayScreen() {
+        resize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         String base=System.getenv("LOCALAPPDATA");if(base==null)base=System.getProperty("user.home");
         String isolated=System.getProperty("hookrecoil.saveDir");
         boolean preview=System.getProperty("hookrecoil.screenshot")!=null;
@@ -60,6 +63,7 @@ public class GameplayScreen extends ScreenAdapter {
         ProgressStore.Pending recovered=null;String error=null;
         try{recovered=progress.load();}catch(Exception e){error="진행 저장을 읽지 못했습니다. 원본은 보존됩니다.";}
         renderer.cave=caveRenderer;renderer.mine=mineRenderer;renderer.city=cityRenderer;loadStage("prologue",false);
+        cameraConfig.validate();
         if(recovered!=null&&("prologue".equals(recovered.stageId)||(catalog.find(recovered.stageId)!=null&&catalog.find(recovered.stageId).available))){
             loadStage(recovered.stageId,recovered.noCheckpoint);stage.player.reset(recovered.x,recovered.y);
             stage.elapsed=recovered.seconds;stage.deaths=recovered.deaths;stage.shots=recovered.shots;
@@ -71,12 +75,12 @@ public class GameplayScreen extends ScreenAdapter {
         StageDefinition def=stage.definition;PhysicsConfig c=config;
         // 캡처용 시작 지점은 배포 기본 동작과 분리한다.
         int cp=Integer.getInteger("hookrecoil.previewCheckpoint",-1);
-        if(cp>=0 && cp<def.checkpoints.length) {stage.checkpoint=cp;stage.respawn();cameraX=stage.player.x*c.pixelsPerH+500;}
-        if(preview&&Boolean.getBoolean("hookrecoil.previewGem")) {stage.player.reset(def.clearGem.x-1.2f,2);cameraX=stage.player.x*c.pixelsPerH+430;}
+        if(cp>=0 && cp<def.checkpoints.length) {stage.checkpoint=cp;stage.respawn();cameraX=stage.player.x*c.pixelsPerH+500*(viewport.getWorldWidth()/2560f);}
+        if(preview&&Boolean.getBoolean("hookrecoil.previewGem")) {stage.player.reset(def.clearGem.x-1.2f,2);cameraX=stage.player.x*c.pixelsPerH+430*(viewport.getWorldWidth()/2560f);}
         if(preview&&System.getProperty("hookrecoil.previewCollection")!=null) {
             stage.player.reset(def.clearGem.x,2);stage.player.facingRight=!Boolean.getBoolean("hookrecoil.previewLeft");
             stage.resolveGoal(false);stage.advancePresentation(Double.parseDouble(System.getProperty("hookrecoil.previewCollection")));
-            cameraX=stage.player.x*c.pixelsPerH+430;
+            cameraX=stage.player.x*c.pixelsPerH+430*(viewport.getWorldWidth()/2560f);
         }
         Gdx.input.setInputProcessor(input);
         ui.setToOrtho(false,2560,1440);
@@ -89,9 +93,9 @@ public class GameplayScreen extends ScreenAdapter {
         stage=new StageRuntime(new Json().fromJson(StageDefinition.class,Gdx.files.internal("stages/"+id+".json")),config);
         cityBackgroundSelector.reset();
         stage.noCheckpoint=challenge;stage.completionSink=progress::begin;stage.resultSink=s->progress.finish();
-        cameraX=1280;cameraY=800;camera.zoom=1;accumulator=0;
+        cameraX=1280;cameraY=720;camera.zoom=cameraConfig.gameplayZoom;accumulator=0;
         if(System.getProperty("hookrecoil.screenshot")==null) {
-            introCamera.begin(stage.definition,config.pixelsPerH);
+            introCamera.begin(stage.definition,config.pixelsPerH,cameraConfig.gameplayZoom,viewport.getWorldWidth(),viewport.getWorldHeight());
         } else introCamera.cancel();
     }
     public void openMenu(){
@@ -127,10 +131,10 @@ public class GameplayScreen extends ScreenAdapter {
             boolean wasFrozen=stage.clear.frozen();
             if(wasFrozen) {
                 InputFrame frozenCommand=input.consume(ax,ay);
-                float menuX=(Gdx.input.getX()-viewport.getScreenX())*2560f/viewport.getScreenWidth();
-                float menuY=(mouseY-viewport.getScreenY())*1440f/viewport.getScreenHeight();
+                float menuX=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
+                float menuY=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();
                 boolean retryClick=frozenCommand.fire&&menuX>=730&&menuX<=1830&&menuY>=600&&menuY<=660;
-                if(stage.complete && (frozenCommand.restart||retryClick)) {stage.restartAll();cameraX=1280;}
+                if(stage.complete && (frozenCommand.restart||retryClick)) {stage.restartAll();cameraX=viewport.getWorldWidth()*.5f;}
                 input.clear();accumulator=0;
                 if(System.getProperty("hookrecoil.previewCollection")==null)stage.advancePresentation(delta);
             } else {
@@ -138,7 +142,7 @@ public class GameplayScreen extends ScreenAdapter {
             while(accumulator>=1.0/120) {
                 InputFrame command=input.consume(ax,ay);
                 stage.tick(command,1f/120);if(stage.devices.warning)warningSound.play(.4f);accumulator-=1.0/120;
-                if(stage.justReset) {input.clear();cameraX=Math.max(1280,stage.player.x*stage.config.pixelsPerH+500);}
+                if(stage.justReset) {input.clear();cameraX=Math.max(viewport.getWorldWidth()*.5f,stage.player.x*stage.config.pixelsPerH+500*(viewport.getWorldWidth()/2560f));}
                 if(stage.justCollected) {input.clear();accumulator=0;break;}
             }
             }
@@ -146,28 +150,29 @@ public class GameplayScreen extends ScreenAdapter {
             InputFrame commands=input.consume(ax,ay);
             if(commands.restart && !stage.clear.frozen()) {stage.respawn();paused=false;input.clear();}
         }
-        float target=stage.player.x*stage.config.pixelsPerH+430;
+        float target=stage.player.x*stage.config.pixelsPerH+430*(viewport.getWorldWidth()/2560f);
         if(introFrame) {cameraX=introCamera.x();cameraY=introCamera.y();camera.zoom=introCamera.zoom();}
         else {
-            camera.zoom=1;
+            camera.zoom=cameraConfig.gameplayZoom;
             if(!stage.clear.frozen()&&!paused)cameraX=MathUtils.lerp(cameraX,target,1-(float)Math.exp(-5*delta));
         }
-        if(!introFrame&&!stage.clear.frozen()&&!paused)cameraY=MathUtils.lerp(cameraY,stage.player.y*config.pixelsPerH+300,1-(float)Math.exp(-5*delta));
-        float halfCameraWidth=1280*camera.zoom,halfCameraHeight=720*camera.zoom;
+        if(!introFrame&&!stage.clear.frozen()&&!paused)cameraY=MathUtils.lerp(cameraY,stage.player.y*config.pixelsPerH+220*(viewport.getWorldHeight()/1440f),1-(float)Math.exp(-5*delta));
+        float halfCameraWidth=viewport.getWorldWidth()*.5f*camera.zoom,halfCameraHeight=viewport.getWorldHeight()*.5f*camera.zoom;
         float worldWidth=stage.definition.width*config.pixelsPerH;
         float worldHeight=stage.definition.height*config.pixelsPerH;
         float minCameraX=Math.min(halfCameraWidth,worldWidth*.5f),maxCameraX=Math.max(minCameraX,worldWidth-halfCameraWidth);
         float minCameraY=Math.min(halfCameraHeight,worldHeight*.5f),maxCameraY=Math.max(minCameraY,worldHeight-halfCameraHeight);
         cameraX=MathUtils.clamp(cameraX,minCameraX,maxCameraX);
         cameraY=MathUtils.clamp(cameraY,minCameraY,maxCameraY);
-        if("prologue".equals(stage.definition.id)&&!introFrame)cameraY=800;
+        if("prologue".equals(stage.definition.id)&&!introFrame)cameraY=720;
         camera.position.set(Math.round(cameraX),Math.round(cameraY),0);camera.update();
         ScreenUtils.clear(0.018f,0.027f,0.04f,1);
-        viewport.apply();batch.setProjectionMatrix(ui.combined);batch.begin();
+        uiViewport.apply();batch.setProjectionMatrix(ui.combined);batch.begin();
         // 도시 배경은 지정 카메라 구역에서만 전환하고 두 장을 짧게 겹쳐 그린다.
         StageCatalog.Entry entry=catalog.find(stage.definition.id);
-        float progressX=MathUtils.clamp((cameraX-1280)/Math.max(1,stage.definition.width*config.pixelsPerH-2560),0,1);
-        float progressY=MathUtils.clamp((cameraY-720)/Math.max(1,stage.definition.height*config.pixelsPerH-1440),0,1);
+        float viewWidth=viewport.getWorldWidth(),viewHeight=viewport.getWorldHeight();
+        float progressX=MathUtils.clamp((cameraX-viewWidth*.5f)/Math.max(1,stage.definition.width*config.pixelsPerH-viewWidth),0,1);
+        float progressY=MathUtils.clamp((cameraY-viewHeight*.5f)/Math.max(1,stage.definition.height*config.pixelsPerH-viewHeight),0,1);
         if(stage.definition.id.startsWith("city_")) {
             cityBackgroundSelector.update(stage.definition,cameraX/config.pixelsPerH,cameraY/config.pixelsPerH,
                 delta,!paused);
@@ -188,8 +193,8 @@ public class GameplayScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);batch.begin();renderer.draw(batch,stage,paused?1:(float)(accumulator*120));batch.end();
         batch.setProjectionMatrix(ui.combined);batch.begin();hud.draw(batch,stage,paused,debug);
         if(input.insideViewport && !paused && !introFrame && !stage.clear.frozen()) {
-            float x=(Gdx.input.getX()-viewport.getScreenX())*2560f/viewport.getScreenWidth();
-            float y=(mouseY-viewport.getScreenY())*1440f/viewport.getScreenHeight();
+            float x=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
+            float y=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();
             hud.reticle(batch,x,y,stage.grapple.aimTarget(stage.player)>=0);
         }
         batch.end();
@@ -197,10 +202,11 @@ public class GameplayScreen extends ScreenAdapter {
     }
     private void drawPanorama(Texture texture,float progressX,float progressY,float r,float g,float b,float alpha) {
         if(texture==null)return;
-        float cover=Math.max(2560f/texture.getWidth(),1440f/texture.getHeight());
+        float viewWidth=viewport.getWorldWidth(),viewHeight=viewport.getWorldHeight();
+        float cover=Math.max(viewWidth/texture.getWidth(),viewHeight/texture.getHeight());
         float width=texture.getWidth()*cover,height=texture.getHeight()*cover;
         batch.setColor(r,g,b,alpha);
-        batch.draw(texture,-(width-2560)*progressX,-(height-1440)*progressY,width,height);
+        batch.draw(texture,-(width-viewWidth)*progressX,-(height-viewHeight)*progressY,width,height);
         batch.setColor(Color.WHITE);
     }
     private void capture(){
@@ -212,7 +218,12 @@ public class GameplayScreen extends ScreenAdapter {
             Gdx.app.log("SmokeTest","Screenshot captured; closing normally.");Gdx.app.exit();
         }
     }
-    @Override public void resize(int width,int height) {viewport.update(width,height);if(menu!=null)menu.resize(width,height);}
+    @Override public void resize(int width,int height) {
+        // 월드 좌표/화면 픽셀 비율을 1280×720 기준과 같게 유지하면서 창이 커진 만큼 더 넓게 보여준다.
+        float logicalHeight=Math.max(1,height)*2f,logicalWidth=logicalHeight*16f/9f;
+        viewport.setWorldSize(logicalWidth,logicalHeight);viewport.update(width,height);
+        uiViewport.update(width,height);if(menu!=null)menu.resize(width,height);
+    }
     @Override public void pause() {paused=true;input.clear();accumulator=0;}
     @Override public void resume() {input.clear();}
     @Override public void dispose() {Gdx.input.setInputProcessor(null);batch.dispose();hud.dispose();assets.dispose();caveRenderer.dispose();caveAssets.dispose();warningSound.dispose();}

@@ -27,7 +27,7 @@ def write(number, platforms, cp, goal, width, connections, steps, hazards=None, 
     e=catalog['stages'][number-1]; id=e['id']; ceilings=[]; anchors=[]
     for args in connections:
         ce,an=hook(*args);ceilings+=ce;anchors+=an
-    # Cave 1 keeps its authored low recovery pad; collapsing-floor pits remain lethal.
+    # Cave 1's low pad beneath the first hook is intentionally omitted; falling into the gap is lethal.
     death_plane={1:-1.25}.get(number,1.0)
     data=dict(id=id,name=e['name'],width=width,height=height,spawnX=2,spawnY=2,deathPlaneY=death_plane,exitX=goal[0],
         platforms=platforms,ceilings=ceilings,anchors=anchors,checkpoints=[point(*p) for p in cp],
@@ -38,7 +38,7 @@ def write(number, platforms, cp, goal, width, connections, steps, hazards=None, 
     (ROOT/f'assets/stages/{id}.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     routes[id]=steps
 
-write(1,[block(0,8),block(17,23),block(28,34),block(39,46),block(9,16,-1,bottom=-1.7)],
+write(1,[block(0,8),block(17,23),block(28,34),block(39,46)],
     [(20,2),(31,2)],(43,2),46,[(8,)],
     [route('hook',7,1),route('recoil',22.5,2),route('recoil',33.5,3)])
 write(2,[block(0,8),block(17,23,2.5),block(32,38),block(43,50)],

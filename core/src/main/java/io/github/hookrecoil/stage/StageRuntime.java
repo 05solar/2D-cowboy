@@ -33,7 +33,7 @@ public class StageRuntime {
     private final PlayerController controller;
     private final RecoilSystem recoil;
     public int checkpoint=-1,deaths,shots;
-    public float elapsed,deathTimer,noticeTimer;
+    public float elapsed,deathTimer;
     public boolean complete,justReset,deathWaiting;
     public StageRuntime(StageDefinition stage,PhysicsConfig c) {
         stage.validate(); definition=stage;config=c;cityDevices=new CityDeviceRuntime(stage);collision=new CollisionWorld(stage,c);devices=new DeviceRuntime(stage);mineDevices=new MineDeviceRuntime(stage);
@@ -52,7 +52,7 @@ public class StageRuntime {
             return;
         }
         if(deathWaiting)return;
-        elapsed+=dt;noticeTimer=Math.max(0,noticeTimer-dt);
+        elapsed+=dt;
         devices.tick(dt);
         if(definition.id.startsWith("city_")){cityDevices.tick(dt,player);mineDevices.tickCityHazards(dt);devices.warning|=cityDevices.warning||mineDevices.warning;}
         else {mineDevices.tick(dt,player,config.halfWidth);devices.warning|=mineDevices.warning;}
@@ -73,7 +73,7 @@ public class StageRuntime {
             if(GemSensor.contact(player.previousX,player.previousY,player.x,player.y,config.halfWidth,config.height,g.x,g.y,g.halfWidth,g.halfHeight)>=0)optionalCollected.add(g.id);
         for(int i=0;i<definition.checkpoints.length;i++) {
             StageDefinition.Point cp=definition.checkpoints[i];
-            if(!noCheckpoint && i>checkpoint && player.grounded && Math.abs(player.y-cp.y)<0.1f && Math.abs(player.x-cp.x)<0.7f) { checkpoint=i;noticeTimer=2; }
+            if(!noCheckpoint && i>checkpoint && player.grounded && Math.abs(player.y-cp.y)<0.1f && Math.abs(player.x-cp.x)<0.7f) checkpoint=i;
         }
     }
     public boolean resolveGoal(boolean lethal) {

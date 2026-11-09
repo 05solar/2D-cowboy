@@ -1,5 +1,5 @@
 /* 파일: CaveRenderer.java
- * 역할: 동굴 모듈 지형과 장치 표시. 책임: 물리 면 기준 정렬·장식 외피·줄 중복 방지.
+ * 역할: 동굴 모듈 지형과 장치 표시. 책임: 투명 지형 알파 유지·물리 면 정렬·장치 외피.
  * 협력: CaveAssets, DeviceRuntime. 수명: 흰 픽셀 해제. 관련 사양: docs/12_CAVE_CHAPTER.md.
  */
 package io.github.hookrecoil.rendering;
@@ -15,26 +15,33 @@ public class CaveRenderer implements com.badlogic.gdx.utils.Disposable {
         TextureRegion r=assets.region(name);float height=width*r.getRegionHeight()/r.getRegionWidth();
         b.draw(r,Math.round(x),Math.round(y-height),width,height);
     }
+    private void breakable(SpriteBatch b,String state,float x,float top,float width,float pixelsPerH){
+        TextureRegion image=assets.region("breakable_"+state),reference=assets.region("breakable_intact");
+        // 발판 한 조각은 최대 2H로 제한해 긴 발판도 여러 원본 이미지로 구성한다.
+        int pieces=Math.max(1,(int)Math.ceil(width/(2f*pixelsPerH)));
+        float pieceWidth=width/pieces,scale=pieceWidth/reference.getRegionWidth();
+        for(int i=0;i<pieces;i++){
+            float drawWidth=image.getRegionWidth()*scale,drawHeight=image.getRegionHeight()*scale;
+            b.draw(image,x+i*pieceWidth+(pieceWidth-drawWidth)*.5f,top-drawHeight,drawWidth,drawHeight);
+        }
+    }
     public void draw(SpriteBatch b,StageRuntime s){float u=s.config.pixelsPerH;
         for(int i=0;i<s.definition.platforms.length;i++){
             StageDefinition.Block p=s.definition.platforms[i];float x=p.x*u,y=(p.y+p.height)*u,w=p.width*u;
             if(p.crumble){String state=s.devices.frame(i);if(state.equals("gone"))continue;
-                // 파편도 동일 중심과 상단을 유지한다. 폭은 모든 상태에 같은 배율을 적용한다.
-                TextureRegion r=assets.region("breakable_"+state);float scale=w/318f;
-                b.draw(r,x+(w-r.getRegionWidth()*scale)/2,y-r.getRegionHeight()*scale,r.getRegionWidth()*scale,r.getRegionHeight()*scale);
+                // 긴 발판은 원본 폭 기준으로 여러 조각을 이어 그려 너비를 단일 이미지에 억지로 늘리지 않는다.
+                breakable(b,state,x,y,w,u);
                 if(state.equals("warning")){line(b,x+w*.33f,y-23,w*.34f,7,new Color(.85f,.43f,.25f,1));}
             }else{
-                line(b,x,p.y*u,w,p.height*u,new Color(.16f,.21f,.24f,1));
+                // 타일 PNG의 투명 영역을 유지한다. 충돌 사각형을 색으로 채우면 그림 뒤에 푸른 판이 생긴다.
                 int pieces=Math.max(1,(int)Math.ceil(p.width/3.5f));float piece=w/pieces;
                 for(int j=0;j<pieces;j++)top(b,"platform_long",x+j*piece,y,piece);
             }
-            if(p.active)line(b,x,y-3,w,3,new Color(.58f,.70f,.71f,1));
         }
         for(StageDefinition.Block p:s.definition.ceilings){
             int pieces=Math.max(1,(int)Math.ceil(p.width/3));float piece=p.width*u/pieces;
             TextureRegion r=assets.region("ceiling");float h=piece*r.getRegionHeight()/r.getRegionWidth();
             for(int j=0;j<pieces;j++)b.draw(r,p.x*u+j*piece,p.y*u,piece,h);
-            line(b,p.x*u,p.y*u,p.width*u,3,new Color(.42f,.54f,.57f,1));
         }
         for(int i=0;i<s.definition.anchors.length;i++){
             StageDefinition.Point p=s.definition.anchors[i];TextureRegion r=assets.region("anchor_idle");

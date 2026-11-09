@@ -1,5 +1,7 @@
 # 지하도시 11~15 구현 및 검증 상태
 
+> 구현 이력 문서. 여기에 기록한 route/native 실행 결과는 각 실행 날짜의 스냅샷이다. 최신 검증 결과와 남은 항목은 [CITY_CHAPTER_V2.md](CITY_CHAPTER_V2.md) 및 [프로젝트 상태](09_DECISIONS_AND_STATUS.md)를 참조한다.
+
 도시 챕터 원본 가이드와 고정 ID를 유지하면서 `assets/stages/city_01.json`부터 `city_05.json`까지 스테이지 데이터를 구성한다. `tools/BuildCityStages.py`가 반복 생성 부분을 담당하며, 배경·아트는 `assets/city_chapter/`에 있는 기존 리소스를 사용한다. 장치 시뮬레이션은 `CityDeviceRuntime`에 둔다.
 
 ## 현재 적용

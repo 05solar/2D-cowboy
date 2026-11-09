@@ -64,9 +64,12 @@ public class CaveVerification {
         check(s.deaths==1,"Open pit triggers a fall death");
         check(s.deathWaiting&&s.player.x!=s.definition.spawnX,"Open pit holds the death screen until input");
         InputFrame retryPit=new InputFrame();retryPit.restart=true;s.tick(retryPit,1f/120);check(s.player.x==s.definition.spawnX,"Open pit restarts on R");
-        s=game("cave_01");s.player.reset(10,2);
-        for(int i=0;i<100;i++)s.tick(new InputFrame(),1f/120);
-        check(s.deaths==0&&s.player.grounded&&Math.abs(s.player.y+1)<0.001f,"Cave 1 recovery pad remains safe");
+        s=game("cave_01");boolean lowPad=false;
+        for(StageDefinition.Block platform:s.definition.platforms)
+            lowPad|=platform.x<16&&platform.x+platform.width>9&&platform.y<0;
+        check(!lowPad,"Cave 1 low recovery pad beneath the first hook is removed");
+        s.player.reset(10,2);for(int i=0;i<150;i++)s.tick(new InputFrame(),1f/120);
+        check(s.deaths==1&&s.deathWaiting,"Cave 1 open gap below the first hook is lethal");
         s=game("cave_04");s.player.reset(4,2);
         for(int i=0;i<210;i++)s.tick(new InputFrame(),1f/120);
         check(s.deaths==1,"Cave 4 crumble platform fall is lethal");
