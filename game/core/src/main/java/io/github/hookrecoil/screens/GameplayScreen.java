@@ -1,6 +1,7 @@
 /* 파일: GameplayScreen.java
- * 역할: 게임 플레이 화면 조립. 책임: ID별 스테이지·모달 입력·120Hz 루프·가로/세로 카메라.
+ * 역할: 게임 플레이 화면 조립. 책임: ID별 스테이지·모달 입력·120Hz 루프·가로/세로 카메라·효과음 트리거.
  * 협력: StageRuntime, GameAssets, CaveAssets, CityRenderer, ProgressStore, StageSelectView. 화면 종료 때 자원 해제.
+ * 효과음(경고·반동·갈고리)은 상태가 바뀌는 틱에만 한 번 재생하도록 직전 값을 직접 추적한다.
  * 관련 사양: docs/10_PROLOGUE.md, docs/12_CAVE_CHAPTER.md, docs/CITY_CHAPTER_V2.md.
  */
 package io.github.hookrecoil.screens;
@@ -49,11 +50,19 @@ public class GameplayScreen extends ScreenAdapter {
     private final CityBackgroundSelector cityBackgroundSelector=new CityBackgroundSelector();
     private float cameraY=520;
     private final com.badlogic.gdx.audio.Sound warningSound=Gdx.audio.newSound(Gdx.files.internal("audio/crumble_warning.wav"));
+    private final com.badlogic.gdx.audio.Sound recoilSound=Gdx.audio.newSound(Gdx.files.internal("audio/recoil_fire.wav"));
+    private final com.badlogic.gdx.audio.Sound grappleSound=Gdx.audio.newSound(Gdx.files.internal("audio/grapple_whoosh.wav"));
     private final Vector3 mouse=new Vector3();
     private double accumulator;
     private float cameraX;
     private boolean paused;
     private int frames;
+    // 경고음은 devices.warning이 켜져 있는 매 물리 틱(120Hz)마다 재생을 시도하면 겹쳐 울려
+    // 타닥거리는 소음이 된다. 상태가 꺼짐->켜짐으로 바뀌는 틱에만 한 번 재생하도록 직전 값을 기억한다.
+    // 반동 사격·갈고리 발사음도 같은 방식으로 실제 발생 순간에만 한 번 재생한다.
+    private boolean warningPrev;
+    private int shotsPrev;
+    private boolean grappleFlyingPrev;
     public GameplayScreen() {
         resize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         String base=System.getenv("LOCALAPPDATA");if(base==null)base=System.getProperty("user.home");
@@ -94,6 +103,7 @@ public class GameplayScreen extends ScreenAdapter {
         cityBackgroundSelector.reset();
         stage.noCheckpoint=challenge;stage.completionSink=progress::begin;stage.resultSink=s->progress.finish();
         cameraX=1280;cameraY=cameraConfig.prologueCameraY;camera.zoom=cameraConfig.gameplayZoom;accumulator=0;
+        warningPrev=false;shotsPrev=0;grappleFlyingPrev=false;
         if(System.getProperty("hookrecoil.screenshot")==null) {
             introCamera.begin(stage.definition,config.pixelsPerH,cameraConfig.gameplayZoom,viewport.getWorldWidth(),viewport.getWorldHeight(),
                 cameraConfig.verticalFollowOffset,cameraConfig.lowerEdgeAllowance);
@@ -112,6 +122,14 @@ public class GameplayScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(menu);
     }
     private void closeMenu(){menu=null;Gdx.input.setInputProcessor(input);input.clear();accumulator=0;}
+    // 일시정지·완료 패널의 안내 문구를 키보드뿐 아니라 마우스 클릭으로도 누를 수 있도록, HudView가
+    // 그 줄을 그릴 때 쓰는 것과 같은 x·y·스케일로 폭을 측정해 클릭 판정 영역을 계산한다.
+    private boolean clickOnLabel(InputFrame cmd,float menuX,float menuY,float rowX,float rowY,float scale,String before,String label) {
+        if(!cmd.fire)return false;
+        float x0=rowX+hud.textWidth(before,scale);
+        float x1=x0+hud.textWidth(label,scale);
+        return menuX>=x0-14&&menuX<=x1+14&&menuY>=rowY-16&&menuY<=rowY+60;
+    }
     @Override public void render(float delta) {
         if(input.menuRequested){input.menuRequested=false;openMenu();}
         if(input.nextRequested){input.nextRequested=false;if(stage.complete){String next=catalog.next(stage.definition.id);if(progress.canStart(catalog.find(next)))loadStage(next,false);else openMenu();}input.clear();}
@@ -133,21 +151,40 @@ public class GameplayScreen extends ScreenAdapter {
                 InputFrame frozenCommand=input.consume(ax,ay);
                 float menuX=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
                 float menuY=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();
-                boolean retryClick=frozenCommand.fire&&menuX>=730&&menuX<=1830&&menuY>=535&&menuY<=595;
-                if(stage.complete && (frozenCommand.restart||retryClick)) {stage.restartAll();cameraX=viewport.getWorldWidth()*.5f;}
+                if(frozenCommand.restart) {stage.restartAll();cameraX=viewport.getWorldWidth()*.5f;}
+                if(stage.complete) {
+                    boolean allClear=progress.allCleared(catalog);
+                    String primaryLabel=allClear?"엔터: 처음부터 다시 시작":"N 다음 스테이지";
+                    if(clickOnLabel(frozenCommand,menuX,menuY,748,535,2.3f,"",primaryLabel)) {
+                        if(allClear) {if(progress.allCleared(catalog))loadStage("cave_01",false);else stage.restartAll();}
+                        else {String next=catalog.next(stage.definition.id);if(progress.canStart(catalog.find(next)))loadStage(next,false);else openMenu();}
+                    } else if(clickOnLabel(frozenCommand,menuX,menuY,748,535,2.3f,primaryLabel+"     ","M 스테이지 선택")) {
+                        openMenu();
+                    }
+                }
                 input.clear();accumulator=0;
                 if(System.getProperty("hookrecoil.previewCollection")==null)stage.advancePresentation(delta);
             } else {
             accumulator+=Math.min(delta,0.15f);
             while(accumulator>=1.0/120) {
                 InputFrame command=input.consume(ax,ay);
-                stage.tick(command,1f/120);if(stage.devices.warning)warningSound.play(.4f);accumulator-=1.0/120;
+                stage.tick(command,1f/120);
+                if(stage.devices.warning&&!warningPrev)warningSound.play(.4f);warningPrev=stage.devices.warning;
+                if(stage.shots>shotsPrev)recoilSound.play(.9f);shotsPrev=stage.shots;
+                if(stage.grapple.flying&&!grappleFlyingPrev)grappleSound.play(.4f);grappleFlyingPrev=stage.grapple.flying;
+                accumulator-=1.0/120;
                 if(stage.justReset) {input.clear();cameraX=Math.max(viewport.getWorldWidth()*.5f,stage.player.x*stage.config.pixelsPerH+500*(viewport.getWorldWidth()/2560f));}
                 if(stage.justCollected) {input.clear();accumulator=0;break;}
             }
             }
         } else {
             InputFrame commands=input.consume(ax,ay);
+            if(paused) {
+                float menuX=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
+                float menuY=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();
+                if(clickOnLabel(commands,menuX,menuY,748,644,2.2f,"","ESC 계속하기")) paused=false;
+                else if(clickOnLabel(commands,menuX,menuY,748,644,2.2f,"ESC 계속하기    ","R 체크포인트에서 재시작")&&!stage.clear.frozen()) {stage.respawn();paused=false;}
+            }
             if(commands.restart && !stage.clear.frozen()) {stage.respawn();paused=false;input.clear();}
         }
         float target=stage.player.x*stage.config.pixelsPerH+430*(viewport.getWorldWidth()/2560f);
@@ -236,5 +273,5 @@ public class GameplayScreen extends ScreenAdapter {
     }
     @Override public void pause() {paused=true;input.clear();accumulator=0;}
     @Override public void resume() {input.clear();}
-    @Override public void dispose() {Gdx.input.setInputProcessor(null);batch.dispose();hud.dispose();assets.dispose();caveRenderer.dispose();caveAssets.dispose();warningSound.dispose();}
+    @Override public void dispose() {Gdx.input.setInputProcessor(null);batch.dispose();hud.dispose();assets.dispose();caveRenderer.dispose();caveAssets.dispose();warningSound.dispose();recoilSound.dispose();grappleSound.dispose();}
 }

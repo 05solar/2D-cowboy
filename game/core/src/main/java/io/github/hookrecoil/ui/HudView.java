@@ -31,6 +31,11 @@ public class HudView implements Disposable {
         font.getData().setScale(scale*0.25f);font.setColor(color);
         return font.draw(b,value,x,y).width;
     }
+    /** 실제로 그리지 않고 폭만 측정한다. GameplayScreen이 버튼 텍스트의 마우스 클릭 영역을 계산하는 데 쓴다. */
+    public float textWidth(String value,float scale) {
+        font.getData().setScale(scale*0.25f);
+        return new GlyphLayout(font,value).width;
+    }
     private void keyLegend(SpriteBatch b,float y,Color cream,Color muted) {
         float x=1650;
         x+=run(b,"M",x,y,2.05f,cream)+5;x+=run(b," 선택    ",x,y,1.8f,muted);
