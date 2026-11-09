@@ -61,24 +61,11 @@ public class ProgressStore {
             }else{
                 CompletionStore.Record old=new CompletionStore(dir).load();
                 if(old!=null){Record r=new Record();r.completed=true;r.bestSeconds=old.seconds;r.minDeaths=old.deaths;data.records.put("prologue",r);data.lastCompleted="prologue";save();}
-                else{seedDemoProgress();save();}
             }
             Pending recovered=data.pending;
             if(recovered!=null)finish();
             return recovered;
         }catch(Exception e){writable=false;throw new IOException("Progress load failed; originals preserved",e);}
-    }
-    // 배포용 빌드는 저장 파일이 아예 없는 첫 실행에서 프롤로그+본편 15개를 모두 클리어한 것으로
-    // 보여준다. 시간 값은 각 스테이지를 실제 끝까지 자동 재생해 측정한 기록이며 임의 수치가 아니다.
-    private void seedDemoProgress(){
-        String[] ids={"prologue","cave_01","cave_02","cave_03","cave_04","cave_05",
-            "mine_01","mine_02","mine_03","mine_04","mine_05","city_01","city_02","city_03","city_04","city_05"};
-        float[] seconds={6.56f,5.97f,6.13f,7.25f,9.81f,15.08f,14.13f,14.32f,17.38f,18.53f,27.61f,66.50f,44.58f,86.21f,100.84f,102.72f};
-        for(int i=0;i<ids.length;i++){
-            Record r=new Record();r.completed=true;r.bestSeconds=seconds[i];r.minDeaths=0;
-            data.records.put(ids[i],r);
-        }
-        data.lastCompleted="city_05";
     }
     public void begin(StageRuntime s)throws IOException{
         Pending p=new Pending();p.stageId=s.definition.id;p.seconds=s.clear.recordTime;p.x=s.clear.x;p.y=s.clear.y;

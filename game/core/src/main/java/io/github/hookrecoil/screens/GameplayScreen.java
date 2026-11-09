@@ -184,6 +184,7 @@ public class GameplayScreen extends ScreenAdapter {
                 float menuY=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();
                 if(clickOnLabel(commands,menuX,menuY,748,644,2.2f,"","ESC 계속하기")) paused=false;
                 else if(clickOnLabel(commands,menuX,menuY,748,644,2.2f,"ESC 계속하기    ","R 체크포인트에서 재시작")&&!stage.clear.frozen()) {stage.respawn();paused=false;}
+                else if(clickOnLabel(commands,menuX,menuY,748,564,2.2f,"","M 스테이지 선택")) {paused=false;openMenu();}
             }
             if(commands.restart && !stage.clear.frozen()) {stage.respawn();paused=false;input.clear();}
         }

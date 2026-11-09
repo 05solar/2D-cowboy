@@ -88,6 +88,7 @@ public class HudView implements Disposable {
                 box(b,650,936,1260,4,0.9f,0.65f,0.3f,1);
                 text(b,"일시 정지",748,852,3.6f,cream);
                 text(b,"ESC 계속하기    R 체크포인트에서 재시작",748,644,2.2f,gold);
+                text(b,"M 스테이지 선택",748,564,2.2f,muted);
             }
         }
         if(s.clear.frozen()&&!s.complete&&!paused)centeredText(b,"CLEAR",1280,790,10f,new Color(1f,0.36f,0.06f,1f));
