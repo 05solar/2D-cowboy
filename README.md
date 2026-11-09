@@ -2,7 +2,15 @@
 
 갈고리와 총의 반동으로 이동하는 Java/libGDX 2D 액션 게임 프로토타입입니다. 기존 `core`·`lwjgl3` 구조를 유지합니다.
 
-## 실행
+## 다운로드 (Windows)
+
+설치 없이 바로 플레이하려면:
+
+1. [최신 릴리스](https://github.com/05solar/2D-cowboy/releases/latest)에서 `2D-CowBoy-*-win.jar` 다운로드
+2. [Java 17 이상](https://adoptium.net/) 설치(최초 1회)
+3. 다운로드한 jar 더블클릭 또는 `java -jar 2D-CowBoy-*-win.jar` 실행
+
+## 실행 (개발)
 
 프로젝트 루트 PowerShell에서:
 
