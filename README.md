@@ -12,7 +12,7 @@
 
 ## 실행 (개발)
 
-프로젝트 루트 PowerShell에서:
+프로젝트 소스는 `game/` 폴더 안에 있습니다. `game/` 폴더 PowerShell에서:
 
 ```powershell
 .\gradlew.bat :lwjgl3:run
@@ -39,8 +39,8 @@
 
 ## 문서
 
-- [개발 문서 색인](docs/README.md)
-- [현재 상태·결정](docs/09_DECISIONS_AND_STATUS.md)
-- [새 세션 인수인계](docs/PROJECT_HANDOFF.md)
-- [작업 규칙](AGENTS.md)
-- [원본 게임 기획](docs/specs/HOOK_RECOIL_Game_Spec_v1.md)
+- [개발 문서 색인](game/docs/README.md)
+- [현재 상태·결정](game/docs/09_DECISIONS_AND_STATUS.md)
+- [새 세션 인수인계](game/docs/PROJECT_HANDOFF.md)
+- [작업 규칙](game/AGENTS.md)
+- [원본 게임 기획](game/docs/specs/HOOK_RECOIL_Game_Spec_v1.md)

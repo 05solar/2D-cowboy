@@ -77,6 +77,20 @@ tasks.register('verifyCityNative', JavaExec) {
   workingDir = rootProject.projectDir
   jvmArgs '--enable-native-access=ALL-UNNAMED'
 }
+tasks.register('reportScreenshots', JavaExec) {
+  dependsOn testClasses, ':core:testClasses'
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.ReportScreenshots'
+  workingDir = rootProject.projectDir
+  jvmArgs '--enable-native-access=ALL-UNNAMED'
+}
+tasks.register('fullPlaythroughDemo', JavaExec) {
+  dependsOn testClasses, ':core:testClasses'
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.FullPlaythroughDemo'
+  workingDir = rootProject.projectDir
+  jvmArgs '--enable-native-access=ALL-UNNAMED'
+}
 
 run {
   workingDir = rootProject.file('assets').path

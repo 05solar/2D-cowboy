@@ -178,6 +178,27 @@ public final class NativeMineVerification extends ApplicationAdapter {
                 }
                 screen.render(1f/60);capture("result-panel-all-clear");
             }
+            {
+                // 보고서용: ALL CLEAR 부제는 같은 프레임에 다른 글자가 먼저 그려지면 한글 음절이
+                // 바뀌어 보이는 libGDX 쪽 문제(docs/09_DECISIONS_AND_STATUS.md 2026-11-09 항목)가
+                // 있어, 이 한 줄만 별도 배치/단일 호출로 다시 그려 캡처한다. 같은 UI 좌표계(2560x1440)
+                // 와 같은 폰트/스케일/색을 쓰므로 위 result-panel-all-clear.png와 픽셀 위치가 일치해,
+                // 후처리에서 이 패치를 그 위에 합성하면 된다.
+                com.badlogic.gdx.graphics.g2d.BitmapFont patchFont=new com.badlogic.gdx.graphics.g2d.BitmapFont(Gdx.files.internal("ui/fonts/prologue.fnt"));
+                com.badlogic.gdx.graphics.g2d.SpriteBatch patchBatch=new com.badlogic.gdx.graphics.g2d.SpriteBatch();
+                com.badlogic.gdx.graphics.OrthographicCamera patchCam=new com.badlogic.gdx.graphics.OrthographicCamera();
+                patchCam.setToOrtho(false,2560,1440);
+                Gdx.gl.glClearColor(0.045f,0.07f,0.085f,1);Gdx.gl.glClear(com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT);
+                patchBatch.setProjectionMatrix(patchCam.combined);patchBatch.begin();
+                patchFont.getData().setScale(1.7f*0.25f);
+                patchFont.setColor(0.94f,0.9f,0.78f,1);
+                com.badlogic.gdx.graphics.g2d.GlyphLayout layout=new com.badlogic.gdx.graphics.g2d.GlyphLayout(
+                    patchFont,"전체 15개 스테이지를 모두 클리어했습니다");
+                patchFont.draw(patchBatch,layout,1280-layout.width*0.5f,805);
+                patchBatch.end();
+                capture("all-clear-subtitle-patch");
+                patchBatch.dispose();patchFont.dispose();
+            }
             java.nio.file.Files.write(output.resolve("result.txt"),("PASS native mine load/render: "+checks+" checks.\nAll five mine cards/maps/backgrounds loaded; test-only progress was isolated at "+save+".\n").getBytes(StandardCharsets.UTF_8));
             Gdx.app.exit();
         } catch(Throwable e) {fail(e);}

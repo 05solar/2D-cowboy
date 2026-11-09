@@ -51,6 +51,12 @@ tasks.register('verifyCity', JavaExec) {
   mainClass = 'io.github.hookrecoil.CityVerification'
   workingDir = rootProject.projectDir
 }
+tasks.register('fullRouteDryRun', JavaExec) {
+  dependsOn testClasses
+  classpath = sourceSets.test.runtimeClasspath
+  mainClass = 'io.github.hookrecoil.FullRouteDryRun'
+  workingDir = rootProject.projectDir
+}
 
 // 테스트는 JUnit 검색 대신 실제 시스템을 구동하는 verifyPrologue가 담당한다.
 test {
