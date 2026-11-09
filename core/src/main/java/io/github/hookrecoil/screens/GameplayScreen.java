@@ -52,7 +52,7 @@ public class GameplayScreen extends ScreenAdapter {
     private final Vector3 mouse=new Vector3();
     private double accumulator;
     private float cameraX;
-    private boolean paused,debug;
+    private boolean paused;
     private int frames;
     public GameplayScreen() {
         resize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -117,7 +117,6 @@ public class GameplayScreen extends ScreenAdapter {
         if(input.nextRequested){input.nextRequested=false;if(stage.complete){String next=catalog.next(stage.definition.id);if(progress.canStart(catalog.find(next)))loadStage(next,false);else openMenu();}input.clear();}
         if(menu!=null){ScreenUtils.clear(.067f,.098f,.122f,1);menu.draw(batch);capture();return;}
         if(input.pauseRequested) {paused=!paused;input.pauseRequested=false;input.clear();accumulator=0;}
-        if(input.debugRequested) {debug=!debug;input.debugRequested=false;}
         if(input.newRunRequested) {if(stage.complete) {if(progress.allCleared(catalog))loadStage("cave_01",false);else stage.restartAll();input.clear();}input.newRunRequested=false;}
         int mouseY=Gdx.graphics.getHeight()-Gdx.input.getY();
         input.insideViewport=Gdx.input.getX()>=viewport.getScreenX() && Gdx.input.getX()<viewport.getScreenX()+viewport.getScreenWidth()
@@ -202,7 +201,7 @@ public class GameplayScreen extends ScreenAdapter {
         }
         batch.setColor(Color.WHITE);batch.end();
         batch.setProjectionMatrix(camera.combined);batch.begin();renderer.draw(batch,stage,paused?1:(float)(accumulator*120));batch.end();
-        batch.setProjectionMatrix(ui.combined);batch.begin();hud.draw(batch,stage,paused,debug,stage.complete&&progress.allCleared(catalog));
+        batch.setProjectionMatrix(ui.combined);batch.begin();hud.draw(batch,stage,paused,stage.complete&&progress.allCleared(catalog));
         if(input.insideViewport && !paused && !introFrame && !stage.clear.frozen()) {
             float x=(Gdx.input.getX()-uiViewport.getScreenX())*2560f/uiViewport.getScreenWidth();
             float y=(mouseY-uiViewport.getScreenY())*1440f/uiViewport.getScreenHeight();

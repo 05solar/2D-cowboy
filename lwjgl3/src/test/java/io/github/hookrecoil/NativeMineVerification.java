@@ -89,7 +89,94 @@ public final class NativeMineVerification extends ApplicationAdapter {
                     check("on".equals(barrier.state)&&barrier.collider.active,"Mine electric barrier becomes visibly and physically active");
                     screen.render(1f/60);capture("mine-barrier-on");
                 }
+                if(id.equals("mine_04")) {
+                    // 보석 위치가 카메라 상한선(스테이지 height 기반 maxCameraY) 아래에 실제로 들어오는지
+                    // GameplayScreen과 동일한 공식으로 직접 계산해, 플레이어 낙하/리스폰 흔들림 없이 확인한다.
+                    Object cameraConfigObj=field("cameraConfig");
+                    float lowerEdgeAllowance=(float)cameraConfigObj.getClass().getField("lowerEdgeAllowance").get(cameraConfigObj);
+                    float gameplayZoom=(float)cameraConfigObj.getClass().getField("gameplayZoom").get(cameraConfigObj);
+                    Object viewportObj=field("viewport");
+                    Method worldHeightMethod=viewportObj.getClass().getMethod("getWorldHeight");
+                    float viewportWorldHeight=(float)worldHeightMethod.invoke(viewportObj);
+                    float halfCameraHeight=viewportWorldHeight*.5f*gameplayZoom;
+                    float worldHeight=stage.definition.height*180f;
+                    float lowerMargin=lowerEdgeAllowance*(viewportWorldHeight/1440f);
+                    float minCameraY=Math.min(Math.max(0,halfCameraHeight-lowerMargin),worldHeight*.5f);
+                    float maxCameraY=Math.max(minCameraY,worldHeight-halfCameraHeight);
+                    float gemWorldY=stage.definition.clearGem.y*180f;
+                    check(maxCameraY>=gemWorldY,
+                        "mine_04 camera ceiling reaches the clear gem instead of clamping below it (maxCameraY="
+                        +maxCameraY+" gemY="+gemWorldY+", stage height="+stage.definition.height+")");
+                    // 시작 카메라 투어의 "전체 맵 축소 조망" 구간에서 캡처해, 확장된 맵 전체와 보석이
+                    // 화면 안에 들어오는 것을 스크린샷으로 남긴다(별도 플레이어 이동 없이 투어만 사용).
+                    for(int frame=0;frame<18;frame++)screen.render(1f/60);
+                    capture("mine04-gem-camera-tour");
+                }
+                if(id.equals("mine_03")) {
+                    StageDefinition.CityBarrier floor=null;
+                    for(StageDefinition.CityBarrier bar:stage.definition.cityBarriers)if(bar.id.endsWith("floor4"))floor=bar;
+                    check(floor!=null,"mine_03 has a platform-aligned horizontal barrier");
+                    stage.player.reset(floor.x+floor.width*.5f,floor.y+1.6f);
+                    stage.cityDevices.tickBarriers(floor.offSeconds+.1f);
+                    stage.cityDevices.tickBarriers(floor.warningSeconds+.1f);
+                    check("on".equals(floor.state)&&floor.collider.active,"mine_03 horizontal barrier becomes visibly and physically active");
+                    for(StageDefinition.CityBarrier bar:stage.definition.cityBarriers)if(bar!=floor){bar.state="off";bar.collider.active=false;}
+                    for(int frame=0;frame<30;frame++)screen.render(1f/60);
+                    capture("mine03-floor-barrier-on");
+                }
+                if(id.equals("mine_05")) {
+                    for(int frame=0;frame<24;frame++)screen.render(1f/60);
+                    capture("mine05-full-map-tour");
+                    Object introObj=field("introCamera");Method cancelIntro=introObj.getClass().getDeclaredMethod("cancel");cancelIntro.setAccessible(true);cancelIntro.invoke(introObj);
+                    StageDefinition.CityBarrier floor=null;
+                    for(StageDefinition.CityBarrier bar:stage.definition.cityBarriers)if(bar.id.endsWith("floor6"))floor=bar;
+                    check(floor!=null,"mine_05 has a platform-aligned horizontal barrier");
+                    stage.player.reset(floor.x+floor.width*.5f,floor.y+1.6f);
+                    stage.cityDevices.tickBarriers(floor.offSeconds+.1f);
+                    stage.cityDevices.tickBarriers(floor.warningSeconds+.1f);
+                    for(StageDefinition.CityBarrier bar:stage.definition.cityBarriers)if(bar!=floor){bar.state="off";bar.collider.active=false;}
+                    for(int frame=0;frame<30;frame++)screen.render(1f/60);
+                    capture("mine05-floor-barrier-on");
+                    StageDefinition.MineCrusher press=stage.definition.mineCrushers[0];
+                    stage.player.reset(press.x-2.5f,press.topY-press.stroke-.5f);
+                    for(int frame=0;frame<120;frame++)screen.render(1f/60);
+                    capture("mine05-crusher-area");
+                    // 세로 전기장벽 1개만 단독 활성화해, 바로 옆 발판에 선 플레이어와 나란히 크기를 비교할 수 있는 기준 샷을 남긴다.
+                    StageDefinition.CityBarrier vertical=stage.definition.cityBarriers[0];
+                    StageDefinition.Block near=null;
+                    for(StageDefinition.Block pl:stage.definition.platforms)
+                        if(vertical.x>=pl.x-1f&&vertical.x<=pl.x+pl.width+1f&&Math.abs(pl.y-vertical.y)<3f){near=pl;break;}
+                    if(near!=null)stage.player.reset(near.x+near.width*.5f,near.surfaceY(near.x+near.width*.5f));
+                    stage.cityDevices.tickBarriers(vertical.offSeconds+.1f);
+                    stage.cityDevices.tickBarriers(vertical.warningSeconds+.1f);
+                    for(StageDefinition.CityBarrier bar:stage.definition.cityBarriers)if(bar!=vertical){bar.state="off";bar.collider.active=false;}
+                    for(int frame=0;frame<30;frame++)screen.render(1f/60);
+                    capture("mine05-vertical-barrier-scale");
+                }
                 capture(id+"-start");
+            }
+            {
+                // 글꼴 재생성 후 결과 패널(CLEAR/ALL CLEAR) 한글 글리프를 실제로 캡처해 확인한다.
+                Method load=GameplayScreen.class.getDeclaredMethod("loadStage",String.class,boolean.class);load.setAccessible(true);
+                load.invoke(screen,"mine_05",false);
+                StageRuntime last=(StageRuntime)field("stage");
+                last.complete=true;last.elapsed=27.6f;last.shots=13;last.deaths=0;
+                Object introObj=field("introCamera");Method cancelIntro=introObj.getClass().getDeclaredMethod("cancel");cancelIntro.setAccessible(true);cancelIntro.invoke(introObj);
+                screen.render(1f/60);capture("result-panel-clear");
+                Object progressObj=field("progress");
+                Method recordMethod=progressObj.getClass().getMethod("record",String.class);
+                java.lang.reflect.Field dataField=progressObj.getClass().getField("data");Object dataObj=dataField.get(progressObj);
+                java.lang.reflect.Field recordsField=dataObj.getClass().getField("records");
+                java.util.Map<String,Object> records=(java.util.Map<String,Object>)recordsField.get(dataObj);
+                Class<?> recordClass=Class.forName("io.github.hookrecoil.save.ProgressStore$Record");
+                for(String sid:new String[]{"cave_01","cave_02","cave_03","cave_04","cave_05","mine_01","mine_02","mine_03","mine_04","mine_05","city_01","city_02","city_03","city_04","city_05"}) {
+                    Object rec=recordClass.getDeclaredConstructor().newInstance();
+                    recordClass.getField("completed").set(rec,true);
+                    recordClass.getField("bestSeconds").set(rec,1f);
+                    recordClass.getField("minDeaths").set(rec,0);
+                    records.put(sid,rec);
+                }
+                screen.render(1f/60);capture("result-panel-all-clear");
             }
             java.nio.file.Files.write(output.resolve("result.txt"),("PASS native mine load/render: "+checks+" checks.\nAll five mine cards/maps/backgrounds loaded; test-only progress was isolated at "+save+".\n").getBytes(StandardCharsets.UTF_8));
             Gdx.app.exit();

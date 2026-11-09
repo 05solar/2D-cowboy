@@ -128,13 +128,28 @@ public final class CityRenderer {
             TextureRegion up=region("electric_emitter_up"),down=region("electric_emitter_down"),arc=region("electric_arc");
             float x=barrier.x*u,y=barrier.y*u,w=barrier.width*u,h=barrier.height*u;
             boolean off="off".equals(barrier.state);
+            // 발판과 일직선인(가로로 긴) 장벽은 두께가 height가 아니라 width이므로, 이펙트 크기는
+            // 항상 짧은 쪽(두께) 기준으로 계산해야 세로 장벽과 같은 평균 크기가 나온다.
+            boolean horizontal=barrier.width>barrier.height;
+            float thin=horizontal?h:w;
             if(!off) {
                 batch.setColor(1,1,1,"warning".equals(barrier.state)?.35f:.76f);
-                batch.draw(arc,x-w*.35f,y,w*1.7f,h);
+                if(horizontal) batch.draw(arc,x,y+h*.5f-thin*.85f,w,thin*1.7f);
+                else batch.draw(arc,x-w*.35f,y,w*1.7f,h);
             }
-            float ew=Math.max(w*3,.7f*u);
+            float ew=Math.max(thin*3,.7f*u);
             batch.setColor(Color.WHITE);
-            if(off) {
+            if(horizontal) {
+                if(off) {
+                    float lw=ew*emitterDownOff.getRegionHeight()/emitterDownOff.getRegionWidth();
+                    float rw=ew*emitterUpOff.getRegionHeight()/emitterUpOff.getRegionWidth();
+                    batch.draw(emitterDownOff,x-lw*.15f,y+h*.5f-ew*.5f,lw,ew);
+                    batch.draw(emitterUpOff,x+w-rw*.85f,y+h*.5f-ew*.5f,rw,ew);
+                } else {
+                    float el=ew*up.getRegionHeight()/up.getRegionWidth();
+                    batch.draw(down,x-el*.8f,y+h*.5f-ew*.5f,el,ew);batch.draw(up,x+w-el*.2f,y+h*.5f-ew*.5f,el,ew);
+                }
+            } else if(off) {
                 float upH=ew*emitterUpOff.getRegionHeight()/emitterUpOff.getRegionWidth();
                 float downH=ew*emitterDownOff.getRegionHeight()/emitterDownOff.getRegionWidth();
                 batch.draw(emitterDownOff,x+w*.5f-ew*.5f,y-downH*.15f,ew,downH);

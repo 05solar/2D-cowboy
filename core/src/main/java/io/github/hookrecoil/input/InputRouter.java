@@ -10,7 +10,7 @@ import com.badlogic.gdx.InputAdapter;
 public class InputRouter extends InputAdapter {
     private boolean left,right,jump,fire,hookPress,hookHeld,restart,blockedFire,blockedHook,blockedJump;
     private boolean blockedRestart,blockedEnter;
-    public boolean pauseRequested,debugRequested,newRunRequested,menuRequested,nextRequested;
+    public boolean pauseRequested,newRunRequested,menuRequested,nextRequested;
     public boolean insideViewport=true;
     @Override public boolean keyDown(int key) {
         if(key==Input.Keys.A || key==Input.Keys.LEFT) left=true;
@@ -20,7 +20,6 @@ public class InputRouter extends InputAdapter {
         if(key==Input.Keys.ESCAPE) pauseRequested=true;
         if(key==Input.Keys.M)menuRequested=true;
         if(key==Input.Keys.N)nextRequested=true;
-        if(key==Input.Keys.F1) debugRequested=true;
         if(key==Input.Keys.ENTER&&!blockedEnter) {newRunRequested=true;blockedEnter=true;}
         return true;
     }

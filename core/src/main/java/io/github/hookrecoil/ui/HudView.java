@@ -36,12 +36,12 @@ public class HudView implements Disposable {
         x+=run(b,"M",x,y,2.05f,cream)+5;x+=run(b," 선택    ",x,y,1.8f,muted);
         x+=run(b,"R",x,y,2.05f,cream)+5;x+=run(b," 재시작    ",x,y,1.8f,muted);
         x+=run(b,"ESC",x,y,2.05f,cream)+5;x+=run(b," 정지    ",x,y,1.8f,muted);
-        x+=run(b,"F1",x,y,2.05f,cream)+5;run(b," 정보",x,y,1.8f,muted);
+        x+=run(b,"F2",x,y,2.05f,cream)+5;run(b," 음악 켜기/끄기",x,y,1.8f,muted);
     }
     public void wrap(SpriteBatch b,String value,float x,float y,float width,float scale,Color color) {
         font.getData().setScale(scale*.25f);font.setColor(color);font.draw(b,value,x,y,width,com.badlogic.gdx.utils.Align.left,true);
     }
-    public void draw(SpriteBatch b,StageRuntime s,boolean paused,boolean debug,boolean allClear) {
+    public void draw(SpriteBatch b,StageRuntime s,boolean paused,boolean allClear) {
         Color cream=new Color(0.94f,0.9f,0.78f,1),gold=new Color(0.93f,0.69f,0.34f,1),muted=new Color(0.61f,0.71f,0.76f,1);
         box(b,0,1260,2560,180,0.025f,0.04f,0.055f,0.9f);
         box(b,64,1295,5,89,0.9f,0.64f,0.29f,1);
@@ -64,10 +64,6 @@ public class HudView implements Disposable {
         text(b,zone.detail,64,77,1.8f,muted);
         keyLegend(b,58,cream,muted);
         if(prologue)for(int i=0;i<s.definition.zones.length;i++) box(b,64+i*2440f/s.definition.zones.length,226,2420f/s.definition.zones.length,5,i<=s.zoneIndex()?0.85f:0.17f,i<=s.zoneIndex()?0.6f:0.24f,0.28f,1);
-        if(debug) {
-            box(b,60,920,730,270,0.02f,0.03f,0.04f,0.88f);
-            text(b,String.format("120 Hz | x %.2f  y %.2f\nvx %.2f  vy %.2f\nHook: %s  |  ammo %d\nJump ~3H / Recoil gap 5H",s.player.x,s.player.y,s.player.vx,s.player.vy,s.grapple.attached>=0?"ATTACHED":(s.grapple.flying?"FLYING":"READY"),s.player.ammo),85,1160,1.8f,cream);
-        }
         if(paused || s.complete) {
             box(b,0,216,2560,1044,0.015f,0.025f,0.04f,0.8f);
             if(s.complete) {
@@ -77,12 +73,9 @@ public class HudView implements Disposable {
                 centeredText(b,allClear?"ALL CLEAR":"CLEAR",1280,875,4.8f,orange);
                 if(allClear)centeredText(b,"전체 15개 스테이지를 모두 클리어했습니다",1280,805,1.7f,cream);
                 text(b,"시간  "+(int)s.elapsed+"초     발사  "+s.shots+"     추락  "+s.deaths,748,740,2.5f,muted);
-                box(b,730,625,1100,54,0.09f,0.15f,0.16f,1);
                 if(allClear) {
-                    text(b,"R / 클릭: 재도전",748,668,2.3f,gold);
                     text(b,"엔터: 처음부터 다시 시작     M 스테이지 선택",748,535,2.3f,muted);
                 } else {
-                    text(b,"엔터 / R / 클릭: 재도전",748,668,2.3f,gold);
                     text(b,"N 다음 스테이지     M 스테이지 선택",748,535,2.3f,muted);
                 }
             } else {
